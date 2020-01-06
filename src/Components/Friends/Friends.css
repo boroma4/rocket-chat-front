@@ -1,0 +1,11 @@
+.friend{
+    border: 2px solid black;
+}
+.card{
+    max-width: 540px;
+}
+
+.friend-list{
+    margin-bottom: 0;
+    margin-left : 5px;
+}
