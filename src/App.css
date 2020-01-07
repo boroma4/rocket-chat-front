@@ -13,6 +13,7 @@ body{
   overflow-y: auto;
 }
 .right-side {
+  border-left: 4px outset black;
 
 }
 #btn-sett{
