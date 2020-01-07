@@ -13,6 +13,7 @@ body{
   overflow-y: auto;
 }
 .right-side {
+
 }
 #btn-sett{
   cursor: pointer;
@@ -27,4 +28,7 @@ body{
   border: 2px solid black !important;
   margin: 2px;
   background-color: lightgrey!important;
+}
+#idle-msg{
+
 }
