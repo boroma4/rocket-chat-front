@@ -2,11 +2,14 @@ import React from 'react';
 
 const SettingsList = ['Audio','Account'];
 
-function Settings() {
+function Settings({onSelectOpt}) {
+    const clickHandler = () => {
+      onSelectOpt('a');
+    };
     return (
         <ul>
             {SettingsList.map(option => (
-                <li key={option}>{option}</li>
+                <li onClick={clickHandler} key={option}>{option}</li>
             ))}
         </ul>
     );

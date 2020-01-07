@@ -1,26 +1,30 @@
-
 body{
   overflow: hidden;
+  background-color: azure;
 }
 .row{
   height: 100vh;
 }
 .left-side {
-  background-color: green;
-  color: blue;
   margin: 0;
 }
 .left-content{
+  height: 100vh;
   overflow-y: auto;
 }
 .right-side {
-  background-color: red;
-  color: red;
 }
 #btn-sett{
   cursor: pointer;
 }
 #btn-sett :hover {
-   fill: antiquewhite;
+   fill: darkslateblue;
 }
-
+.chat {
+  height:70vh;
+}
+.lc-1j8di50 {
+  border: 2px solid black !important;
+  margin: 2px;
+  background-color: lightgrey!important;
+}
