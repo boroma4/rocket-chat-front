@@ -1,16 +1,17 @@
 import React from 'react';
-import {TextComposer,Row,IconButton,AddIcon,TextInput,EmojiIcon,SendButton}
+import {ThemeProvider,TextComposer,Row,IconButton,AddIcon,TextInput,EmojiIcon,SendButton}
     from '@livechat/ui-kit';
 
-function Input() {
+function Input({onSendClick}) {
     return (
+        <ThemeProvider>
             <TextComposer>
                 <Row align="center">
                     <IconButton fit>
                         <AddIcon />
                     </IconButton>
                     <TextInput fill = 'true' />
-                    <SendButton fit />
+                    <SendButton fit onClick = {onSendClick} />
                 </Row>
 
                 <Row verticalAlign="center" justify="right">
@@ -19,6 +20,7 @@ function Input() {
                     </IconButton>
                 </Row>
             </TextComposer>
+        </ThemeProvider>
     );
 }
 export default Input;
