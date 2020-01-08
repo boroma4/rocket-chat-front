@@ -5,14 +5,14 @@ import { ChatFeed } from 'react-chat-ui'
 
 
 
-function ChatWindow({chatData}) {
+function ChatWindow({chatData,onSend}) {
     return (
         <div>
             <ChatFeed
                 showSenderName
                 messages = {chatData.msg}
             />
-            <Input/>
+            <Input onSendClick={onSend}/>
 
         </div>
     );

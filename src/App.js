@@ -10,7 +10,16 @@ import './App.css';
 function App() {
     const [feed,updateFeed] = useState([{name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
         {name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}]);
+
     const[chat,setChat] = useState(-1);
+
+    const SendMessage = (msgText) => {
+        updateFeed(prevState => {
+            let updatedChat = Object.assign([],prevState[chat]);
+            updatedChat.msg.push(new Message({id:0,message:msgText}));
+          return Object.assign([],prevState,updatedChat);
+      })
+    };
     return (
       <div className="row">
         <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
@@ -25,7 +34,7 @@ function App() {
                     <div className="row">
                         {chat === -1
                             ?<div className='tc text-capitalize center col align-self-center' id={'idle-msg'}>Click on chat to start messaging</div>
-                            :<div className='col'><ChatWindow chatData={feed[chat]}/></div>
+                            :<div className='col'><ChatWindow chatData={feed[chat]} onSend={SendMessage}/></div>
                         }
                     </div>
                 </div>

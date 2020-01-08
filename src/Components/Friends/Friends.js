@@ -8,8 +8,8 @@ function Friends({friends,clickFriend}) {
         <ThemeProvider>
             <ChatList>
             {friends.map((friend,index) =>(
-                <div onClick={()=>clickFriend(index)}>
-                    <ChatListItem className = {'friend'} key = {friend.name} >
+                <div onClick={()=>clickFriend(index)} key = {index} >
+                    <ChatListItem className = {'friend'} >
                         <Avatar letter= {friend.name.charAt(0)} />
                         <Column>
                             <Row justify>
