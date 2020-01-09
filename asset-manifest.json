@@ -1,0 +1,26 @@
+{
+  "files": {
+    "main.css": "/rocket-chat-front/static/css/main.f78b92b4.chunk.css",
+    "main.js": "/rocket-chat-front/static/js/main.948e804b.chunk.js",
+    "main.js.map": "/rocket-chat-front/static/js/main.948e804b.chunk.js.map",
+    "runtime-main.js": "/rocket-chat-front/static/js/runtime-main.13f1949b.js",
+    "runtime-main.js.map": "/rocket-chat-front/static/js/runtime-main.13f1949b.js.map",
+    "static/css/2.14482c78.chunk.css": "/rocket-chat-front/static/css/2.14482c78.chunk.css",
+    "static/js/2.3c12a5fe.chunk.js": "/rocket-chat-front/static/js/2.3c12a5fe.chunk.js",
+    "static/js/2.3c12a5fe.chunk.js.map": "/rocket-chat-front/static/js/2.3c12a5fe.chunk.js.map",
+    "index.html": "/rocket-chat-front/index.html",
+    "precache-manifest.409c750d77cb84e18a32368348cdfc41.js": "/rocket-chat-front/precache-manifest.409c750d77cb84e18a32368348cdfc41.js",
+    "service-worker.js": "/rocket-chat-front/service-worker.js",
+    "static/css/2.14482c78.chunk.css.map": "/rocket-chat-front/static/css/2.14482c78.chunk.css.map",
+    "static/css/main.f78b92b4.chunk.css.map": "/rocket-chat-front/static/css/main.f78b92b4.chunk.css.map",
+    "static/js/2.3c12a5fe.chunk.js.LICENSE": "/rocket-chat-front/static/js/2.3c12a5fe.chunk.js.LICENSE",
+    "static/media/lol.mp3": "/rocket-chat-front/static/media/lol.f8b7a2e4.mp3"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.13f1949b.js",
+    "static/css/2.14482c78.chunk.css",
+    "static/js/2.3c12a5fe.chunk.js",
+    "static/css/main.f78b92b4.chunk.css",
+    "static/js/main.948e804b.chunk.js"
+  ]
+}
