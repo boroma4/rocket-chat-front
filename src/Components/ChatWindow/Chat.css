@@ -7,9 +7,9 @@
 }
 #chat-panel {
     margin-top: 5vh;
-    height: calc(100vh - 15vh);
+    height: calc(100vh - 30vh);
     overflow-y: auto;
 }
 .footer {
-    height: 10vh;
+    height: 20vh;
 }
