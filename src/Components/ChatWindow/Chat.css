@@ -5,3 +5,11 @@
     background-color: cornflowerblue;
     border-radius: 10px;
 }
+#chat-panel {
+    margin-top: 5vh;
+    height: calc(100vh - 15vh);
+    overflow-y: auto;
+}
+.footer {
+    height: 10vh;
+}
