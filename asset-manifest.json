@@ -1,26 +1,26 @@
 {
   "files": {
-    "main.css": "/rocket-chat-front/static/css/main.6c06aedc.chunk.css",
-    "main.js": "/rocket-chat-front/static/js/main.cf95b204.chunk.js",
-    "main.js.map": "/rocket-chat-front/static/js/main.cf95b204.chunk.js.map",
+    "main.css": "/rocket-chat-front/static/css/main.61f3db1e.chunk.css",
+    "main.js": "/rocket-chat-front/static/js/main.f3d5a50a.chunk.js",
+    "main.js.map": "/rocket-chat-front/static/js/main.f3d5a50a.chunk.js.map",
     "runtime-main.js": "/rocket-chat-front/static/js/runtime-main.13f1949b.js",
     "runtime-main.js.map": "/rocket-chat-front/static/js/runtime-main.13f1949b.js.map",
     "static/css/2.14482c78.chunk.css": "/rocket-chat-front/static/css/2.14482c78.chunk.css",
-    "static/js/2.3c12a5fe.chunk.js": "/rocket-chat-front/static/js/2.3c12a5fe.chunk.js",
-    "static/js/2.3c12a5fe.chunk.js.map": "/rocket-chat-front/static/js/2.3c12a5fe.chunk.js.map",
+    "static/js/2.4d887e76.chunk.js": "/rocket-chat-front/static/js/2.4d887e76.chunk.js",
+    "static/js/2.4d887e76.chunk.js.map": "/rocket-chat-front/static/js/2.4d887e76.chunk.js.map",
     "index.html": "/rocket-chat-front/index.html",
-    "precache-manifest.57c581373947fcac65c791c409431aa3.js": "/rocket-chat-front/precache-manifest.57c581373947fcac65c791c409431aa3.js",
+    "precache-manifest.529303bfca10afe2f65c27a8d83f25b5.js": "/rocket-chat-front/precache-manifest.529303bfca10afe2f65c27a8d83f25b5.js",
     "service-worker.js": "/rocket-chat-front/service-worker.js",
     "static/css/2.14482c78.chunk.css.map": "/rocket-chat-front/static/css/2.14482c78.chunk.css.map",
-    "static/css/main.6c06aedc.chunk.css.map": "/rocket-chat-front/static/css/main.6c06aedc.chunk.css.map",
-    "static/js/2.3c12a5fe.chunk.js.LICENSE": "/rocket-chat-front/static/js/2.3c12a5fe.chunk.js.LICENSE",
+    "static/css/main.61f3db1e.chunk.css.map": "/rocket-chat-front/static/css/main.61f3db1e.chunk.css.map",
+    "static/js/2.4d887e76.chunk.js.LICENSE": "/rocket-chat-front/static/js/2.4d887e76.chunk.js.LICENSE",
     "static/media/lol.mp3": "/rocket-chat-front/static/media/lol.f8b7a2e4.mp3"
   },
   "entrypoints": [
     "static/js/runtime-main.13f1949b.js",
     "static/css/2.14482c78.chunk.css",
-    "static/js/2.3c12a5fe.chunk.js",
-    "static/css/main.6c06aedc.chunk.css",
-    "static/js/main.cf95b204.chunk.js"
+    "static/js/2.4d887e76.chunk.js",
+    "static/css/main.61f3db1e.chunk.css",
+    "static/js/main.f3d5a50a.chunk.js"
   ]
 }
