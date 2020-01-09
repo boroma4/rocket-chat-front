@@ -13,7 +13,6 @@ function ChatWindow({chatData,onSend}) {
                 messages = {chatData.msg}
             />
             <Input onSendClick={onSend}/>
-
         </div>
     );
 }

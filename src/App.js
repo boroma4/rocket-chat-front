@@ -3,8 +3,7 @@ import Friends from "./Components/Friends/Friends";
 import Settings from "./Components/Settings/Settings";
 import ChatWindow from './Components/ChatWindow/ChatWindow'
 import {Message} from 'react-chat-ui';
-import SettingsArea from "./Components/SettingsArea/SettingsArea";
-
+import face_mp3 from './lol.mp3';
 import './App.css';
 
 function App() {
@@ -20,10 +19,16 @@ function App() {
           return Object.assign([],prevState,updatedChat);
       })
     };
+
+    const updAudio = (enable) => {
+        const a = document.getElementsByTagName("audio")[0];
+        enable ? a.play() : a.pause();
+    };
     return (
       <div className="row">
-        <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
-            <Settings/>
+          <audio src={face_mp3} preload loop/>
+          <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
+            <Settings updateAudio ={updAudio}/>
             <div className={'left-content'}>
                 <Friends friends={feed} clickFriend = {setChat}/>
             </div>
@@ -39,7 +44,6 @@ function App() {
                     </div>
                 </div>
             </div>
-
          </div>
       </div>
   );
