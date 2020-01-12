@@ -13,6 +13,7 @@ function ChatWindow({chatData,onSend}) {
                 ClassName ={'feed'}
                 showSenderName
                 messages = {chatData.msg}
+
             />
             <footer className={'footer'}>
                 <Input onSendClick={onSend}/>
