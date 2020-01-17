@@ -5,7 +5,7 @@ import ChatWindow from './Components/ChatWindow/ChatWindow'
 import {Message} from 'react-chat-ui';
 import face_mp3 from './lol.mp3';
 import './App.css';
-import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
+import HubConnection from "./Helper/HubConnection";
 import WelcomePage from "./Components/Welcome/WelcomePage";
 
 
@@ -18,29 +18,6 @@ function App() {
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
 
-
-    // Set the Hub Connection on mount.
-    useEffect(() => {
-
-        // Set the initial SignalR Hub Connection.
-        const createHubConnection = async () => {
-
-            // Build new Hub Connection, url is currently hard coded.
-            const hubConnect = new HubConnectionBuilder()
-                .withUrl('https://localhost:5001/chat')
-                .build();
-            try {
-                await hubConnect.start();
-                console.log('Connection successful!')
-            }
-            catch (err) {
-                alert(err);
-            }
-            setHubConnection(hubConnect);
-        };
-
-        createHubConnection();
-    }, []);
 
     const SendMessage = (msgText) => {
         updateFeed(prevState => {
@@ -55,28 +32,16 @@ function App() {
         enable ? a.play() : a.pause();
     };
 
-
-    const signIn = (email,password) => {
-      fetch('https://localhost:5001/api/login',{
-          method:'post',
-          headers:{'Content-type':'application/json'},
-          body: JSON.stringify({
-              email:email,
-              password:password
-          })
-        })
-          .then(res => res.json())
-          .then(res=> {
-              console.log(res[0]);
-              if(res){
-                  setSignInStatus(true);
-                  setUser(res[0]);
-              }
-          })
-          .catch(err=> console.log(err));
+    const logout = () => {
+      setSignInStatus(false);
+      setUser(null);
+      setUser(null);
+      setHubConnection(null);
     };
-    const registerUser = (creditentials) => {
-        fetch('https://localhost:5001/api/register',{
+
+    const loginOrRegister = (creditentials,endpoint) => {
+        let status;
+        fetch(`https://localhost:5001/api/${endpoint}`,{
             method:'post',
             headers:{'Content-type':'application/json'},
             body: JSON.stringify(creditentials)
@@ -87,13 +52,17 @@ function App() {
                 if(res){
                     setSignInStatus(true);
                     setUser(res[0]);
+                    setHubConnection(HubConnection());
+                    status = 'resolve';
                 }
             })
-            .catch(err=> console.log(err));
-    };
-
-    const loadChatData = () =>{
-
+            .catch(err=> {
+                console.log(err);
+                status = 'reject';
+            });
+        return new Promise((res,rej)=>{
+            status === 'resolve'? res(status):rej(status);
+        })
     };
     return (
         <>
@@ -102,7 +71,7 @@ function App() {
                     ? <div className="row">
                     <audio src={face_mp3} preload loop/>
                     <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
-                        <Settings updateAudio={updAudio}/>
+                        <Settings updateAudio={updAudio} logout={()=>logout()}/>
                         <div className={'left-content'}>
                             <Friends friends={feed} clickFriend={setChat}/>
                         </div>
@@ -112,8 +81,8 @@ function App() {
                             <div className="container">
                                 <div className="row">
                                     {chat === -1
-                                        ? <div className='tc text-capitalize center col align-self-center'
-                                               id={'idle-msg'}>Click on chat to start messaging</div>
+                                        ? <div className='tc center col align-self-center'
+                                               id={'idle-msg'}>{'Chat is being developed,stay tuned.'}</div>
                                         : <div className='col'><ChatWindow chatData={feed[chat]} onSend={SendMessage}/>
                                         </div>
                                     }
@@ -122,7 +91,7 @@ function App() {
                         </div>
                     </div>
                 </div>
-                    : <WelcomePage signIn={signIn} registerUser={registerUser}/>
+                    : <WelcomePage loginOrRegister={loginOrRegister}/>
             }
         </>
   );

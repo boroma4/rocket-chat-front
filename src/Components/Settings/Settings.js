@@ -2,10 +2,10 @@ import React,{useState} from 'react';
 import Dropdown from "react-bootstrap/Dropdown";
 import AudioSettingsModal from "./AudioSettingsModal";
 
-const SettingsList = ['Audio'];
+const SettingsList = ['Audio','Logout'];
 
 
-function Settings({updateAudio}) {
+function Settings({updateAudio,logout}) {
     const [modal, setModal] = useState({type:'',seen:false});
 
     const handleClose = () => setModal({type:'',seen:false});
@@ -21,7 +21,7 @@ function Settings({updateAudio}) {
             </Dropdown.Toggle>
             <Dropdown.Menu>
                     <Dropdown.Item onClick = {()=>handleShow(SettingsList[0])} >{SettingsList[0]}</Dropdown.Item>
-                <Dropdown.Item >{SettingsList[1]}</Dropdown.Item>
+                <Dropdown.Item onClick = {logout}>{SettingsList[1]}</Dropdown.Item>
             </Dropdown.Menu>
         </Dropdown>
             {modal.type === 'Audio'

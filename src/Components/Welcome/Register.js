@@ -4,7 +4,7 @@ import './Login.css';
 import FormLabel from "react-bootstrap/FormLabel";
 import Card from "react-bootstrap/Card";
 
-export default function Register({registerUser}) {
+export default function Register({loginOrRegister}) {
 
     const [email, setEmail] = useState("");
     const [name, setName] = useState("");
@@ -16,11 +16,11 @@ export default function Register({registerUser}) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        registerUser({
+        loginOrRegister({
             username:name,
             email:email,
             password:password
-        });
+        }, 'register');
     }
 
 
@@ -29,7 +29,7 @@ export default function Register({registerUser}) {
             <Card.Header> Register </Card.Header>
             <Card.Body>
                 <form onSubmit={handleSubmit}>
-                    <FormGroup controlId='name' bsSize="large">
+                    <FormGroup controlId='name'>
                         <FormLabel>Name</FormLabel>
                         <FormControl
                             autoFocus
@@ -38,7 +38,7 @@ export default function Register({registerUser}) {
                             onChange={e => setName(e.target.value)}
                         />
                     </FormGroup>
-                    <FormGroup controlId="email" bsSize="large">
+                    <FormGroup controlId="email">
                         <FormLabel>Email</FormLabel>
                         <FormControl
                             autoFocus
@@ -47,7 +47,7 @@ export default function Register({registerUser}) {
                             onChange={e => setEmail(e.target.value)}
                         />
                     </FormGroup>
-                    <FormGroup controlId="password" bsSize="large">
+                    <FormGroup controlId="password">
                         <FormLabel>Password</FormLabel>
                         <FormControl
                             value={password}
@@ -55,7 +55,7 @@ export default function Register({registerUser}) {
                             type="password"
                         />
                     </FormGroup>
-                    <Button block bsSize="large" disabled={!validateForm()} type="submit">
+                    <Button block variant= {!validateForm()?'secondary':"primary"} disabled={!validateForm()} type="submit">
                         Register
                     </Button>
                 </form>

@@ -31,5 +31,6 @@ body{
   background-color: lightgrey!important;
 }
 #idle-msg{
-
+  color: white;
+  background-color: #1b1e21;
 }
