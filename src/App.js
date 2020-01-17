@@ -1,10 +1,11 @@
-import React,{useState} from 'react';
+import React,{useState,useEffect} from 'react';
 import Friends from "./Components/Friends/Friends";
 import Settings from "./Components/Settings/Settings";
 import ChatWindow from './Components/ChatWindow/ChatWindow'
 import {Message} from 'react-chat-ui';
 import face_mp3 from './lol.mp3';
 import './App.css';
+import { HubConnection, HubConnectionBuilder } from '@aspnet/signalr';
 import WelcomePage from "./Components/Welcome/WelcomePage";
 
 
@@ -14,7 +15,32 @@ function App() {
 
     const[chat,setChat] = useState(-1);
     const[signedIn,setSignInStatus] = useState(false);
+    const[user,setUser] = useState(null);
+    const[hubConnection,setHubConnection] = useState(null);
 
+
+    // Set the Hub Connection on mount.
+    useEffect(() => {
+
+        // Set the initial SignalR Hub Connection.
+        const createHubConnection = async () => {
+
+            // Build new Hub Connection, url is currently hard coded.
+            const hubConnect = new HubConnectionBuilder()
+                .withUrl('https://localhost:5001/chat')
+                .build();
+            try {
+                await hubConnect.start();
+                console.log('Connection successful!')
+            }
+            catch (err) {
+                alert(err);
+            }
+            setHubConnection(hubConnect);
+        };
+
+        createHubConnection();
+    }, []);
 
     const SendMessage = (msgText) => {
         updateFeed(prevState => {
@@ -41,9 +67,10 @@ function App() {
         })
           .then(res => res.json())
           .then(res=> {
-              console.log(res);
+              console.log(res[0]);
               if(res){
                   setSignInStatus(true);
+                  setUser(res[0]);
               }
           })
           .catch(err=> console.log(err));
@@ -56,12 +83,17 @@ function App() {
         })
             .then(res =>res.json())
             .then(res=> {
-                console.log(res);
+                console.log(res[0]);
                 if(res){
                     setSignInStatus(true);
+                    setUser(res[0]);
                 }
             })
             .catch(err=> console.log(err));
+    };
+
+    const loadChatData = () =>{
+
     };
     return (
         <>
@@ -94,7 +126,5 @@ function App() {
             }
         </>
   );
-
 }
-
 export default App;
