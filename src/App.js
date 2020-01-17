@@ -28,6 +28,41 @@ function App() {
         const a = document.getElementsByTagName("audio")[0];
         enable ? a.play() : a.pause();
     };
+
+
+    const signIn = (email,password) => {
+      fetch('https://localhost:5001/api/login',{
+          method:'post',
+          headers:{'Content-type':'application/json'},
+          body: JSON.stringify({
+              email:email,
+              password:password
+          })
+        })
+          .then(res => res.json())
+          .then(res=> {
+              console.log(res);
+              if(res){
+                  setSignInStatus(true);
+              }
+          })
+          .catch(err=> console.log(err));
+    };
+    const registerUser = (creditentials) => {
+        fetch('https://localhost:5001/api/register',{
+            method:'post',
+            headers:{'Content-type':'application/json'},
+            body: JSON.stringify(creditentials)
+        })
+            .then(res =>res.json())
+            .then(res=> {
+                console.log(res);
+                if(res){
+                    setSignInStatus(true);
+                }
+            })
+            .catch(err=> console.log(err));
+    };
     return (
         <>
             {
@@ -55,7 +90,7 @@ function App() {
                         </div>
                     </div>
                 </div>
-                    : <WelcomePage signIn={setSignInStatus}/>
+                    : <WelcomePage signIn={signIn} registerUser={registerUser}/>
             }
         </>
   );

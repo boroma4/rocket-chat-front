@@ -8,11 +8,10 @@ import {
     Switch,
     Route,
 } from "react-router-dom";
-import App from "../../App";
 
 
 
-function WelcomePage({signIn}) {
+function WelcomePage({signIn,registerUser}) {
 
     return (
         <Router>
@@ -31,10 +30,10 @@ function WelcomePage({signIn}) {
                     <Login signIn={signIn}/>
                 </Route>
                 <Route path="/register">
-                    <Register signIn={signIn} />
+                    <Register registerUser={registerUser} />
                 </Route>
                 <Route path="/">
-                    <App/>
+                    <Login signIn={signIn}/>
                 </Route>
                 <Route>
                     <div className='tc pa3'>

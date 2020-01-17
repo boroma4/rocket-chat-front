@@ -6,7 +6,7 @@ import Popover from "react-bootstrap/Popover";
 import Picker from 'emoji-picker-react';
 
 
-function Input({onSendClick}) {
+function Input({onSendClick,showEmoji,emojiSeen}) {
     const[input,inputChange] = useState('');
     const [chosenEmoji, setChosenEmoji] = useState(null);
 
@@ -24,6 +24,8 @@ function Input({onSendClick}) {
 
     };
     return (
+        <>
+
         <ThemeProvider>
             <TextComposer onSend={()=>onSendClick(input)} onChange={updField}>
                 <Row align="center">
@@ -35,13 +37,13 @@ function Input({onSendClick}) {
                 </Row>
 
                 <Row verticalAlign="center" justify="left">
-
                     <IconButton fit>
-                            <EmojiIcon/>
+                            <EmojiIcon onClick = {()=>showEmoji(!emojiSeen)}/>
                     </IconButton>
                 </Row>
             </TextComposer>
         </ThemeProvider>
+            </>
     );
 }
 export default Input;

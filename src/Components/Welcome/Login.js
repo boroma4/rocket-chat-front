@@ -15,7 +15,7 @@ export default function Login({signIn}) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        signIn(true);
+        signIn(email,password);
     }
 
     return (
