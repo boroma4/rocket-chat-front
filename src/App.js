@@ -3,10 +3,14 @@ import Friends from "./Components/Friends/Friends";
 import Settings from "./Components/Settings/Settings";
 import ChatWindow from './Components/ChatWindow/ChatWindow'
 import {Message} from 'react-chat-ui';
-import face_mp3 from './lol.mp3';
+import {SongList} from "./Constants/Const";
+
+
 import './App.css';
 import HubConnection from "./Helper/HubConnection";
 import WelcomePage from "./Components/Welcome/WelcomePage";
+import witcher from './lol.mp3';
+import drStone from './dr_stone_ending.mp3';
 
 
 function App() {
@@ -17,7 +21,17 @@ function App() {
     const[signedIn,setSignInStatus] = useState(false);
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
+    const[song,setSong] = useState(SongList[0]);
 
+
+    const setSongMP3 = (songname) =>{
+      switch (songname) {
+          case 'witcher':
+              return witcher;
+          case 'drStone':
+              return drStone;
+      }
+    };
 
     const SendMessage = (msgText) => {
         updateFeed(prevState => {
@@ -69,9 +83,9 @@ function App() {
             {
                 signedIn
                     ? <div className="row">
-                    <audio src={face_mp3} preload loop/>
+                    <audio src={setSongMP3(song)} preload loop/>
                     <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
-                        <Settings updateAudio={updAudio} logout={()=>logout()}/>
+                        <Settings updateAudio={updAudio} chooseSong={setSong}  logout={()=>logout()}/>
                         <div className={'left-content'}>
                             <Friends friends={feed} clickFriend={setChat}/>
                         </div>

@@ -1,11 +1,11 @@
 import React,{useState} from 'react';
 import Dropdown from "react-bootstrap/Dropdown";
 import AudioSettingsModal from "./AudioSettingsModal";
+import {SettingsList} from "../../Constants/Const";
 
-const SettingsList = ['Audio','Logout'];
 
 
-function Settings({updateAudio,logout}) {
+function Settings({updateAudio,logout,chooseSong}) {
     const [modal, setModal] = useState({type:'',seen:false});
 
     const handleClose = () => setModal({type:'',seen:false});
@@ -20,15 +20,21 @@ function Settings({updateAudio,logout}) {
                 </svg>
             </Dropdown.Toggle>
             <Dropdown.Menu>
-                    <Dropdown.Item onClick = {()=>handleShow(SettingsList[0])} >{SettingsList[0]}</Dropdown.Item>
-                <Dropdown.Item onClick = {logout}>{SettingsList[1]}</Dropdown.Item>
+                {SettingsList.map((item,index)=>(
+                    (item ==='Logout')
+                        ?
+                        <Dropdown.Item key = {item} onClick = {logout}>{SettingsList[index]}</Dropdown.Item>
+                        :
+                        <Dropdown.Item key = {item} onClick = {()=>handleShow(SettingsList[index])} >{SettingsList[index]} </Dropdown.Item>
+                ))}
             </Dropdown.Menu>
         </Dropdown>
-            {modal.type === 'Audio'
-                ? <AudioSettingsModal show = {modal.seen} handleClose = {handleClose} updateAudio={updateAudio}/>
-                :<div/>
+            {
+                {
+                    'Audio': <AudioSettingsModal show = {modal.seen} handleClose = {handleClose} updateAudio={updateAudio} chooseSong={chooseSong} />,
+                    'Logout': <></>
+                }[modal.type]
             }
-
            </>
 
     );
