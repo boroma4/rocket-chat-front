@@ -1,4 +1,4 @@
-import React,{useState,useEffect} from 'react';
+import React,{useState} from 'react';
 import Friends from "./Components/Friends/Friends";
 import Settings from "./Components/Settings/Settings";
 import ChatWindow from './Components/ChatWindow/ChatWindow'
