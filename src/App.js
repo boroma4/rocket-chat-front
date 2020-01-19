@@ -21,7 +21,7 @@ function App() {
     const[signedIn,setSignInStatus] = useState(false);
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
-    const[song,setSong] = useState(SongList[0]);
+    const[song,setSong] = useState(null);
 
 
     const setSongMP3 = (songname) =>{
