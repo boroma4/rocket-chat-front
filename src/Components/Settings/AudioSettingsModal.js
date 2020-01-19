@@ -6,14 +6,19 @@ import Dropdown from "react-bootstrap/Dropdown";
 import {SettingsList, SongList} from "../../Constants/Const";
 
 
-
+// TODO use gloabl state instead of local
 function AudioSettingsModal({show,handleClose,updateAudio,chooseSong}) {
     const [value, setValue] = useState(0);
     const [song, setSong] = useState('');
 
     const handleChange = (val) => {
         setValue(val);
-        val === 1? updateAudio(true) : updateAudio(false);
+        if(val && song){
+            updateAudio(true);
+        }
+        else if(!val) {
+            updateAudio(false);
+        }
     };
 
     const changeRadioColor = (isOn) =>{
