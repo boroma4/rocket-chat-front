@@ -1,6 +1,7 @@
 import React,{useState} from 'react';
 import Dropdown from "react-bootstrap/Dropdown";
 import AudioSettingsModal from "./AudioSettingsModal";
+import AddContactModal from "./AddContactModal";
 import {SettingsList} from "../../Constants/Const";
 
 
@@ -31,6 +32,7 @@ function Settings({updateAudio,logout,chooseSong}) {
         </Dropdown>
             {
                 {
+                    'Add Contact': <AddContactModal show={modal.seen} handleClose={handleClose}/>,
                     'Audio': <AudioSettingsModal show = {modal.seen} handleClose = {handleClose} updateAudio={updateAudio} chooseSong={chooseSong} />,
                     'Logout': <></>
                 }[modal.type]

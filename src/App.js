@@ -11,10 +11,13 @@ import HubConnection from "./Helper/HubConnection";
 import WelcomePage from "./Components/Welcome/WelcomePage";
 import witcher from './lol.mp3';
 import drStone from './dr_stone_ending.mp3';
+import {sendMessage} from "@aspnet/signalr/dist/esm/Utils";
 
+//feed model is -> array of object with chatid,person name,array of msgs
+//if msg is sent by client -> msg id has to be 0 (third party UI library works this way)
 
 function App() {
-    const [feed,updateFeed] = useState([{name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
+    const [feed,updateFeed] = useState([{id:2,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
         {name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}]);
 
     const[chat,setChat] = useState(-1);
@@ -34,11 +37,20 @@ function App() {
     };
 
     const SendMessage = (msgText) => {
+        //invoke 'sendMessage' with chatId most likely
         updateFeed(prevState => {
             let updatedChat = Object.assign([],prevState[chat]);
             updatedChat.msg.push(new Message({id:0,message:msgText}));
           return Object.assign([],prevState,updatedChat);
       })
+    };
+
+    const GetMessage = (chat,msgText) => {
+        updateFeed(prevState => {
+            let updatedChat = Object.assign([],prevState[chat]);
+            updatedChat.msg.push(new Message({id:1,message:msgText}));
+            return Object.assign([],prevState,updatedChat);
+        })
     };
 
     const updAudio = (enable) => {
@@ -66,7 +78,7 @@ function App() {
                 if(res){
                     setSignInStatus(true);
                     setUser(res[0]);
-                    setHubConnection(HubConnection());
+                    setHubConnection(HubConnection(GetMessage));
                     status = 'resolve';
                 }
             })
