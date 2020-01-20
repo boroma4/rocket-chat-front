@@ -5,6 +5,12 @@ import FormLabel from "react-bootstrap/FormLabel";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 
+import {
+    BrowserRouter as Router,
+    Switch,
+    Route, Link,
+} from "react-router-dom";
+
 export default function Login({loginOrRegister}) {
 
     const [email, setEmail] = useState("");
@@ -64,7 +70,7 @@ export default function Login({loginOrRegister}) {
                 </FormGroup>
                 <Button block variant= {!validateForm()?'secondary':"primary"} disabled={!validateForm() || isConnecting} type="submit">
                     {!isConnecting
-                        ? 'Login'
+                        ? <Link to={'app'}>Login</Link>
                         :<Spinner
                             as="span"
                             animation="border"

@@ -13,11 +13,10 @@ import {
 
 
 
-function WelcomePage({loginOrRegister}) {
+function WelcomePage({loginOrRegister,path}) {
 
     return (
         <div >
-            <Router className = {'rocket'}>
                 <Navbar bg="dark" variant={'dark'} expand="lg">
                     <Navbar.Brand >Rocket-Chat</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
@@ -28,23 +27,11 @@ function WelcomePage({loginOrRegister}) {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
-                <Switch>
-                    <Route path="/login">
-                        <Login loginOrRegister={loginOrRegister}/>
-                    </Route>
-                    <Route path="/register">
-                        <Register loginOrRegister={loginOrRegister} />
-                    </Route>
-                    <Route path="/">
-                        <Login loginOrRegister={loginOrRegister}/>
-                    </Route>
-                    <Route>
-                        <div className='tc pa3'>
-                            <h3>Sorry, page not found!</h3>
-                        </div>
-                    </Route>
-                </Switch>
-            </Router>
+                {path==='/login'
+                    ?<Login loginOrRegister={loginOrRegister}/>
+                    :<Register loginOrRegister={loginOrRegister} />
+                }
+
             <img src={'https://dramarocket.com/wp-content/uploads/2018/01/icon-redrocket-2.png'} alt={'logo'} className={'center'}/>
             </div>
     );

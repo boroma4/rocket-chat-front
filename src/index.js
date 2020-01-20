@@ -2,7 +2,7 @@ import React from 'react';
 import ReactDOM from 'react-dom';
 import './index.css';
 import 'bootstrap/dist/css/bootstrap.min.css';
-import App from './App';
+import App from "./App";
 import 'tachyons';
 import * as serviceWorker from './serviceWorker';
 
