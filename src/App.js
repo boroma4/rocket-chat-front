@@ -16,14 +16,15 @@ function App() {
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
 
-    const [feed,updateFeed] = useState([
-        {id:2,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
-        {id:3,name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}
+    const [chats,updateChats] = useState([
+        {id:100,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
+        {id:99,name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}
         ]);
 
-    //A delegate to return the total number of chats user has.
+    //A delegate(eto function pls) to return the total number of chats user has.
     // Chats are dispayed on the left, determine <Friend> elements.
     /**********IN DEVELOPMENT***********/
+
 
     useEffect(()=>{
     });
@@ -31,7 +32,7 @@ function App() {
 
 
     const GetMessage = (chat,msgText) => {
-        updateFeed(prevState => {
+        updateChats(prevState => {
             let updatedChat = Object.assign([],prevState[chat]);
             updatedChat.msg.push(new Message({id:1,message:msgText}));
             return Object.assign([],prevState,updatedChat);
@@ -59,16 +60,16 @@ function App() {
         }
     }
 
-    const SendMessage = (chat) => {
-        let l_chat = chat;
+    const SendMessage = (chatId,chatIndex) => {
+        let l_chatIndex = chatIndex;
+        let l_chatId= chatId;
         //invoke 'sendMessage' with chatId most likely
         return function (msgText) {
-            updateFeed(prevState => {
-            let updatedChat = Object.assign([],prevState[l_chat]);
+            updateChats(prevState => {
+            let updatedChat = Object.assign([],prevState[l_chatIndex]);
              hubConnection.then(hubC=>{
-                    hubC.invoke('SendDirectMessage',user.userId,l_chat+1,msgText).catch(err=>console.log(err));
+                    hubC.invoke('SendDirectMessage',user.userId,l_chatId,msgText).catch(err=>console.log(err));
              });
-
             updatedChat.msg.push(new Message({id:0,message:msgText}));
             return Object.assign([],prevState,updatedChat);
         })
@@ -86,7 +87,7 @@ function App() {
         <Router className = {'rocket'}>
             <Switch>
                 <Route path="/app">
-                    <ChatMain feed={feed} SendMessage={SendMessage} logout={()=>logout()} user={user}/>
+                    <ChatMain chats={chats} SendMessage={SendMessage} logout={()=>logout()} user={user}/>
                 </Route>
                 <Route path="/register">
                     <WelcomePage path={'/register'} loginOrRegister={loginOrRegister}/>

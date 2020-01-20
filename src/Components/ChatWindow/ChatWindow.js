@@ -16,7 +16,6 @@ function ChatWindow({chatData,onSend}) {
                 ClassName ={'feed'}
                 showSenderName
                 messages = {chatData.msg}
-
             />
             {/*emojiSeen
                 ?<Picker/>

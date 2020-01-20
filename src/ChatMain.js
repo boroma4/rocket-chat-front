@@ -11,10 +11,10 @@ import drStone from './dr_stone_ending.mp3';
 //feed model is -> array of object with chatid,person name,array of msgs
 //if msg is sent by client -> msg id has to be 0 (third party UI library works this way)
 
-function ChatMain({user,feed,SendMessage,logout}) {
+function ChatMain({user,chats,SendMessage,logout}) {
 
-    const[chat,setChat] = useState(-1);
-    const[input,setInput] = useState('');
+    const[chatId,setChatId] = useState(-1);
+    const[chatIndex,setChatIndex] = useState(0);
     const[song,setSong] = useState(null);
     const[redirect,setRedirect] = useState(false);
 
@@ -48,17 +48,17 @@ function ChatMain({user,feed,SendMessage,logout}) {
                     <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
                         <Settings updateAudio={updAudio} chooseSong={setSong} logout={()=>logout()}/>
                         <div className={'left-content'}>
-                            <Friends friends={feed} clickFriend={setChat}/>
+                            <Friends chats={chats} clickOnChat={setChatId} setChatIndex = {setChatIndex}/>
                         </div>
                     </div>
                     <div className='right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '>
                         <div>
                             <div className="container">
                                 <div className="row">
-                                    {chat === -1
+                                    {chatId === -1
                                         ? <div className='tc center col align-self-center'
                                                id={'idle-msg'}>{'Chat is being developed,stay tuned.'}</div>
-                                        : <div className='col'><ChatWindow chatData={feed[chat]} onSend={SendMessage(chat)}/>
+                                        : <div className='col'><ChatWindow chatData={chats[chatIndex]} onSend={SendMessage(chatId,chatIndex)}/>
                                         </div>
                                     }
                                 </div>
