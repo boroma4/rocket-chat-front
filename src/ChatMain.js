@@ -14,6 +14,7 @@ import drStone from './dr_stone_ending.mp3';
 function ChatMain({user,feed,SendMessage,logout}) {
 
     const[chat,setChat] = useState(-1);
+    const[input,setInput] = useState('');
     const[song,setSong] = useState(null);
     const[redirect,setRedirect] = useState(false);
 

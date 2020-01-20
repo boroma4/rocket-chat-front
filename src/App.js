@@ -15,6 +15,7 @@ function App() {
 
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
+
     const [feed,updateFeed] = useState([
         {id:2,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
         {id:3,name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}
@@ -32,7 +33,7 @@ function App() {
     const GetMessage = (chat,msgText) => {
         updateFeed(prevState => {
             let updatedChat = Object.assign([],prevState[chat]);
-            //updatedChat.msg.push(new Message({id:1,message:msgText}));
+            updatedChat.msg.push(new Message({id:1,message:msgText}));
             return Object.assign([],prevState,updatedChat);
         })
     };
@@ -64,16 +65,21 @@ function App() {
         return function (msgText) {
             updateFeed(prevState => {
             let updatedChat = Object.assign([],prevState[l_chat]);
+             hubConnection.then(hubC=>{
+                    hubC.invoke('SendDirectMessage',user.userId,l_chat+1,msgText).catch(err=>console.log(err));
+             });
 
             updatedChat.msg.push(new Message({id:0,message:msgText}));
             return Object.assign([],prevState,updatedChat);
-        })};
+        })
+        };
     };
 
     const logout = () => {
         setUser(null);
         setUser(null);
         setHubConnection(null);
+
     };
 
     return (

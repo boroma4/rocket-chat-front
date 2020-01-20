@@ -6,12 +6,13 @@ export default async function createHubConnection ({setMessages}) {
         .withUrl('https://localhost:5001/chat')
         .build();
     try {
+        console.log(1,'Connection successful!');
+        hubConnect.on('sendToAll', setMessages);
         await hubConnect.start();
-        console.log('Connection successful!');
-        hubConnect.on('sendMessage', setMessages);
     }
     catch (err) {
         alert(err);
     }
+    console.log(2);
     return hubConnect;
 }
