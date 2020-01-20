@@ -17,7 +17,6 @@ function Input({onSendClick,showEmoji,emojiSeen}) {
         if(event.type === 'change'){
             inputChange(event.target.value);
         }
-      console.log(input)
     };
 
     const onEmojiClick = (event, emojiObject) => {

@@ -20,7 +20,12 @@ function Friends({chats,clickOnChat,setChatIndex}) {
                             <Row justify>
                                 <Title ellipsis>{chat.name}</Title>
                             </Row>
-                            <Subtitle ellipsis>{chat.msg[chat.msg.length-1].message}</Subtitle>
+                            <Subtitle ellipsis>{
+                                chat.msg.length > 0
+                                    ? chat.msg[chat.msg.length-1].message
+                                    : 'Say something '
+                                }
+                            </Subtitle>
                         </Column>
                     </ChatListItem>
                 </div>

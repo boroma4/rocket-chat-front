@@ -11,7 +11,7 @@ import drStone from './dr_stone_ending.mp3';
 //feed model is -> array of object with chatid,person name,array of msgs
 //if msg is sent by client -> msg id has to be 0 (third party UI library works this way)
 
-function ChatMain({user,chats,SendMessage,logout}) {
+function ChatMain({user,chats,SendMessage,logout,createNewChat}) {
 
     const[chatId,setChatId] = useState(-1);
     const[chatIndex,setChatIndex] = useState(0);
@@ -26,6 +26,8 @@ function ChatMain({user,chats,SendMessage,logout}) {
               return witcher;
           case 'drStone':
               return drStone;
+          default:
+              return;
       }
     };
 
@@ -46,7 +48,7 @@ function ChatMain({user,chats,SendMessage,logout}) {
                 : <div className="row">
                     <audio src={setSongMP3(song)} preload loop/>
                     <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
-                        <Settings updateAudio={updAudio} chooseSong={setSong} logout={()=>logout()}/>
+                        <Settings createNewChat={createNewChat} userId={user ? user.userId : 0} updateAudio={updAudio} chooseSong={setSong} logout={()=>logout()}/>
                         <div className={'left-content'}>
                             <Friends chats={chats} clickOnChat={setChatId} setChatIndex = {setChatIndex}/>
                         </div>
@@ -67,7 +69,6 @@ function ChatMain({user,chats,SendMessage,logout}) {
                     </div>
                 </div>
             }
-
         </>
   );
 }

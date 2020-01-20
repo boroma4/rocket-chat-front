@@ -30,6 +30,13 @@ function App() {
     });
 
 
+    const CreateNewChat = (chatId,chatName) => {
+        updateChats(prevState => {
+            let updatedChat = Object.assign([],prevState);
+            updatedChat.push({id:chatId,name:chatName,msg:[]});
+            return Object.assign([],updatedChat);
+        })
+    };
 
     const GetMessage = (chat,msgText) => {
         updateChats(prevState => {
@@ -87,7 +94,7 @@ function App() {
         <Router className = {'rocket'}>
             <Switch>
                 <Route path="/app">
-                    <ChatMain chats={chats} SendMessage={SendMessage} logout={()=>logout()} user={user}/>
+                    <ChatMain chats={chats} SendMessage={SendMessage} logout={()=>logout()} user={user} createNewChat = {CreateNewChat}/>
                 </Route>
                 <Route path="/register">
                     <WelcomePage path={'/register'} loginOrRegister={loginOrRegister}/>

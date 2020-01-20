@@ -6,7 +6,7 @@ import {SettingsList} from "../../Constants/Const";
 
 
 
-function Settings({updateAudio,logout,chooseSong}) {
+function Settings({updateAudio,logout,chooseSong,createNewChat,userId}) {
     const [modal, setModal] = useState({type:'',seen:false});
 
     const handleClose = () => setModal({type:'',seen:false});
@@ -32,7 +32,7 @@ function Settings({updateAudio,logout,chooseSong}) {
         </Dropdown>
             {
                 {
-                    'Add Contact': <AddContactModal show={modal.seen} handleClose={handleClose}/>,
+                    'Add Contact': <AddContactModal show={modal.seen} handleClose={handleClose} createNewChat={createNewChat} userId={userId}/>,
                     'Audio': <AudioSettingsModal show = {modal.seen} handleClose = {handleClose} updateAudio={updateAudio} chooseSong={chooseSong} />,
                     'Logout': <></>
                 }[modal.type]
