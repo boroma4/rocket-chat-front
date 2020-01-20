@@ -1,4 +1,4 @@
-import React,{useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import ChatMain from "./ChatMain";
 import {
     BrowserRouter as Router,
@@ -10,17 +10,29 @@ import WelcomePage from "./Components/Welcome/WelcomePage";
 import HubConnection from "./Helper/HubConnection";
 import {Message} from "react-chat-ui";
 
+
 function App() {
 
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
-    const [feed,updateFeed] = useState([{id:2,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
-        {id:3,name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}]);
+    const [feed,updateFeed] = useState([
+        {id:2,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
+        {id:3,name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}
+        ]);
+
+    //A delegate to return the total number of chats user has.
+    // Chats are dispayed on the left, determine <Friend> elements.
+    /**********IN DEVELOPMENT***********/
+
+    useEffect(()=>{
+    });
+
+
 
     const GetMessage = (chat,msgText) => {
         updateFeed(prevState => {
             let updatedChat = Object.assign([],prevState[chat]);
-            updatedChat.msg.push(new Message({id:1,message:msgText}));
+            //updatedChat.msg.push(new Message({id:1,message:msgText}));
             return Object.assign([],prevState,updatedChat);
         })
     };
@@ -52,6 +64,7 @@ function App() {
         return function (msgText) {
             updateFeed(prevState => {
             let updatedChat = Object.assign([],prevState[l_chat]);
+
             updatedChat.msg.push(new Message({id:0,message:msgText}));
             return Object.assign([],prevState,updatedChat);
         })};
