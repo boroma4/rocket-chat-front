@@ -3,7 +3,7 @@ import Modal from "react-bootstrap/Modal";
 import ToggleButtonGroup from "react-bootstrap/ToggleButtonGroup";
 import ToggleButton from "react-bootstrap/ToggleButton";
 import Dropdown from "react-bootstrap/Dropdown";
-import {SettingsList, SongList} from "../../Constants/Const";
+import {SongList} from "../../Constants/Const";
 
 
 // TODO use gloabl state instead of local

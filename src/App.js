@@ -25,30 +25,26 @@ function App() {
         })
     };
 
-    const loginOrRegister = (loginData,endpoint) => {
-        let status;
-        fetch(`https://localhost:5001/api/${endpoint}`,{
-            method:'post',
-            headers:{'Content-type':'application/json'},
-            body: JSON.stringify(loginData)
-        })
-            .then(res =>res.json())
-            .then(res=> {
-                console.log(res[0]);
-                if(res){
-                    setUser(res[0]);
-                    setHubConnection(HubConnection(GetMessage));
-                    status = 'resolve';
-                }
-            })
-            .catch(err=> {
-                console.log(err);
-                status = 'reject';
+    async function loginOrRegister (loginData,endpoint){
+        try {
+            let result = await fetch(`https://localhost:5001/api/${endpoint}`, {
+                method: 'post',
+                headers: {'Content-type': 'application/json'},
+                body: JSON.stringify(loginData)
             });
-        return new Promise((res,rej)=>{
-            status === 'resolve'? res(status):rej(status);
-        })
-    };
+            result = await result.json();
+            console.log(result);
+            if (result) {
+                endpoint === 'login'? setUser(result[0]): setUser(result);
+                setHubConnection(HubConnection(GetMessage));
+            }
+            return 'ok';
+        }
+        catch(err) {
+            console.log(err);
+            throw err;
+        }
+    }
 
     const SendMessage = (chat) => {
         let l_chat = chat;
@@ -77,11 +73,10 @@ function App() {
                     <WelcomePage path={'/register'} loginOrRegister={loginOrRegister}/>
                 </Route>
                 <Route>
-                    <WelcomePage  path={'/login'} loginOrRegister={loginOrRegister}/>
+                    <WelcomePage path={'/login'} loginOrRegister={loginOrRegister}/>
                 </Route>
             </Switch>
         </Router>
-
         );
 }
 export default App;

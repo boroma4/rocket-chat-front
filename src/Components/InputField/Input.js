@@ -1,14 +1,14 @@
-import React,{useState,Suspense} from 'react';
+import React,{useState} from 'react';
 import {ThemeProvider,TextComposer,Row,IconButton,AddIcon,TextInput,EmojiIcon,SendButton}
     from '@livechat/ui-kit';
-import OverlayTrigger from "react-bootstrap/OverlayTrigger";
-import Popover from "react-bootstrap/Popover";
-import Picker from 'emoji-picker-react';
+//import OverlayTrigger from "react-bootstrap/OverlayTrigger";
+//import Popover from "react-bootstrap/Popover";
+//import Picker from 'emoji-picker-react';
 
 
 function Input({onSendClick,showEmoji,emojiSeen}) {
     const[input,inputChange] = useState('');
-    const [chosenEmoji, setChosenEmoji] = useState(null);
+    //const [chosenEmoji, setChosenEmoji] = useState(null);
 
     const updField = (event) =>{
         if(event.type === 'change'){

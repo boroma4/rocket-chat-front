@@ -2,13 +2,9 @@ import React,{useState,useEffect} from 'react';
 import Friends from "./Components/Friends/Friends";
 import Settings from "./Components/Settings/Settings";
 import ChatWindow from './Components/ChatWindow/ChatWindow'
-import {Message} from 'react-chat-ui';
 import {Redirect } from "react-router-dom";
 
-
-
 import './App.css';
-import HubConnection from "./Helper/HubConnection";
 import witcher from './lol.mp3';
 import drStone from './dr_stone_ending.mp3';
 

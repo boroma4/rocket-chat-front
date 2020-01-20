@@ -2,7 +2,7 @@ import React, {useState} from 'react';
 import Input from "../InputField/Input";
 import './Chat.css';
 import { ChatFeed } from 'react-chat-ui'
-import Picker from "emoji-picker-react";
+//import Picker from "emoji-picker-react";
 
 
 

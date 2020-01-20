@@ -7,4 +7,9 @@
         margin-top: 10vh;
         max-width: 320px;
     }
+
+    .link,.link:visited,.link:hover,.link:active,.link:link{
+        text-decoration: none;
+        color: white;
+    }
 }
