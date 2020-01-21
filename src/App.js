@@ -30,6 +30,7 @@ function App() {
     // A function to load chats with last message, to be used on login
     //Determines what is going to be displayed on the left side of main chat window
     // Check every chat data received from the backed and renders accordingly
+
     //TODO pass Name from the backend as well
     async function GetChats(userId)  {
         let chatsToState = [];
@@ -42,12 +43,13 @@ function App() {
 
                 if(chat.lastMessage) {
                     msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
-                     chatToAdd = {id:chat.id, name: 'hardcode',msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
+                     chatToAdd = {id:chat.chatId, name: 'hardcode',msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
                 }
                 else{
-                    chatToAdd = {id:chat.id, name: 'hardcode',msg:[]};
+                    chatToAdd = {id:chat.chatId, name: 'hardcode',msg:[]};
                 }
                 chatsToState.push(chatToAdd);
+                console.log(chatsToState);
             });
             await updateChats(chatsToState);
             return 'ok';
