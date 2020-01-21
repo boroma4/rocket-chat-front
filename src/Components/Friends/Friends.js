@@ -6,6 +6,7 @@ import {ThemeProvider,Avatar,Row,ChatList,ChatListItem,Column,Title,Subtitle}
 function Friends({chats,clickOnChat,setChatIndex}) {
 
     const handleClick = (id,index) => {
+        console.log(chats);
         clickOnChat(id);
         setChatIndex(index);
     };

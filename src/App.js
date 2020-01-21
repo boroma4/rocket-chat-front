@@ -36,6 +36,7 @@ function App() {
         try {
             let chats = await fetch(`https://localhost:5001/api/getallchats?userId=${userId}`);
             chats = await chats.json();
+            await console.log(chats);
             await chats.forEach(chat=>{
                 let msgDisplayId,chatToAdd;
 
@@ -57,6 +58,16 @@ function App() {
         }
     }
 
+    async function fetchLastMessages(chatId) {
+        let chatsToState = [];
+        try {
+            let messages = await fetch(`https://localhost:5001/api/getlastmessages?chatId=${chatId}`);
+            await console.log(messages);
+        }
+        catch (error) {
+
+        }
+    }
 
     const CreateNewChat = (chatId,chatName) => {
         updateChats(prevState => {
@@ -124,14 +135,13 @@ function App() {
         setUser(null);
         setUser(null);
         setHubConnection(null);
-
     };
 
     return (
         <Router className = {'rocket'}>
             <Switch>
                 <Route path="/app">
-                    <ChatMain chats={chats} SendMessage={SendMessage} logout={()=>logout()} user={user} createNewChat = {CreateNewChat}/>
+                    <ChatMain chats={chats} SendMessage={SendMessage} logout={()=>logout()} user={user} createNewChat = {CreateNewChat} fetchLastMessages={fetchLastMessages}/>
                 </Route>
                 <Route path="/register">
                     <WelcomePage path={'/register'} loginOrRegister={loginOrRegister}/>

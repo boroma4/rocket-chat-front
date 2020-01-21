@@ -11,7 +11,7 @@ import drStone from './dr_stone_ending.mp3';
 //feed model is -> array of object with chatid,person name,array of msgs
 //if msg is sent by client -> msg id has to be 0 (third party UI library works this way)
 
-function ChatMain({user,chats,SendMessage,logout,createNewChat}) {
+function ChatMain({user,chats,SendMessage,logout,createNewChat,fetchLastMessages}) {
 
     const[chatId,setChatId] = useState(-1);
     const[chatIndex,setChatIndex] = useState(0);
@@ -30,6 +30,12 @@ function ChatMain({user,chats,SendMessage,logout,createNewChat}) {
               return;
       }
     };
+    
+    const loadLastMessagesAndSetChatId = (id) =>{
+        setChatId(id);
+        console.log(id);
+        fetchLastMessages(id);
+    };
 
     const updAudio = (enable) => {
         const a = document.getElementsByTagName("audio")[0];
@@ -39,7 +45,7 @@ function ChatMain({user,chats,SendMessage,logout,createNewChat}) {
        if(!user){
            setRedirect(true);
        }
-    });
+    }, [user]);
 
     return (
         <>
@@ -50,7 +56,7 @@ function ChatMain({user,chats,SendMessage,logout,createNewChat}) {
                     <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
                         <Settings createNewChat={createNewChat} userId={user ? user.userId : 0} updateAudio={updAudio} chooseSong={setSong} logout={()=>logout()}/>
                         <div className={'left-content'}>
-                            <Friends chats={chats} clickOnChat={setChatId} setChatIndex = {setChatIndex}/>
+                            <Friends chats={chats} clickOnChat={loadLastMessagesAndSetChatId} setChatIndex = {setChatIndex}/>
                         </div>
                     </div>
                     <div className='right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '>
