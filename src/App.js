@@ -60,14 +60,24 @@ function App() {
         }
     }
 
+    //Sends a request to the server and returns an array of messages received from there
     async function fetchLastMessages(chatId) {
-        let chatsToState = [];
+        let messagesToState = [];
         try {
             let messages = await fetch(`https://localhost:5001/api/getlastmessages?chatId=${chatId}`);
+            messages = await messages.json();
             await console.log(messages);
+            await messages.forEach(message =>{
+                let msgDisplayId = message.userId === user.userId ? 0 : 1;
+                messagesToState.push(new Message({id:msgDisplayId,message:message.messageText}));
+            });
+            console.log(messagesToState);
+            return messagesToState;
         }
         catch (error) {
-
+            console.log(error);
+            alert('error loading messages');
+            throw error;
         }
     }
 
@@ -143,7 +153,7 @@ function App() {
         <Router className = {'rocket'}>
             <Switch>
                 <Route path="/app">
-                    <ChatMain chats={chats} SendMessage={SendMessage} logout={()=>logout()} user={user} createNewChat = {CreateNewChat} fetchLastMessages={fetchLastMessages}/>
+                    <ChatMain setChats={updateChats} chats={chats} SendMessage={SendMessage} logout={()=>logout()} user={user} createNewChat = {CreateNewChat} fetchLastMessages={fetchLastMessages}/>
                 </Route>
                 <Route path="/register">
                     <WelcomePage path={'/register'} loginOrRegister={loginOrRegister}/>

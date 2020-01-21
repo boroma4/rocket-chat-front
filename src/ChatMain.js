@@ -11,7 +11,7 @@ import drStone from './dr_stone_ending.mp3';
 //feed model is -> array of object with chatid,person name,array of msgs
 //if msg is sent by client -> msg id has to be 0 (third party UI library works this way)
 
-function ChatMain({user,chats,SendMessage,logout,createNewChat,fetchLastMessages}) {
+function ChatMain({user,chats,setChats,SendMessage,logout,createNewChat,fetchLastMessages}) {
 
     const[chatId,setChatId] = useState(-1);
     const[chatIndex,setChatIndex] = useState(0);
@@ -30,11 +30,20 @@ function ChatMain({user,chats,SendMessage,logout,createNewChat,fetchLastMessages
               return;
       }
     };
-    
-    const loadLastMessagesAndSetChatId = (id) =>{
+
+    //Fetches the messages and updates the state of chats
+    const loadLastMessagesAndSetChatId = (id,index) =>{
         setChatId(id);
-        console.log(id);
-        fetchLastMessages(id);
+        let currentChatsState = Object.assign([],chats);
+        fetchLastMessages(id)
+            .then(messages => {
+                messages.forEach(msg=>{
+                    currentChatsState[index].msg.push(msg);
+                });
+                setChats(currentChatsState);
+                console.log(currentChatsState);
+            })
+            .catch(err=>console.log(err));
     };
 
     const updAudio = (enable) => {
