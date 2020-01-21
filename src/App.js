@@ -16,18 +16,46 @@ function App() {
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
 
-    const [chats,updateChats] = useState([
-        {id:100,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
-        {id:99,name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}
-        ]);
+    //CHATS STATE USED TO BE LIKE DIS
+    // {id:100,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
+    //         {id:99,name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}
+    const [chats,updateChats] = useState([]);
 
     //A delegate(eto function pls) to return the total number of chats user has.
     // Chats are dispayed on the left, determine <Friend> elements.
     /**********IN DEVELOPMENT***********/
 
+    //TODO refactor this component to creased the amount of lines(maybe)
 
-    useEffect(()=>{
-    });
+    // A function to load chats with last message, to be used on login
+    //Determines what is going to be displayed on the left side of main chat window
+    // Check every chat data received from the backed and renders accordingly
+    //TODO pass Name from the backend as well
+    async function GetChats(userId)  {
+        let chatsToState = [];
+        try {
+            let chats = await fetch(`https://localhost:5001/api/getallchats?userId=${userId}`);
+            chats = await chats.json();
+            await chats.forEach(chat=>{
+                let msgDisplayId,chatToAdd;
+
+                if(chat.lastMessage) {
+                    msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
+                     chatToAdd = {id:chat.id, name: 'hardcode',msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
+                }
+                else{
+                    chatToAdd = {id:chat.id, name: 'hardcode',msg:[]};
+                }
+                chatsToState.push(chatToAdd);
+            });
+            await updateChats(chatsToState);
+            return 'ok';
+        }
+        catch(err){
+            console.log(err);
+            alert('error loading chats')
+        }
+    }
 
 
     const CreateNewChat = (chatId,chatName) => {
@@ -38,6 +66,7 @@ function App() {
         })
     };
 
+    //Function (not finished) that is going to be invoked when signalR server sends a message
     const GetMessage = (chat,msgText) => {
         updateChats(prevState => {
             let updatedChat = Object.assign([],prevState[chat]);
@@ -46,6 +75,8 @@ function App() {
         })
     };
 
+    //Function that tries to log in or register based on parameter
+    //if successful, starts socket communication and invokes GetChats method defined above
     async function loginOrRegister (loginData,endpoint){
         try {
             let result = await fetch(`https://localhost:5001/api/${endpoint}`, {
@@ -56,8 +87,11 @@ function App() {
             result = await result.json();
             console.log(result);
             if (result) {
-                endpoint === 'login'? setUser(result[0]): setUser(result);
-                setHubConnection(HubConnection(GetMessage));
+                await endpoint === 'login'? setUser(result[0]): setUser(result);
+                await setHubConnection(HubConnection(GetMessage));
+
+                //might need to be outside of current try/catch to separate from login error
+                await GetChats(endpoint === 'login'?result[0].userId : result.userId);
             }
             return 'ok';
         }
@@ -67,6 +101,8 @@ function App() {
         }
     }
 
+    //Function that uses a closure(google it)
+    //after determining chat data, renders a new message + sends it to the server on the next invoke
     const SendMessage = (chatId,chatIndex) => {
         let l_chatIndex = chatIndex;
         let l_chatId= chatId;
@@ -83,6 +119,7 @@ function App() {
         };
     };
 
+    //needed to fix a bug with logout
     const logout = () => {
         setUser(null);
         setUser(null);

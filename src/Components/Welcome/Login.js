@@ -27,10 +27,11 @@ export default function Login({loginOrRegister}) {
         setIsConnecting(true);
         setTimeout(()=>console.log(),1000);
         try {
-            let awaiter =  await loginOrRegister({email, password}, 'login');
+            await loginOrRegister({email, password}, 'login');
             await (setSuccess(true));
         }
         catch(error) {
+            console.log(error);
             setTimeout(() => {
                 setIsConnecting(false);
                 setError('Invalid email or password');
