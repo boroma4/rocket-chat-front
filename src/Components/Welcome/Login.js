@@ -36,7 +36,7 @@ export default function Login({loginOrRegister}) {
                 setIsConnecting(false);
                 setError('Invalid email or password');
                 }, 1000);
-        };
+        }
     }
 
     return (

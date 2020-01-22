@@ -7,7 +7,7 @@ import {
 } from "react-router-dom";
 import './App.css';
 import WelcomePage from "./Components/Welcome/WelcomePage";
-import HubConnection from "./Helper/HubConnection";
+import {createHubConnection} from "./Helper/HubConnection";
 import {Message} from "react-chat-ui";
 
 
@@ -37,11 +37,10 @@ function App() {
         let chatsToState = [];
         try {
             let chats = await fetch(`https://localhost:5001/api/getallchats?userId=${userId}`);
-            chats = await chats.json();
-            await console.log(chats);
-            await chats.forEach(chat=>{
+             chats = await chats.json();
+             console.log(chats);
+             chats.forEach(chat=>{
                 let msgDisplayId,chatToAdd;
-
                 if(chat.lastMessage) {
                     msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
                      chatToAdd = {id:chat.chatId,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
@@ -51,9 +50,9 @@ function App() {
                     chatToAdd = {id:chat.chatId,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[]};
                 }
                 chatsToState.push(chatToAdd);
-                console.log(chatsToState);
             });
-            await updateChats(chatsToState);
+             updateChats(chatsToState);
+            console.log('SET STATE OF CHATS',chatsToState);
             return 'ok';
         }
         catch(err){
@@ -91,15 +90,6 @@ function App() {
         })
     };
 
-    //Function (not finished) that is going to be invoked when signalR server sends a message
-    const GetMessage = (chat,msgText) => {
-        updateChats(prevState => {
-            let updatedChat = Object.assign([],prevState[chat]);
-            updatedChat.msg.push(new Message({id:1,message:msgText}));
-            return Object.assign([],prevState,updatedChat);
-        })
-    };
-
     //Function that tries to log in or register based on parameter
     //if successful, starts socket communication and invokes GetChats method defined above
     async function loginOrRegister (loginData,endpoint){
@@ -110,13 +100,11 @@ function App() {
                 body: JSON.stringify(loginData)
             });
             result = await result.json();
-            console.log(result);
             if (result) {
-                await endpoint === 'login'? setUser(result[0]): setUser(result);
-                await setHubConnection(HubConnection(GetMessage));
-
+                 endpoint === 'login'? setUser(result[0]): setUser(result);
                 //might need to be outside of current try/catch to separate from login error
                 await GetChats(endpoint === 'login'?result[0].userId : result.userId);
+                await ConnectAndSetHubToState();
             }
             return 'ok';
         }
@@ -125,6 +113,11 @@ function App() {
             throw err;
         }
     }
+
+    const ConnectAndSetHubToState = async () =>{
+        let hub = await createHubConnection(setUser,updateChats);
+        await setHubConnection(hub);
+    };
 
     //Function that uses a closure(google it)
     //after determining chat data, renders a new message + sends it to the server on the next invoke
@@ -135,9 +128,7 @@ function App() {
         return function (msgText) {
             updateChats(prevState => {
             let updatedChat = Object.assign([],prevState[l_chatIndex]);
-             hubConnection.then(hubC=>{
-                    hubC.invoke('SendDirectMessage',user.userId,l_chatId,msgText).catch(err=>console.log(err));
-             });
+            hubConnection.invoke('SendDirectMessage',user.userId,l_chatId,msgText).catch(err=>console.log(err));
             updatedChat.msg.push(new Message({id:0,message:msgText}));
             return Object.assign([],prevState,updatedChat);
         })
@@ -151,6 +142,7 @@ function App() {
         setHubConnection(null);
     };
 
+
     return (
         <Router className = {'rocket'}>
             <Switch>
@@ -158,10 +150,10 @@ function App() {
                     <ChatMain setChats={updateChats} chats={chats} SendMessage={SendMessage} logout={()=>logout()} user={user} createNewChat = {CreateNewChat} fetchLastMessages={fetchLastMessages}/>
                 </Route>
                 <Route path="/register">
-                    <WelcomePage path={'/register'} loginOrRegister={loginOrRegister}/>
+                    <WelcomePage path={'/register'}  loginOrRegister={loginOrRegister}/>
                 </Route>
                 <Route>
-                    <WelcomePage path={'/login'} loginOrRegister={loginOrRegister}/>
+                    <WelcomePage path={'/login'}  loginOrRegister={loginOrRegister}/>
                 </Route>
             </Switch>
         </Router>
