@@ -35,15 +35,26 @@ function ChatMain({user,chats,setChats,SendMessage,logout,createNewChat,fetchLas
     const loadLastMessagesAndSetChatId = (id,index) =>{
         setChatId(id);
         let currentChatsState = Object.assign([],chats);
-        fetchLastMessages(id)
-            .then(messages => {
-                messages.forEach(msg=>{
-                    currentChatsState[index].msg.push(msg);
-                });
-                setChats(currentChatsState);
-                console.log(currentChatsState);
-            })
-            .catch(err=>console.log(err));
+        // works as a pointer (e.g changing this object will change it in the array as well)
+        let currentChat = currentChatsState[index];
+
+        // if there was a preloaded last message remove it
+        // also mark this non-empty! chat as fetched
+        if(currentChat.msg.length === 1){
+            currentChat.msg.pop();
+        }
+        if(!currentChat.lastMessagesAreFetched) {
+            fetchLastMessages(id)
+                .then(messages => {
+                    messages.forEach((msg, i) => {
+                        currentChat.msg.push(msg);
+                    });
+                    currentChat.lastMessagesAreFetched = true;
+                    console.log(currentChatsState);
+                    setChats(currentChatsState);
+                })
+                .catch(err => console.log(err));
+        }
     };
 
     const updAudio = (enable) => {

@@ -11,6 +11,7 @@ import HubConnection from "./Helper/HubConnection";
 import {Message} from "react-chat-ui";
 
 
+
 function App() {
 
     const[user,setUser] = useState(null);
@@ -43,10 +44,11 @@ function App() {
 
                 if(chat.lastMessage) {
                     msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
-                     chatToAdd = {id:chat.chatId, name: chat.friendUserName,msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
+                     chatToAdd = {id:chat.chatId,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
                 }
                 else{
-                    chatToAdd = {id:chat.chatId, name: chat.friendUserName,msg:[]};
+                    // lastMessagesAreFetched value doesn't matter in this case,as the chat is empty and must be updated live time anyway
+                    chatToAdd = {id:chat.chatId,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[]};
                 }
                 chatsToState.push(chatToAdd);
                 console.log(chatsToState);
