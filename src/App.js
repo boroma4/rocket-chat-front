@@ -43,10 +43,10 @@ function App() {
 
                 if(chat.lastMessage) {
                     msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
-                     chatToAdd = {id:chat.chatId, name: 'hardcode',msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
+                     chatToAdd = {id:chat.chatId, name: chat.friendUserName,msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
                 }
                 else{
-                    chatToAdd = {id:chat.chatId, name: 'hardcode',msg:[]};
+                    chatToAdd = {id:chat.chatId, name: chat.friendUserName,msg:[]};
                 }
                 chatsToState.push(chatToAdd);
                 console.log(chatsToState);
