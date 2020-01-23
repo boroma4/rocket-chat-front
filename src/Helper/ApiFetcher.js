@@ -12,10 +12,10 @@ export async function GetAllChatsByUserId(userId) {
 }
 
 //Sends a request to the server and returns an array of messages received from there
-export async function FetchLastMessagesByChatId(chatId,user) {
+export async function FetchLastMessagesByChatId(chatId,user,totalMessages) {
     let messagesToState = [];
     try {
-        let messages = await fetch(`${BackendLink}/api/getlastmessages?chatId=${chatId}`);
+        let messages = await fetch(`${BackendLink}/api/getlastmessages?chatId=${chatId}&totalMessagesLoaded=${totalMessages}`);
         messages = await messages.json();
         await messages.forEach(message =>{
             let msgDisplayId = message.userId === user.userId ? 0 : 1;

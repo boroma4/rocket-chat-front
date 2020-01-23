@@ -103,7 +103,6 @@ function App() {
         setHubConnection(null);
     };
 
-
     return (
         <Router className = {'rocket'}>
             <Switch>

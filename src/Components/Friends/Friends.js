@@ -10,7 +10,7 @@ function Friends({clickOnChat,setChatIndex}) {
     const {chats} = useContext(UserChatsContext);
 
     const handleClick = (id,index) => {
-        clickOnChat(id,index);
+        clickOnChat(id,index,true);
         setChatIndex(index);
     };
     return (

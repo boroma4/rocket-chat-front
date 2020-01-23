@@ -1,4 +1,5 @@
 import {Message} from "react-chat-ui";
+import {FetchLastMessagesByChatId} from "./ApiFetcher";
 
 export function ProcessChats (chats,userId) {
     let chatsToState = [];
@@ -28,4 +29,21 @@ export const FindChatIndexByChatId = (chatId,chatData) =>{
         i++;
     }
     return -1;
+};
+
+export const AddTenMessagesToState = async (id,user,currentChat)=>{
+    try {
+        let messages = await FetchLastMessagesByChatId(id, user, currentChat.msg.length);
+        currentChat.msg.forEach((msg, i) => {
+            messages.push(msg);
+        });
+        currentChat.lastMessagesAreFetched = true;
+        currentChat.msg = [];
+        currentChat.msg = [...messages];
+
+        return currentChat;
+    }
+    catch (e) {
+        throw e;
+    }
 };

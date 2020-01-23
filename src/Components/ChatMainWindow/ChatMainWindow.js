@@ -8,10 +8,13 @@ import {UserChatsContext} from "../../App";
 import '../../App.css';
 import witcher from '../../lol.mp3';
 import drStone from '../../dr_stone_ending.mp3';
-import {FetchLastMessagesByChatId} from "../../Helper/ApiFetcher";
+import {AddTenMessagesToState} from "../../Helper/ProcessData";
+import {ChatFeed} from "react-chat-ui";
+import {findDOMNode} from "react-dom";
 
-//feed model is -> array of object with chatid,person name,array of msgs
-//if msg is sent by client -> msg id has to be 0 (third party UI library works this way)
+
+export const ChatIdIndexContext = React.createContext({chatId:null,chatIndex:null});
+
 
 function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
 
@@ -36,26 +39,25 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
       }
     };
 
-    //Fetches the messages and updates the state of chats
-    const loadLastMessagesAndSetChatId = (id,index) =>{
-        setChatId(id);
+
+        //Fetches the messages and updates the state of chats
+    const LoadTenMessages = (id,index,shouldSetChatId) =>{
+
+        // if should set chat id => method was called when clicking on a chat on the left, else from a chat itself
+        if(shouldSetChatId) setChatId(id);
+
         let currentChatsState = Object.assign([],chats);
         // works as a pointer (e.g changing this object will change it in the array as well)
         let currentChat = currentChatsState[index];
-        // if there was a preloaded last message remove it
-        // also mark this non-empty! chat as fetched
-        //TODO change value from 1 to >0, remove last 10 (up to 10)
-        if(currentChat.msg.length === 1){
-            currentChat.msg.pop();
-        }
-        if(!currentChat.lastMessagesAreFetched) {
-            FetchLastMessagesByChatId(id,user)
-                .then(messages => {
-                    messages.forEach((msg, i) => {
-                        currentChat.msg.push(msg);
-                    });
-                    currentChat.lastMessagesAreFetched = true;
+        if(!currentChat.lastMessagesAreFetched || !shouldSetChatId) {
+            AddTenMessagesToState(id,user,currentChat)
+                .then(newState => {
+                    currentChat = newState;
                     setChats(currentChatsState);
+                })
+                .then( something=>{
+                    const chatWindow = document.getElementsByClassName("chat-history")[0];
+                    chatWindow.scrollTop = 0;
                 })
                 .catch(err => {
                     console.log(err);
@@ -84,7 +86,7 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
                     <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
                         <Settings createNewChat={createNewChat} updateAudio={updAudio} chooseSong={setSong} logout={()=>logout()}/>
                         <div className={'left-content'}>
-                            <Friends clickOnChat={loadLastMessagesAndSetChatId} setChatIndex = {setChatIndex}/>
+                            <Friends clickOnChat={LoadTenMessages} setChatIndex = {setChatIndex}/>
                         </div>
                     </div>
                     <div className='right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '>
@@ -95,7 +97,9 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
                                         ? <div className='tc center col align-self-center'
                                                id={'idle-msg'}>{'Click on a chat to start messaging!'}</div>
                                         : <div className='col'>
-                                            <ChatWindow chatData={chats[chatIndex]} onSend={SendMessage(chatId,chatIndex)}/>
+                                            <ChatIdIndexContext.Provider value = {{chatId,chatIndex}}>
+                                                <ChatWindow loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage(chatId,chatIndex)}/>
+                                            </ChatIdIndexContext.Provider>
                                         </div>
                                     }
                                 </div>
