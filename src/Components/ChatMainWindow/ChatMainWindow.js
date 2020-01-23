@@ -46,6 +46,11 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
         let currentChatsState = Object.assign([],chats);
         // works as a pointer (e.g changing this object will change it in the array as well)
         let currentChat = currentChatsState[index];
+
+        //clear state if received some last messages before clicking on the chat
+        if(!currentChat.lastMessagesAreFetched){
+            currentChat.msg = [];
+        }
         if(!currentChat.lastMessagesAreFetched || !shouldSetChatId) {
             AddTenMessagesToState(id,user,currentChat)
                 .then(newState => {

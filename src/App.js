@@ -48,7 +48,8 @@ function App() {
     }
 
     const CreateNewChat = (chatId,chatName) => {
-        hubConnection.invoke('ChatWithUserWasCreated',user.userId,chatId,{chatId,chatName});
+
+        hubConnection.invoke('ChatWithUserWasCreated',user.userId,chatId,{chatId,chatName:user.userName});
         setChats(prevState => {
             let updatedChat = Object.assign([],prevState);
             updatedChat.push({id:chatId,name:chatName,msg:[]});
