@@ -9,7 +9,7 @@ import './App.css';
 import WelcomePage from "./Components/Welcome/WelcomePage";
 import {createHubConnection} from "./Helper/HubConnection";
 import {Message} from "react-chat-ui";
-import {GetAllChatsByUserId, GetLastMessagesByChatId, TryLoginOrRegister} from "./Helper/ApiFetcher";
+import {GetAllChatsByUserId, TryLoginOrRegister} from "./Helper/ApiFetcher";
 import {ProcessChats} from "./Helper/ProcessData";
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
@@ -35,8 +35,6 @@ function App() {
     // A function to load chats with last message, to be used on login
     //Determines what is going to be displayed on the left side of main chat window
     // Check every chat data received from the backed and renders accordingly
-
-    //TODO pass Name from the backend as well
     async function GetChats(userId)  {
         try {
             let chats = await GetAllChatsByUserId(userId);
@@ -50,6 +48,7 @@ function App() {
     }
 
     const CreateNewChat = (chatId,chatName) => {
+        hubConnection.invoke('ChatWithUserWasCreated',user.userId,chatId,{chatId,chatName});
         setChats(prevState => {
             let updatedChat = Object.assign([],prevState);
             updatedChat.push({id:chatId,name:chatName,msg:[]});
@@ -78,7 +77,7 @@ function App() {
 
     const ConnectAndSetHubToState = async () =>{
         let hub = await createHubConnection(setUser,setChats);
-        await setHubConnection(hub);
+         setHubConnection(hub);
     };
 
     //Function that uses a closure(google it)
@@ -100,6 +99,7 @@ function App() {
     //needed to fix a bug with logout
     const logout = () => {
         setUser(null);
+        hubConnection.stop();
         setHubConnection(null);
     };
 

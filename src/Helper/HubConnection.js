@@ -20,6 +20,20 @@ export  async function createHubConnection (setUser,updateChats) {
             return prev;
         });
 
+        hubConnect.onclose(()=>console.log('I have lef!!'));
+
+        //when getCHat is received, if you are needed user, add an empty chat
+        //TODO add some notification for a receiver
+        hubConnect.on('getChat', (userId,chat)=>{
+            if(loc_user.userId === userId){
+                updateChats(prev=>{
+                    let updatedChat = Object.assign([],prev);
+                    updatedChat.push({id:chat.chatId,name:chat.chatName,msg:[]});
+                    return Object.assign([],updatedChat);
+                });
+            }
+        });
+
         hubConnect.on('sendToAll', (userId,chatId,messageText)=>{
             //can't move the insides of to a different method -> it crashes
             updateChats(prevState => {

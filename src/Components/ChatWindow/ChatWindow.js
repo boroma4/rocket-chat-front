@@ -17,7 +17,7 @@ function ChatWindow({chatData,onSend,loadTen}) {
     };
 
     return (
-        <div>
+        <div id = {'chat-side'}>
             <h4 className='white tc hover-bg-white-40 pointer ' onClick={LoadMoreMessages}>
                 Load more
             </h4>

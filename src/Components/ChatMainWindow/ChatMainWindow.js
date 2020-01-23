@@ -9,8 +9,6 @@ import '../../App.css';
 import witcher from '../../lol.mp3';
 import drStone from '../../dr_stone_ending.mp3';
 import {AddTenMessagesToState} from "../../Helper/ProcessData";
-import {ChatFeed} from "react-chat-ui";
-import {findDOMNode} from "react-dom";
 
 
 export const ChatIdIndexContext = React.createContext({chatId:null,chatIndex:null});
@@ -101,7 +99,7 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
                                         ? <div className='tc center col align-self-center'
                                                id={'idle-msg'}>{'Click on a chat to start messaging!'}</div>
                                         : <div className='col'>
-                                            <ChatIdIndexContext.Provider value = {{chatId,chatIndex}}>
+                                            <ChatIdIndexContext.Provider value = {{chatId,chatIndex}} >
                                                 <ChatWindow loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage(chatId,chatIndex)}/>
                                             </ChatIdIndexContext.Provider>
                                         </div>

@@ -13,3 +13,6 @@
 .footer {
     height: 20vh;
 }
+#chat-side {
+    background: rgba(0,0,0,0.7);
+}

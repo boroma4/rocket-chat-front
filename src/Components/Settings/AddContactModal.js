@@ -4,6 +4,7 @@ import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {FormGroup} from "react-bootstrap";
 import {UserChatsContext} from "../../App";
+import {SendNewChatData} from "../../Helper/ApiFetcher";
 
 
 
@@ -17,12 +18,11 @@ function AddContactModal({show,handleClose,createNewChat}) {
 
     const handleSubmit = (event) => {
         event.preventDefault();
-        fetch(`https://localhost:5001/api/addchat?curUserId=${userId}&emailToAdd=${email}`)
-            .then(res => res.json())
+        SendNewChatData(userId,email)
             .then(res=>{
                 if(res){
                     console.log(res);
-                    createNewChat(res.chatId,res.userName);
+                    createNewChat(res.chatId,res.userName,res.email);
                     handleClose();
                 }
             })

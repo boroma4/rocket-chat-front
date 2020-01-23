@@ -42,3 +42,14 @@ export async function TryLoginOrRegister (loginData,endpoint) {
         throw e;
     }
 }
+
+export async function SendNewChatData (userId,email) {
+    try {
+        let res = await fetch(`${BackendLink}/api/addchat?curUserId=${userId}&emailToAdd=${email}`);
+        res = await res.json();
+        return res;
+
+    } catch (e) {
+        throw e;
+    }
+}
