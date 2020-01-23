@@ -1,9 +1,13 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import './Friends.css'
 import {ThemeProvider,Avatar,Row,ChatList,ChatListItem,Column,Title,Subtitle}
     from '@livechat/ui-kit'
 
-function Friends({chats,clickOnChat,setChatIndex}) {
+import {UserChatsContext} from "../../App";
+
+function Friends({clickOnChat,setChatIndex}) {
+
+    const {chats} = useContext(UserChatsContext);
 
     const handleClick = (id,index) => {
         clickOnChat(id,index);

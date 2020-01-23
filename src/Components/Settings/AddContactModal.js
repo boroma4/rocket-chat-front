@@ -1,17 +1,19 @@
-import React,{useState} from 'react';
+import React, {useContext, useState} from 'react';
 import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {FormGroup} from "react-bootstrap";
-import HubConnection from "../../Helper/HubConnection";
+import {UserChatsContext} from "../../App";
 
 
 
-function AddContactModal({userId,show,handleClose,createNewChat}) {
+function AddContactModal({show,handleClose,createNewChat}) {
 
     const [email, setEmail] = useState("");
     const [error, setError] = useState("");
 
+    const {user} = useContext(UserChatsContext);
+    const userId = user? user.userId : 0;
 
     const handleSubmit = (event) => {
         event.preventDefault();
@@ -26,7 +28,7 @@ function AddContactModal({userId,show,handleClose,createNewChat}) {
             })
             .catch(err=>{
                 console.log(err);
-                setError(error);
+                setError('Failed to add a contact, does this person even exist?');
             });
     };
         //if no error add a new chat in main window

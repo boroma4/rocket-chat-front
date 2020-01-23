@@ -20,7 +20,7 @@ function WelcomePage({loginOrRegister,path}) {
                     </Navbar.Collapse>
                 </Navbar>
                 {path==='/login'
-                    ?<Login loginOrRegister={loginOrRegister}/>
+                    ?<Login  loginOrRegister={loginOrRegister}/>
                     :<Register loginOrRegister={loginOrRegister} />
                 }
 

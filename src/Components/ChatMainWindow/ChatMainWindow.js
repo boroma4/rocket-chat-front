@@ -1,17 +1,22 @@
-import React,{useState,useEffect} from 'react';
-import Friends from "./Components/Friends/Friends";
-import Settings from "./Components/Settings/Settings";
-import ChatWindow from './Components/ChatWindow/ChatWindow'
+import React,{useState,useEffect,useContext} from 'react';
+import Friends from "../Friends/Friends";
+import Settings from "../Settings/Settings";
+import ChatWindow from '../ChatWindow/ChatWindow'
 import {Redirect } from "react-router-dom";
+import {UserChatsContext} from "../../App";
 
-import './App.css';
-import witcher from './lol.mp3';
-import drStone from './dr_stone_ending.mp3';
+import '../../App.css';
+import witcher from '../../lol.mp3';
+import drStone from '../../dr_stone_ending.mp3';
+import {FetchLastMessagesByChatId} from "../../Helper/ApiFetcher";
 
 //feed model is -> array of object with chatid,person name,array of msgs
 //if msg is sent by client -> msg id has to be 0 (third party UI library works this way)
 
-function ChatMain({user,chats,setChats,SendMessage,logout,createNewChat,fetchLastMessages}) {
+function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
+
+    const {user,chats} = useContext(UserChatsContext);
+
 
     const[chatId,setChatId] = useState(-1);
     const[chatIndex,setChatIndex] = useState(0);
@@ -37,23 +42,25 @@ function ChatMain({user,chats,setChats,SendMessage,logout,createNewChat,fetchLas
         let currentChatsState = Object.assign([],chats);
         // works as a pointer (e.g changing this object will change it in the array as well)
         let currentChat = currentChatsState[index];
-
         // if there was a preloaded last message remove it
         // also mark this non-empty! chat as fetched
+        //TODO change value from 1 to >0, remove last 10 (up to 10)
         if(currentChat.msg.length === 1){
             currentChat.msg.pop();
         }
         if(!currentChat.lastMessagesAreFetched) {
-            fetchLastMessages(id)
+            FetchLastMessagesByChatId(id,user)
                 .then(messages => {
                     messages.forEach((msg, i) => {
                         currentChat.msg.push(msg);
                     });
                     currentChat.lastMessagesAreFetched = true;
-                    console.log(currentChatsState);
                     setChats(currentChatsState);
                 })
-                .catch(err => console.log(err));
+                .catch(err => {
+                    console.log(err);
+                    alert('error loading messages');
+                });
         }
     };
 
@@ -61,6 +68,7 @@ function ChatMain({user,chats,setChats,SendMessage,logout,createNewChat,fetchLas
         const a = document.getElementsByTagName("audio")[0];
         enable ? a.play() : a.pause();
     };
+
     useEffect(()=>{
        if(!user){
            setRedirect(true);
@@ -74,9 +82,9 @@ function ChatMain({user,chats,setChats,SendMessage,logout,createNewChat,fetchLas
                 : <div className="row">
                     <audio src={setSongMP3(song)} preload loop/>
                     <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
-                        <Settings createNewChat={createNewChat} userId={user ? user.userId : 0} updateAudio={updAudio} chooseSong={setSong} logout={()=>logout()}/>
+                        <Settings createNewChat={createNewChat} updateAudio={updAudio} chooseSong={setSong} logout={()=>logout()}/>
                         <div className={'left-content'}>
-                            <Friends chats={chats} clickOnChat={loadLastMessagesAndSetChatId} setChatIndex = {setChatIndex}/>
+                            <Friends clickOnChat={loadLastMessagesAndSetChatId} setChatIndex = {setChatIndex}/>
                         </div>
                     </div>
                     <div className='right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '>
@@ -85,8 +93,9 @@ function ChatMain({user,chats,setChats,SendMessage,logout,createNewChat,fetchLas
                                 <div className="row">
                                     {chatId === -1
                                         ? <div className='tc center col align-self-center'
-                                               id={'idle-msg'}>{'Chat is being developed,stay tuned.'}</div>
-                                        : <div className='col'><ChatWindow chatData={chats[chatIndex]} onSend={SendMessage(chatId,chatIndex)}/>
+                                               id={'idle-msg'}>{'Click on a chat to start messaging!'}</div>
+                                        : <div className='col'>
+                                            <ChatWindow chatData={chats[chatIndex]} onSend={SendMessage(chatId,chatIndex)}/>
                                         </div>
                                     }
                                 </div>
@@ -98,4 +107,4 @@ function ChatMain({user,chats,setChats,SendMessage,logout,createNewChat,fetchLas
         </>
   );
 }
-export default ChatMain;
+export default ChatMainWindow;
