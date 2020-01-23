@@ -33,7 +33,7 @@ export default function Login({loginOrRegister}) {
         catch(error) {
             setTimeout(() => {
                     setIsConnecting(false);
-                    console.log(error.toString());
+                    console.log();
                     if(error.toString().includes('Failed to fetch')){
                         setError('No response from the server')
                     }else {
