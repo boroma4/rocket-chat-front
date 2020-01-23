@@ -31,10 +31,14 @@ export default function Login({loginOrRegister}) {
             await (setSuccess(true));
         }
         catch(error) {
-            console.log(error);
             setTimeout(() => {
-                setIsConnecting(false);
-                setError('Invalid email or password');
+                    setIsConnecting(false);
+                    console.log(error.toString());
+                    if(error.toString().includes('Failed to fetch')){
+                        setError('No response from the server')
+                    }else {
+                        setError(error.status === 500 ? 'Server error, try again later':  'Invalid email or password');
+                    }
                 }, 1000);
         }
     }

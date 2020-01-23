@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import ChatMainWindow from "./Components/ChatMainWindow/ChatMainWindow";
 import {
     BrowserRouter as Router,

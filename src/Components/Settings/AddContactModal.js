@@ -27,8 +27,11 @@ function AddContactModal({show,handleClose,createNewChat}) {
                 }
             })
             .catch(err=>{
-                console.log(err);
-                setError('Failed to add a contact, does this person even exist?');
+                if(err.toString().includes('Failed to fetch')){
+                    setError('No response from the server')
+                }else {
+                    setError(err.status === 500 ? 'Server error, try again later':  'Invalid email or password');
+                }
             });
     };
         //if no error add a new chat in main window

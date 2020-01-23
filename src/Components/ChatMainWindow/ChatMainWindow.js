@@ -37,8 +37,6 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
       }
     };
 
-
-
         //Fetches the messages and updates the state of chats
     const LoadTenMessages = (id,index,shouldSetChatId) =>{
 

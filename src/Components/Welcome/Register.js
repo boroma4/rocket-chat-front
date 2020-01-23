@@ -25,13 +25,17 @@ export default function Register({loginOrRegister}) {
         setIsConnecting(true);
         setTimeout(()=>console.log(),1000);
         try {
-            let awaiter =  await loginOrRegister({username:name,email, password}, 'register');
+            await loginOrRegister({username:name,email, password}, 'register');
             await (setSuccess(true));
         }
         catch(error) {
             setTimeout(() => {
                 setIsConnecting(false);
-                setError('Email already in use');
+                if(error.toString().includes('Failed to fetch')){
+                    setError('No response from the server')
+                }else {
+                    setError(error.status === 500? 'Server error, try again later':  'Invalid email or password');
+                }
             }, 1000);
         }
     }
