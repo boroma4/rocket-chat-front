@@ -22,7 +22,7 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
 
 
     const[chatId,setChatId] = useState(-1);
-    const[chatIndex,setChatIndex] = useState(0);
+    const[chatIndex,setChatIndex] = useState(-1);
     const[song,setSong] = useState(null);
     const[redirect,setRedirect] = useState(false);
 
@@ -38,6 +38,7 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
               return;
       }
     };
+
 
 
         //Fetches the messages and updates the state of chats
@@ -86,8 +87,11 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
                     <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
                         <Settings createNewChat={createNewChat} updateAudio={updAudio} chooseSong={setSong} logout={()=>logout()}/>
                         <div className={'left-content'}>
+                        <ChatIdIndexContext.Provider value = {{chatId,chatIndex}}>
                             <Friends clickOnChat={LoadTenMessages} setChatIndex = {setChatIndex}/>
-                        </div>
+                        </ChatIdIndexContext.Provider>
+
+                </div>
                     </div>
                     <div className='right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '>
                         <div>

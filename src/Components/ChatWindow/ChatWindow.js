@@ -18,8 +18,8 @@ function ChatWindow({chatData,onSend,loadTen}) {
 
     return (
         <div>
-            <h4 className='white tc ' onClick={LoadMoreMessages}>
-                Click to load more messages
+            <h4 className='white tc hover-bg-white-40 pointer ' onClick={LoadMoreMessages}>
+                Load more
             </h4>
             <ChatFeed
                 ClassName ={'feed'}
