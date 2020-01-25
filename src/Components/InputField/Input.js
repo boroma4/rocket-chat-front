@@ -3,7 +3,7 @@ import {ThemeProvider,TextComposer,Row,IconButton,AddIcon,TextInput,EmojiIcon,Se
     from '@livechat/ui-kit';
 //import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 //import Popover from "react-bootstrap/Popover";
-//import Picker from 'emoji-picker-react';
+import Picker from 'emoji-picker-react';
 
 
 function Input({onSendClick,showEmoji,emojiSeen}) {
