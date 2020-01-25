@@ -34,7 +34,7 @@ export default function Register({loginOrRegister}) {
                 if(error.toString().includes('Failed to fetch')){
                     setError('No response from the server')
                 }else {
-                    setError(error.status === 500? 'Server error, try again later':  'Invalid email or password');
+                    setError(error);
                 }
             }, 1000);
         }
@@ -74,7 +74,7 @@ export default function Register({loginOrRegister}) {
                                 />
                             </FormGroup>
                             {error
-                                ? <FormGroup className='tc'>
+                                ? <FormGroup>
                                     <div className='tc dark-red'>{error}</div>
                                 </FormGroup>
                                 : <></>

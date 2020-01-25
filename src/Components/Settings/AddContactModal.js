@@ -21,7 +21,6 @@ function AddContactModal({show,handleClose,createNewChat}) {
         SendNewChatData(userId,email)
             .then(res=>{
                 if(res){
-                    console.log(res);
                     createNewChat(res.chatId,res.userName,res.email);
                     handleClose();
                 }
@@ -30,7 +29,7 @@ function AddContactModal({show,handleClose,createNewChat}) {
                 if(err.toString().includes('Failed to fetch')){
                     setError('No response from the server')
                 }else {
-                    setError(err.status === 500 ? 'Server error, try again later':  'Invalid email or password');
+                    setError(err);
                 }
             });
     };
@@ -51,8 +50,8 @@ function AddContactModal({show,handleClose,createNewChat}) {
                             </Form.Text>
                         </Form.Group>
                         {error
-                            ? <FormGroup className='tc'>
-                                <div className='tc dark-red'>{error}</div>
+                            ? <FormGroup>
+                                <div className='dark-red'>{error}</div>
                             </FormGroup>
                             : <></>
                         }

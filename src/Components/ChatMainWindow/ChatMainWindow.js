@@ -47,8 +47,10 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
         // works as a pointer (e.g changing this object will change it in the array as well)
         let currentChat = currentChatsState[index];
 
-        //clear state if received less than 10 live messages before clicking on the chat
-        //else consider this chat messages as fetched
+        //if there are more than 10 messages in the chat already, don't load new on first click
+        if(!currentChat.lastMessagesAreFetched && currentChat.msg.length >= 10){
+            currentChat.lastMessagesAreFetched = true;
+        }
 
         //fetch only if it is first click on chat or when more messages are requested from chat + chat has more than 10 messages already
         if(!currentChat.lastMessagesAreFetched || (!shouldSetChatId && currentChat.msg.length > 10)) {

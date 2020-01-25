@@ -36,7 +36,9 @@ export async function TryLoginOrRegister (loginData,endpoint) {
             headers: {'Content-type': 'application/json'},
             body: JSON.stringify(loginData)
         });
+        let status = result.status;
         result = await result.json();
+        CheckForResponseCodeAndThrow(status,result.text);
         return result;
     } catch (e) {
         throw e;
@@ -46,10 +48,23 @@ export async function TryLoginOrRegister (loginData,endpoint) {
 export async function SendNewChatData (userId,email) {
     try {
         let res = await fetch(`${BackendLink}/api/addchat?curUserId=${userId}&emailToAdd=${email}`);
+        let status = res.status;
         res = await res.json();
+        CheckForResponseCodeAndThrow(status,res.text);
         return res;
 
     } catch (e) {
         throw e;
+    }
+}
+
+function CheckForResponseCodeAndThrow(code,error){
+    switch (code) {
+        case 400:
+            throw error;
+        case 500:
+            throw 'Server error,try again later';
+        default:
+            break;
     }
 }
