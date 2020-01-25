@@ -10,6 +10,8 @@ function Friends({clickOnChat,setChatIndex}) {
 
     const {chats} = useContext(UserChatsContext);
     const {chatIndex} = useContext(MainChatWindowContext);
+    const {isMobile} = useContext(MainChatWindowContext);
+
 
     const unSelected = {
         margin: '2px',
@@ -33,7 +35,7 @@ function Friends({clickOnChat,setChatIndex}) {
             <ChatList>
             {chats.map((chat,index) =>(
                 <div onClick={()=>handleClick(chat.id,index)} key = {chat.id} >
-                    <ChatListItem style = {index === chatIndex? selected :unSelected } >
+                    <ChatListItem style = {(index === chatIndex && !isMobile) ? selected :unSelected } >
                         <Avatar letter= {chat.name.charAt(0)} style={{color: 'black !important'}}/>
                         <Column>
                             <Row justify>
