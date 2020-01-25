@@ -1,5 +1,5 @@
 import React, {useContext} from 'react';
-import {MainChatWindowContext} from "./ChatMainWindow";
+import {MainChatWindowContext} from "./MainAppWindow";
 import Settings from "../Settings/Settings";
 import Friends from "../Friends/Friends";
 

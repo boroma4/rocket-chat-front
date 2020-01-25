@@ -62,8 +62,10 @@ function CheckForResponseCodeAndThrow(code,error){
     switch (code) {
         case 400:
             throw error;
-        case 500:
+        case 500 :
             throw 'Server error,try again later';
+        case 404 :
+            throw'Server error,try again later';
         default:
             break;
     }
