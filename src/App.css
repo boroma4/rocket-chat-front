@@ -32,8 +32,9 @@ body{
 .lc-1j8di50 {
   border: 2px solid black !important;
   margin: 2px;
-  background-color: lightgrey!important;
+  background-color: lightgrey !important;
 }
+
 #idle-msg{
   color: white;
   background-color: #1b1e21;

@@ -13,7 +13,8 @@ function Friends({clickOnChat,setChatIndex}) {
 
     const unSelected = {
         margin: '2px',
-        backgroundColor: 'lightgrey'
+        backgroundColor: '#383838',
+        color: 'white'
 };
     const selected = {
         margin: '0px ',
