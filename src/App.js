@@ -13,6 +13,8 @@ import {GetAllChatsByUserId, TryLoginOrRegister} from "./Helper/ApiFetcher";
 import {ProcessChats} from "./Helper/ProcessData";
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
+export const NotificationContext = React.createContext({notificationBody:null,notificationHeader:null});
+
 
 
 
@@ -20,6 +22,7 @@ function App() {
 
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
+    const[notification,setNotification] = useState({notificationBody:null,notificationHeader:null});
 
     //CHATS STATE USED TO BE LIKE DIS
     // {id:100,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
@@ -77,7 +80,7 @@ function App() {
     }
 
     const ConnectAndSetHubToState = async () =>{
-        let hub = await createHubConnection(setUser,setChats);
+        let hub = await createHubConnection(setUser,setChats,setNotification);
          setHubConnection(hub);
     };
 
@@ -109,7 +112,9 @@ function App() {
             <Switch>
                 <Route path="/app">
                     <UserChatsContext.Provider value={{user,chats}}>
-                        <ChatMainWindow setChats={setChats} SendMessage={SendMessage} logout={()=>logout()} createNewChat = {CreateNewChat}/>
+                        <NotificationContext.Provider value={notification}>
+                            <ChatMainWindow setNotification={setNotification} setChats={setChats} SendMessage={SendMessage} logout={()=>logout()} createNewChat = {CreateNewChat}/>
+                        </NotificationContext.Provider>
                     </UserChatsContext.Provider>
                 </Route>
                 <Route path="/register">

@@ -3,7 +3,8 @@ import Friends from "../Friends/Friends";
 import Settings from "../Settings/Settings";
 import ChatWindow from '../ChatWindow/ChatWindow'
 import {Redirect } from "react-router-dom";
-import {UserChatsContext} from "../../App";
+import {NotificationContext, UserChatsContext} from "../../App";
+import Alert from "react-bootstrap/Alert";
 
 import '../../App.css';
 import witcher from '../../lol.mp3';
@@ -14,9 +15,10 @@ import {AddTenMessagesToState} from "../../Helper/ProcessData";
 export const ChatIdIndexContext = React.createContext({chatId:null,chatIndex:null});
 
 
-function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
+function ChatMainWindow({setChats,SendMessage,logout,createNewChat,setNotification}) {
 
     const {user,chats} = useContext(UserChatsContext);
+    const {notificationBody,notificationHeader} = useContext(NotificationContext);
 
 
     const[chatId,setChatId] = useState(-1);
@@ -99,6 +101,13 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat}) {
                     <div className='right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '>
                         <div>
                             <div className="container">
+                                {
+                                    notificationHeader
+                                        ? < Alert variant="dark" onClose={() => setNotification({}) } dismissible>
+                                            {`${notificationHeader}!  ${notificationBody}`}
+                                        </Alert>
+                                        : <div/>
+                                }
                                 <div className="row">
                                     {chatId === -1
                                         ? <div className='tc center col align-self-center'

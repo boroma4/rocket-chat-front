@@ -4,7 +4,7 @@ import {FindChatIndexByChatId} from "./ProcessData";
 import {BackendLink} from "../Constants/Const";
 
 //very very hacky
-export  async function createHubConnection (setUser,updateChats) {
+export  async function createHubConnection (setUser,updateChats,setNotification) {
     // Build new Hub Connection, url is currently hard coded.
     const hubConnect = new HubConnectionBuilder()
         .withUrl(`${BackendLink}/chat`)
@@ -31,6 +31,7 @@ export  async function createHubConnection (setUser,updateChats) {
                     updatedChat.push({id:chat.chatId,name:chat.chatName,msg:[]});
                     return Object.assign([],updatedChat);
                 });
+                setNotification({notificationHeader: 'New Chat',notificationBody: `${chat.chatName} created a chat with you!`})
             }
         });
 

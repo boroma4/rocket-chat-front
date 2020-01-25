@@ -1,5 +1,6 @@
 import React from 'react';
 import Navbar from "react-bootstrap/Navbar";
+import Alert from "react-bootstrap/Alert";
 import Nav from "react-bootstrap/Nav";
 import Login from "./Login";
 import Register from "./Register";
@@ -10,7 +11,7 @@ function WelcomePage({loginOrRegister,path}) {
     return (
         <div >
                 <Navbar bg="dark" variant={'dark'} expand="lg">
-                    <Navbar.Brand >Rocket-Chat</Navbar.Brand>
+                    <Navbar.Brand >Rocket-Chat v0.1 BETA</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto">
@@ -19,6 +20,9 @@ function WelcomePage({loginOrRegister,path}) {
                         </Nav>
                     </Navbar.Collapse>
                 </Navbar>
+            <Alert  variant={'warning'} className={'tc'}>
+                During the beta, please don't use your real email and don't send important messages over the chat!
+            </Alert>
                 {path==='/login'
                     ?<Login  loginOrRegister={loginOrRegister}/>
                     :<Register loginOrRegister={loginOrRegister} />
