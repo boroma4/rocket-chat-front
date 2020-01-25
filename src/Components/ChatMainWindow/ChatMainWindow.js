@@ -1,28 +1,27 @@
 import React,{useState,useEffect,useContext} from 'react';
 import Friends from "../Friends/Friends";
 import Settings from "../Settings/Settings";
-import ChatWindow from '../ChatWindow/ChatWindow'
 import {Redirect } from "react-router-dom";
-import {NotificationContext, UserChatsContext} from "../../App";
-import Alert from "react-bootstrap/Alert";
+import {UserChatsContext} from "../../App";
 import SwitchToMobileModal from "./SwitchToMobileModal";
+
 import '../../App.css';
 import witcher from '../../lol.mp3';
 import drStone from '../../dr_stone_ending.mp3';
 import {AddTenMessagesToState} from "../../Helper/ProcessData";
 import useMobileDetect from 'use-mobile-detect-hook';
+import LeftPart from "./ScreenWithFriends";
+import RightPart from "./ScreenWithChats";
 
 
 
-export const ChatIdIndexContext = React.createContext({chatId:null,chatIndex:null});
-export const IsMobileContext = React.createContext(false);
+export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:null,isMobile:false});
 
 
 
 function ChatMainWindow({setChats,SendMessage,logout,createNewChat,setNotification}) {
 
     const {user,chats} = useContext(UserChatsContext);
-    const {notificationBody,notificationHeader} = useContext(NotificationContext);
     const detectMobile = useMobileDetect();
 
     const[chatId,setChatId] = useState(-1);
@@ -30,6 +29,7 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat,setNotificati
     const[song,setSong] = useState(null);
     const[redirect,setRedirect] = useState(false);
     const[isMobile,setIsMobile] = useState(false);
+    const[partToShow,setPartToShow] = useState('left');
 
 
 
@@ -83,6 +83,11 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat,setNotificati
         enable ? a.play() : a.pause();
     };
 
+    const setChatOnMobile = (index) =>{
+      setChatIndex(index);
+      setPartToShow('right');
+    };
+
     useEffect(()=>{
        if(!user){
            setRedirect(true);
@@ -91,6 +96,8 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat,setNotificati
 
     return (
         <>
+            <MainChatWindowContext.Provider value = {{chatId,chatIndex,isMobile}} >
+
             {detectMobile.isMobile()
             ?<SwitchToMobileModal setIsMobile={setIsMobile}/>
                 :<div/>}
@@ -98,41 +105,19 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat,setNotificati
                 ? <Redirect to ={'/'}/>
                 : <div className="row">
                     <audio src={setSongMP3(song)} preload loop/>
-                    <div className='left-side col-4 col-sm-4 col-md-4 col-lg-2 col-xl-2'>
-                        <Settings createNewChat={createNewChat} updateAudio={updAudio} chooseSong={setSong} logout={()=>logout()}/>
-                        <div className={'left-content'}>
-                        <ChatIdIndexContext.Provider value = {{chatId,chatIndex}}>
-                            <Friends clickOnChat={LoadTenMessages} setChatIndex = {setChatIndex}/>
-                        </ChatIdIndexContext.Provider>
-
-                </div>
-                    </div>
-                    <div className='right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '>
-                        <div>
-                            <div className="container">
-                                {
-                                    notificationHeader
-                                        ? < Alert variant="dark" onClose={() => setNotification({}) } dismissible>
-                                            {`${notificationHeader}!  ${notificationBody}`}
-                                        </Alert>
-                                        : <div/>
-                                }
-                                <div className="row">
-                                    {chatId === -1
-                                        ? <div className='tc center col align-self-center'
-                                               id={'idle-msg'}>{'Click on a chat to start messaging!'}</div>
-                                        : <div className='col'>
-                                            <ChatIdIndexContext.Provider value = {{chatId,chatIndex}} >
-                                                <ChatWindow loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage(chatId,chatIndex)}/>
-                                            </ChatIdIndexContext.Provider>
-                                        </div>
-                                    }
-                                </div>
-                            </div>
-                        </div>
-                    </div>
+                    {isMobile
+                        ?
+                        partToShow === 'left'
+                            ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio}/>
+                            :<RightPart setNotification={setNotification} LoadTenMessages={LoadTenMessages} SendMessage={SendMessage} GoBack = {setPartToShow} />
+                        : <>
+                         <LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio}/>
+                         <RightPart setNotification={setNotification} LoadTenMessages={LoadTenMessages} SendMessage={SendMessage} />
+                         </>
+                    }
                 </div>
             }
+            </MainChatWindowContext.Provider>
         </>
   );
 }

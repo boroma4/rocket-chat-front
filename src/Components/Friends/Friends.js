@@ -4,12 +4,12 @@ import {ThemeProvider,Avatar,Row,ChatList,ChatListItem,Column,Title,Subtitle}
     from '@livechat/ui-kit';
 
 import {UserChatsContext} from "../../App";
-import {ChatIdIndexContext} from "../ChatMainWindow/ChatMainWindow";
+import {MainChatWindowContext} from "../ChatMainWindow/ChatMainWindow";
 
 function Friends({clickOnChat,setChatIndex}) {
 
     const {chats} = useContext(UserChatsContext);
-    const {chatIndex} = useContext(ChatIdIndexContext);
+    const {chatIndex} = useContext(MainChatWindowContext);
 
     const unSelected = {
         margin: '2px',
