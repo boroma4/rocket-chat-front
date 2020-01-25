@@ -50,6 +50,10 @@ export const AddTenMessagesToState = async (id,user,currentChat)=>{
 
 /**
  * @return {boolean}
+ *
+ * fails as this message is already added on send, for now either second client will get only one message if first one is spamming the same text
+ * or messages will be duplicated for the first client
+ * need proper message id to fix this
  */
  export function CheckLastMessagesForCertainText(messagesArray,textToFind){
      //check if there were any messages before, else no duplicate
