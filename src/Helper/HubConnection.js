@@ -1,6 +1,6 @@
 import {HubConnectionBuilder} from "@aspnet/signalr";
 import {Message} from "react-chat-ui";
-import {FindChatIndexByChatId} from "./ProcessData";
+import {FindChatIndexByChatId,CheckLastMessagesForCertainText} from "./ProcessData";
 import {BackendLink} from "../Constants/Const";
 
 //very very hacky
@@ -39,11 +39,21 @@ export  async function createHubConnection (setUser,updateChats) {
             updateChats(prevState => {
                 // index where the chat is located for current client
                 const neededChatIndex = FindChatIndexByChatId(chatId,prevState);
+                //if user sent a message, but maybe has another client open, we check for last message
                 // update state if the user has chat with this id and didnt send the message himself
-                if(neededChatIndex !== -1 && loc_user.userId !== userId){
-                    let updatedChats = Object.assign([],prevState);
-                    updatedChats[neededChatIndex].msg.push(new Message({id:1,message:messageText}));
-                    return updatedChats;
+                if(neededChatIndex !== -1) {
+
+                    const LastMessageIsTheSame = CheckLastMessagesForCertainText( prevState[neededChatIndex].msg, messageText);
+                    const userSentMessageFromOtherDevice = (loc_user.userId === userId && !LastMessageIsTheSame);
+
+                    if ((loc_user.userId !== userId) || userSentMessageFromOtherDevice) {
+                        let updatedChats = Object.assign([], prevState);
+                        updatedChats[neededChatIndex].msg.push(new Message({id: userSentMessageFromOtherDevice ? 0 : 1, message: messageText}));
+                        return updatedChats;
+                    }
+                    else{
+                        return prevState;
+                    }
                 }
                 else{
                     return prevState;

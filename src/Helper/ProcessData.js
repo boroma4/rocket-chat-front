@@ -47,3 +47,27 @@ export const AddTenMessagesToState = async (id,user,currentChat)=>{
         throw e;
     }
 };
+
+/**
+ * @return {boolean}
+ */
+ export function CheckLastMessagesForCertainText(messagesArray,textToFind){
+     //check if there were any messages before, else no duplicate
+     if(messagesArray.length > 0) {
+         // if last msg is the same as the one passed to the function and was sent by current user
+         const lastMessage = messagesArray[messagesArray.length - 1].message;
+
+         if (lastMessage === textToFind && lastMessage.id === 0) {
+             //if there is more than 1 message, check one before,else there is no duplicate
+             if (messagesArray.length > 1) {
+                 const preLastMessage = messagesArray[messagesArray.length - 2].message;
+                 //if the user is spamming the same message, dont count duplicate
+                 return lastMessage !== preLastMessage;
+             }
+             else {
+                 return true;
+             }
+         }
+     }
+    return false;
+}
