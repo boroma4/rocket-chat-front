@@ -7,13 +7,17 @@ body{
 }
 .left-side {
   margin: 0;
+  background-image: url("https://miro.medium.com/max/1280/1*9WeJrBj6pp-qnGjRGg2NUw.png");
+  background-size: cover;
+  background-repeat: no-repeat;
 }
 .left-content{
   height: 100vh;
   overflow-y: auto;
 }
 .right-side {
-  border-left: 4px outset black;
+  border-left: 4px outset #343a40;
+  background: rgba(0,0,0,0.7);
 
 }
 #btn-sett{
@@ -33,4 +37,13 @@ body{
 #idle-msg{
   color: white;
   background-color: #1b1e21;
+}
+
+::-webkit-scrollbar {
+  width: 0;
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgba(251, 255, 253, 0);
 }
