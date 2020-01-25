@@ -31,7 +31,7 @@ function AudioSettingsModal({show,handleClose,updateAudio,chooseSong}) {
     };
     return (
         <>
-        <Modal show={show} onHide={handleClose}>
+        <Modal show={show} onHide={handleClose} centered>
             <Modal.Body>
                 <h3>Audio settings</h3>
                 <h5>Current song</h5>

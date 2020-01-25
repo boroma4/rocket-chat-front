@@ -39,7 +39,7 @@ function AddContactModal({show,handleClose,createNewChat}) {
     };
     return (
         <>
-            <Modal show={show} onHide={handleClose} >
+            <Modal show={show} onHide={handleClose} centered>
                 <Modal.Body>
                     <h3>Add contact </h3>
                     <Form onSubmit={handleSubmit}>

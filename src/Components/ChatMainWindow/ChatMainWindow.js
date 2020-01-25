@@ -5,26 +5,32 @@ import ChatWindow from '../ChatWindow/ChatWindow'
 import {Redirect } from "react-router-dom";
 import {NotificationContext, UserChatsContext} from "../../App";
 import Alert from "react-bootstrap/Alert";
-
+import SwitchToMobileModal from "./SwitchToMobileModal";
 import '../../App.css';
 import witcher from '../../lol.mp3';
 import drStone from '../../dr_stone_ending.mp3';
 import {AddTenMessagesToState} from "../../Helper/ProcessData";
+import useMobileDetect from 'use-mobile-detect-hook';
+
 
 
 export const ChatIdIndexContext = React.createContext({chatId:null,chatIndex:null});
+export const IsMobileContext = React.createContext(false);
+
 
 
 function ChatMainWindow({setChats,SendMessage,logout,createNewChat,setNotification}) {
 
     const {user,chats} = useContext(UserChatsContext);
     const {notificationBody,notificationHeader} = useContext(NotificationContext);
-
+    const detectMobile = useMobileDetect();
 
     const[chatId,setChatId] = useState(-1);
     const[chatIndex,setChatIndex] = useState(-1);
     const[song,setSong] = useState(null);
     const[redirect,setRedirect] = useState(false);
+    const[isMobile,setIsMobile] = useState(false);
+
 
 
 
@@ -80,11 +86,14 @@ function ChatMainWindow({setChats,SendMessage,logout,createNewChat,setNotificati
     useEffect(()=>{
        if(!user){
            setRedirect(true);
-       }
-    }, [user]);
+       };
+    }, [detectMobile, user]);
 
     return (
         <>
+            {detectMobile.isMobile()
+            ?<SwitchToMobileModal setIsMobile={setIsMobile}/>
+                :<div/>}
             {redirect
                 ? <Redirect to ={'/'}/>
                 : <div className="row">
