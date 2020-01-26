@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "88914bb26878478b6ad046de3db12589",
+    "revision": "dd0296f7362b07c062e3a3926f61af48",
     "url": "/rocket-chat-front/index.html"
   },
   {
@@ -8,7 +8,7 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/rocket-chat-front/static/css/2.777f1ffd.chunk.css"
   },
   {
-    "revision": "3e5ba3b9a4bd1ed1d412",
+    "revision": "5137365d8f7f97a7900f",
     "url": "/rocket-chat-front/static/css/main.ec86ceba.chunk.css"
   },
   {
@@ -20,8 +20,8 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/rocket-chat-front/static/js/2.27e46f47.chunk.js.LICENSE"
   },
   {
-    "revision": "3e5ba3b9a4bd1ed1d412",
-    "url": "/rocket-chat-front/static/js/main.67a2ed17.chunk.js"
+    "revision": "5137365d8f7f97a7900f",
+    "url": "/rocket-chat-front/static/js/main.9d06d9da.chunk.js"
   },
   {
     "revision": "3ede5d01a8307bc888bf",
