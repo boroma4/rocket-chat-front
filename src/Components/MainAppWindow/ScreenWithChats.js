@@ -26,7 +26,7 @@ export default function RightPart({setNotification,LoadTenMessages,SendMessage,G
                             ? <div className='tc center col align-self-center'
                                    id={'idle-msg'}>{'Click on a chat to start messaging!'}</div>
                             : <div className='col'>
-                                <ChatWindow loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage(chatIndex,chatIndex)} GoBack = {GoBack}/>
+                                <ChatWindow loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage(chats[chatIndex].id,chatIndex)} GoBack = {GoBack}/>
                             </div>
                         }
                     </div>
