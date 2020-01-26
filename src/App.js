@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MainAppWindow from "./Components/MainAppWindow/MainAppWindow";
 import {
     HashRouter as Router,
@@ -9,7 +9,7 @@ import './App.css';
 import WelcomePage from "./Components/Welcome/WelcomePage";
 import {createHubConnection} from "./Helper/HubConnection";
 import {Message} from "react-chat-ui";
-import {GetAllChatsByUserId, TryLoginOrRegister} from "./Helper/ApiFetcher";
+import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helper/ApiFetcher";
 import {ProcessChats} from "./Helper/ProcessData";
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
@@ -91,24 +91,29 @@ function App() {
         let l_chatId= chatId;
         //invoke 'sendMessage' with chatId most likely
         return function (msgText) {
-                setChats(prevState => {
+            hubConnection.invoke('SendDirectMessage',user.userId,l_chatId,msgText).catch(err=>console.log(err));
+            setChats(prevState => {
                 let updatedChat = Object.assign([],prevState[l_chatIndex]);
-                hubConnection.invoke('SendDirectMessage',user.userId,l_chatId,msgText).catch(err=>console.log(err));
                 updatedChat.msg.push(new Message({id:0,message:msgText}));
                 return Object.assign([],prevState,updatedChat);
             });
         };
     };
 
-    //needed to fix a bug with logout
     const logout = () => {
         setUser(null);
-        hubConnection.stop();
+        hubConnection.invoke('UserWentOfflineOrOnline',false,user.userId)
+            .then(()=>hubConnection.stop())
+            .catch(err=>console.log(err));
         setHubConnection(null);
     };
+    //will happen when the tab is closed, for now will only update the Database
+    useEffect(()=>()=> SetUserOffline(user.userId),[]);
+
+
 
     return (
-        <Router basename={'/rocket-chat-front'} className = {'rocket'}>
+        <Router className = {'rocket'}>
             <Switch>
                 <Route path="/app">
                     <UserChatsContext.Provider value={{user,chats}}>

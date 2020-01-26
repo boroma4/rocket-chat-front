@@ -2,6 +2,7 @@ import React, {useContext} from 'react';
 import './Friends.css';
 import {ThemeProvider,Avatar,Row,ChatList,ChatListItem,Column,Title,Subtitle}
     from '@livechat/ui-kit';
+import 'status-indicator/styles.css'
 
 import {UserChatsContext} from "../../App";
 import {MainChatWindowContext} from "../MainAppWindow/MainAppWindow";
@@ -39,6 +40,10 @@ function Friends({clickOnChat,setChatIndex}) {
                         <Column>
                             <Row justify>
                                 <Title ellipsis>{chat.name}</Title>
+                                <Subtitle nowrap>{chat.isOnline
+                                    ? <status-indicator active ></status-indicator>
+                                    :<status-indicator></status-indicator>}
+                                </Subtitle>
                             </Row>
                             <Subtitle ellipsis>{
                                 chat.msg.length > 0

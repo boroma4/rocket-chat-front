@@ -58,6 +58,15 @@ export async function SendNewChatData (userId,email) {
     }
 }
 
+export function SetUserOffline(userId) {
+    fetch(`${BackendLink}/api/disconnect?userId=${userId}`)
+        .then(res=>{
+            if(res.status === 404){
+                console.log('Couldnt find a user');
+            }
+        });
+}
+
 function CheckForResponseCodeAndThrow(code,error){
     switch (code) {
         case 400:

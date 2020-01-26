@@ -2,6 +2,7 @@ import {HubConnectionBuilder} from "@aspnet/signalr";
 import {Message} from "react-chat-ui";
 import {FindChatIndexByChatId} from "./ProcessData";
 import {BackendLink} from "../Constants/Const";
+import {SetUserOffline} from "./ApiFetcher";
 
 //very very hacky
 export  async function createHubConnection (setUser,updateChats,setNotification) {
@@ -12,15 +13,42 @@ export  async function createHubConnection (setUser,updateChats,setNotification)
     try {
         await hubConnect.start();
         console.log('Connection successful!');
-
         // my fav hack
         let loc_user;
         setUser(prev=>{
             loc_user = prev;
             return prev;
         });
+        //show others u went online
+        await hubConnect.invoke('UserWentOfflineOrOnline',true,loc_user.userId);
 
-        hubConnect.onclose(()=>console.log('I have lef!!'));
+
+        //after socket dies, it sends a request to put user offline in the db
+        hubConnect.onclose(() => {
+            console.log('I lef');
+            SetUserOffline(loc_user.userId);
+        });
+
+        //check if user who came online is not you -> update state
+        hubConnect.on('UserWentOfflineOrOnline',(online,userId,chatIds)=> {
+            updateChats(prev=>{
+                let updatedChat = Object.assign([],prev);
+                if(userId !== loc_user.userId){
+                    // nested loop to check if any chat id matches
+                    prev.forEach(chat=>{
+                        chatIds.forEach(chatid=>{
+                            if(chat.id === chatid){
+                                let index = FindChatIndexByChatId(chat.id,prev);
+                                //put user online/offline depending on that invoke parameter
+                                updatedChat[index].isOnline = online;
+                            }
+                        })
+                        }
+                    )}
+                return updatedChat;
+            })
+        });
+
 
         //when getCHat is received, if you are needed user, add an empty chat
         //TODO add some notification for a receiver
@@ -28,7 +56,7 @@ export  async function createHubConnection (setUser,updateChats,setNotification)
             if(loc_user.userId === userId){
                 updateChats(prev=>{
                     let updatedChat = Object.assign([],prev);
-                    updatedChat.push({id:chat.chatId,name:chat.chatName,msg:[]});
+                    updatedChat.push({id:chat.chatId,isOnline:true,name:chat.chatName,msg:[]});
                     return Object.assign([],updatedChat);
                 });
                 setNotification({notificationHeader: 'New Chat',notificationBody: `${chat.chatName} created a chat with you!`})
