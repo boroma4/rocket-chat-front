@@ -1,15 +1,15 @@
 {
   "files": {
     "main.css": "/rocket-chat-front/static/css/main.ec86ceba.chunk.css",
-    "main.js": "/rocket-chat-front/static/js/main.d0ab082a.chunk.js",
-    "main.js.map": "/rocket-chat-front/static/js/main.d0ab082a.chunk.js.map",
+    "main.js": "/rocket-chat-front/static/js/main.86a02692.chunk.js",
+    "main.js.map": "/rocket-chat-front/static/js/main.86a02692.chunk.js.map",
     "runtime-main.js": "/rocket-chat-front/static/js/runtime-main.75f31567.js",
     "runtime-main.js.map": "/rocket-chat-front/static/js/runtime-main.75f31567.js.map",
     "static/css/2.777f1ffd.chunk.css": "/rocket-chat-front/static/css/2.777f1ffd.chunk.css",
     "static/js/2.27e46f47.chunk.js": "/rocket-chat-front/static/js/2.27e46f47.chunk.js",
     "static/js/2.27e46f47.chunk.js.map": "/rocket-chat-front/static/js/2.27e46f47.chunk.js.map",
     "index.html": "/rocket-chat-front/index.html",
-    "precache-manifest.5a9571317903f5a5f320b8fe68bfe681.js": "/rocket-chat-front/precache-manifest.5a9571317903f5a5f320b8fe68bfe681.js",
+    "precache-manifest.7b0fd74d745bed933532b384b2399cf8.js": "/rocket-chat-front/precache-manifest.7b0fd74d745bed933532b384b2399cf8.js",
     "service-worker.js": "/rocket-chat-front/service-worker.js",
     "static/css/2.777f1ffd.chunk.css.map": "/rocket-chat-front/static/css/2.777f1ffd.chunk.css.map",
     "static/css/main.ec86ceba.chunk.css.map": "/rocket-chat-front/static/css/main.ec86ceba.chunk.css.map",
@@ -22,6 +22,6 @@
     "static/css/2.777f1ffd.chunk.css",
     "static/js/2.27e46f47.chunk.js",
     "static/css/main.ec86ceba.chunk.css",
-    "static/js/main.d0ab082a.chunk.js"
+    "static/js/main.86a02692.chunk.js"
   ]
 }
