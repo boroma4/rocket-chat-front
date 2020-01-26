@@ -17,11 +17,9 @@ function Input({onSendClick,showEmoji,emojiSeen}) {
     };
 
     const onEmojiClick = (event, emojiObject) => {
-        if(emojiObject){
-             inputChange(prevState => prevState + emojiObject.emoji)
-        }
-
+        inputChange(input+emojiObject);
     };
+
     const SendMessageToDatabaseAndScreen = (input) => {
         onSendClick(input);
     };
@@ -42,7 +40,10 @@ function Input({onSendClick,showEmoji,emojiSeen}) {
 
                 <Row verticalAlign="center" justify="left">
                     <IconButton fit>
-                            <EmojiIcon onClick = {()=>showEmoji(!emojiSeen)}/>
+                        <EmojiIcon onClick={ () => {
+                            return (<Picker onEmojiClick={onEmojiClick}/>);
+                        }}/>
+                        <Picker onEmojiClick={onEmojiClick}/>
                     </IconButton>
                 </Row>
             </TextComposer>
