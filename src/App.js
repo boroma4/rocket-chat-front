@@ -1,7 +1,7 @@
 import React, {useState} from 'react';
-import ChatMainWindow from "./Components/ChatMainWindow/ChatMainWindow";
+import MainAppWindow from "./Components/MainAppWindow/MainAppWindow";
 import {
-    BrowserRouter as Router,
+    HashRouter as Router,
     Switch,
     Route,
 } from "react-router-dom";
@@ -108,12 +108,12 @@ function App() {
     };
 
     return (
-        <Router className = {'rocket'}>
+        <Router basename={'/rocket-chat-front'} className = {'rocket'}>
             <Switch>
                 <Route path="/app">
                     <UserChatsContext.Provider value={{user,chats}}>
                         <NotificationContext.Provider value={notification}>
-                            <ChatMainWindow setNotification={setNotification} setChats={setChats} SendMessage={SendMessage} logout={()=>logout()} createNewChat = {CreateNewChat}/>
+                            <MainAppWindow setNotification={setNotification} setChats={setChats} SendMessage={SendMessage} logout={()=>logout()} createNewChat = {CreateNewChat}/>
                         </NotificationContext.Provider>
                     </UserChatsContext.Provider>
                 </Route>

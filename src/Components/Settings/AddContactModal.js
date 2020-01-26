@@ -47,6 +47,7 @@ function AddContactModal({show,handleClose,createNewChat}) {
                             <Form.Label>Email address</Form.Label>
                             <Form.Control type="email" placeholder="Enter email" onChange={(event)=>setEmail(event.target.value)} />
                             <Form.Text className="text-muted">
+                                Add bohdan@rocket.chat / artem@rocket.chat to provide feedback or just to chat.
                             </Form.Text>
                         </Form.Group>
                         {error

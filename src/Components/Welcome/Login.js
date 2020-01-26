@@ -75,7 +75,7 @@ export default function Login({loginOrRegister}) {
                         }
 
                         <FormGroup className='tc'>
-                            <a className='tc' href={'/register'}>Not signed up yet?</a>
+                            <a className='tc' href={'/rocket-chat-front/#/register'}>Not signed up yet?</a>
                         </FormGroup>
                         <Button block variant={!validateForm() ? 'secondary' : "primary"}
                                 disabled={!validateForm() || isConnecting} type="submit">

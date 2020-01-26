@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
 import Alert from "react-bootstrap/Alert";
 import ChatWindow from "../ChatWindow/ChatWindow";
-import {MainChatWindowContext} from "./ChatMainWindow";
+import {MainChatWindowContext} from "./MainAppWindow";
 import {NotificationContext, UserChatsContext} from "../../App";
 
 export default function RightPart({setNotification,LoadTenMessages,SendMessage,GoBack}) {
