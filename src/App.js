@@ -107,8 +107,11 @@ function App() {
             .catch(err=>console.log(err));
         setHubConnection(null);
     };
-    //will happen when the tab is closed, for now will only update the Database
-    useEffect(()=>()=> SetUserOffline(user.userId),[]);
+
+    window.addEventListener("beforeunload", function (e) {
+        SetUserOffline(user.userId);
+    });
+
 
 
 
