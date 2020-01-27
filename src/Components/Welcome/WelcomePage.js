@@ -5,8 +5,7 @@ import Nav from "react-bootstrap/Nav";
 import Login from "./Submodules/Login";
 import Register from "./Submodules/Register";
 import './welcome.css';
-import FAQ from "./Submodules/FAQ";
-import ReleaseNotes from "./Submodules/ReleaseNotes";
+import FAQorReleaseInfo from "./Submodules/FAQorReleaseInfo";
 
 function WelcomePage({loginOrRegister,path}) {
 
@@ -33,8 +32,8 @@ function WelcomePage({loginOrRegister,path}) {
                 {
                     '/login': <Login loginOrRegister={loginOrRegister}/>,
                     '/register': <Register loginOrRegister={loginOrRegister}/>,
-                    '/faq':<FAQ/>,
-                    '/release':<ReleaseNotes/>
+                    '/faq':<FAQorReleaseInfo isFAQ={true}/>,
+                    '/release':<FAQorReleaseInfo isFAQ={false}/>
                 }[path]
             }
 
