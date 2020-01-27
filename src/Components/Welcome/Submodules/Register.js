@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
-import './Login.css';
+import '../Login.css';
 import FormLabel from "react-bootstrap/FormLabel";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";

@@ -15,7 +15,7 @@ export default function RightPart({setNotification,LoadTenMessages,SendMessage,G
             <div>
                 <div className="container">
                     {
-                        notificationHeader
+                        notificationHeader && !isMobile
                             ? < Alert variant="dark" onClose={() => setNotification({}) } dismissible>
                                 {`${notificationHeader}!  ${notificationBody}`}
                             </Alert>

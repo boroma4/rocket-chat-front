@@ -30,8 +30,6 @@ function MainAppWindow({setChats,SendMessage,logout,createNewChat,setNotificatio
     const[partToShow,setPartToShow] = useState('left');
 
 
-
-
     const setSongMP3 = (songname) =>{
         switch (songname) {
             case 'witcher':
@@ -106,7 +104,7 @@ function MainAppWindow({setChats,SendMessage,logout,createNewChat,setNotificatio
                         {isMobile
                             ?
                             partToShow === 'left'
-                                ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio}/>
+                                ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio} setNotification={setNotification}/>
                                 :<RightPart setNotification={setNotification} LoadTenMessages={LoadTenMessages} SendMessage={SendMessage} GoBack = {setPartToShow} />
                             : <>
                                 <LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio}/>

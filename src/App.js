@@ -128,6 +128,12 @@ function App() {
                 <Route path="/register">
                     <WelcomePage path={'/register'}  loginOrRegister={loginOrRegister}/>
                 </Route>
+                <Route path="/faq">
+                    <WelcomePage path={'/faq'}/>
+                </Route>
+                <Route path="/release">
+                    <WelcomePage path={'/release'}/>
+                </Route>
                 <Route>
                     <WelcomePage path={'/login'}  loginOrRegister={loginOrRegister}/>
                 </Route>
