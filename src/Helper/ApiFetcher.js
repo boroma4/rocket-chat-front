@@ -39,6 +39,7 @@ export async function TryLoginOrRegister (loginData,endpoint) {
         let status = result.status;
         result = await result.json();
         CheckForResponseCodeAndThrow(status,result.text);
+        console.log(result);
         return result;
     } catch (e) {
         throw e;
