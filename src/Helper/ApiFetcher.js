@@ -71,11 +71,11 @@ export function SetUserOffline(userId) {
 function CheckForResponseCodeAndThrow(code,error){
     switch (code) {
         case 400:
-            throw error;
+            throw new Error(error);
         case 500 :
-            throw 'Server error,try again later';
+            throw new Error('Server error,try again later');
         case 404 :
-            throw'Server error,try again later';
+            throw new Error('Server error,try again later');
         default:
             break;
     }

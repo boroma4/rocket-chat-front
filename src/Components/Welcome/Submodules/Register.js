@@ -5,6 +5,7 @@ import FormLabel from "react-bootstrap/FormLabel";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import {Redirect} from "react-router-dom";
+import {PasswordStrLevels} from "../../../Constants/Const";
 
 export default function Register({loginOrRegister}) {
 
@@ -14,14 +15,16 @@ export default function Register({loginOrRegister}) {
     const [isConnecting, setIsConnecting] = useState(false);
     const [error, setError] = useState("");
     const [success,setSuccess] = useState(false);
+    const [passwordStrength,setPasswordStrength] = useState(0);
 
 
     function validateForm() {
-        return email.length > 0 && password.length > 0 && name.length;
+        return email.length > 0 && passwordStrength > 1 && name.length;
     }
 
     async function handleSubmit(event) {
         event.preventDefault();
+
         setIsConnecting(true);
         setTimeout(()=>console.log(),1000);
         try {
@@ -34,11 +37,24 @@ export default function Register({loginOrRegister}) {
                 if(error.toString().includes('Failed to fetch')){
                     setError('No response from the server')
                 }else {
-                    setError(error);
+                    setError(error.message);
                 }
-            }, 1000);
+            }, 500);
         }
     }
+    const checkPassWordStrength = (event) =>{
+        let currentStr = 0;
+        let input = event.target.value;
+
+        if(input.length > 3) currentStr++;
+        if(input.length > 5) currentStr++;
+        //if has a number
+        if(input.match(/\d+/g)) currentStr++;
+
+        setPasswordStrength(currentStr);
+        setPassword(input);
+
+    };
     return (
         <>
             {success
@@ -65,11 +81,12 @@ export default function Register({loginOrRegister}) {
                                     onChange={e => setEmail(e.target.value)}
                                 />
                             </FormGroup>
-                            <FormGroup controlId="password">
+                            <FormGroup controlId="password" >
                                 <FormLabel>Password</FormLabel>
                                 <FormControl
+                                    style = {{borderBottom: `3px solid ${PasswordStrLevels[passwordStrength].color}`}}
                                     value={password}
-                                    onChange={e => setPassword(e.target.value)}
+                                    onChange={checkPassWordStrength}
                                     type="password"
                                 />
                             </FormGroup>

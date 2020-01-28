@@ -1,15 +1,18 @@
-import React,{useState} from 'react';
+import React, {useContext, useState} from 'react';
 import {ThemeProvider,TextComposer,Row,IconButton,AddIcon,TextInput,EmojiIcon,SendButton}
     from '@livechat/ui-kit';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import Picker from 'emoji-picker-react';
 import {Modal} from "react-bootstrap";
+import {MainChatWindowContext} from "../MainAppWindow/MainAppWindow";
 
 
 function Input({onSendClick,showEmoji,emojiSeen}) {
    // const[input,inputChange] = useState('');
     //const [chosenEmoji, setChosenEmoji] = useState(null);
+    const {isMobile} = useContext(MainChatWindowContext);
+
 
     const updField = (event) =>{
         if(event.type === 'change'){
@@ -20,7 +23,6 @@ function Input({onSendClick,showEmoji,emojiSeen}) {
 
     const onEmojiClick = (event, emojiObject) => {
         document.querySelector('.lc-1pj3shq').value+=emojiObject.emoji;
-        //inputChange(input+emojiObject.emoji);
     };
 
     const SendMessageToDatabaseAndScreen = (input) => {
@@ -50,13 +52,17 @@ function Input({onSendClick,showEmoji,emojiSeen}) {
                     <SendButton fit />
                 </Row>
 
-                <Row verticalAlign="center" justify="left">
+
+                {!isMobile
+                ?<Row verticalAlign="center" justify="left">
                     <OverlayTrigger trigger="click" placement="top" overlay={popover}>
                         <IconButton fit>
                             <EmojiIcon onClick={ () => {}}/>
                         </IconButton>
                     </OverlayTrigger>
                 </Row>
+                    :<div style={{height:'45px'}}/>
+                }
             </TextComposer>
         </ThemeProvider>
             </>

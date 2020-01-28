@@ -29,7 +29,7 @@ export default function Login({loginOrRegister}) {
         try {
             let loginStatus = await loginOrRegister({email, password}, 'login');
             if(loginStatus === 'duplicate'){
-                throw 'Please finish another session before starting a new one.'
+                throw new Error('Please finish another session before starting a new one.');
             }
             setSuccess(true);
         }
@@ -39,7 +39,7 @@ export default function Login({loginOrRegister}) {
                     if(error.toString().includes('Failed to fetch')){
                         setError('No response from the server')
                     }else {
-                        setError(error);
+                        setError(error.message);
                     }
                 }, 1000);
         }

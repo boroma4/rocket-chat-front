@@ -10,7 +10,6 @@ export default function SwitchToMobile({setIsMobile}) {
     const [visible, setVisible] = useState(true);
 
     const handleClick = (value) =>{
-        console.log(value);
         setIsMobile((value));
         setVisible(false);
     };

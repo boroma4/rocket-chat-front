@@ -29,7 +29,7 @@ function AddContactModal({show,handleClose,createNewChat}) {
                 if(err.toString().includes('Failed to fetch')){
                     setError('No response from the server')
                 }else {
-                    setError(err);
+                    setError(err.message);
                 }
             });
     };
