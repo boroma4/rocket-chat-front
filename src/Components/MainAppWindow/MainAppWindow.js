@@ -17,7 +17,7 @@ export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:
 
 
 
-function MainAppWindow({setChats,SendMessage,logout,createNewChat,setNotification}) {
+function MainAppWindow({setChats,SendMessage,logout,createNewChat}) {
 
     const {user,chats} = useContext(UserChatsContext);
     const detectMobile = useMobileDetect();
@@ -104,11 +104,11 @@ function MainAppWindow({setChats,SendMessage,logout,createNewChat,setNotificatio
                         {isMobile
                             ?
                             partToShow === 'left'
-                                ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio} setNotification={setNotification}/>
-                                :<RightPart setNotification={setNotification} LoadTenMessages={LoadTenMessages} SendMessage={SendMessage} GoBack = {setPartToShow} />
+                                ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio}/>
+                                :<RightPart  LoadTenMessages={LoadTenMessages} SendMessage={SendMessage} GoBack = {setPartToShow} />
                             : <>
                                 <LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio}/>
-                                <RightPart setNotification={setNotification} LoadTenMessages={LoadTenMessages} SendMessage={SendMessage} />
+                                <RightPart LoadTenMessages={LoadTenMessages} SendMessage={SendMessage} />
                             </>
                         }
                     </div>

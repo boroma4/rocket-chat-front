@@ -5,7 +5,7 @@ import {BackendLink} from "../Constants/Const";
 import {SetUserOffline} from "./ApiFetcher";
 
 //very very hacky
-export  async function createHubConnection (setUser,updateChats,setNotification) {
+export  async function createHubConnection (setUser,updateChats,PopupNotification) {
     // Build new Hub Connection, url is currently hard coded.
     const hubConnect = new HubConnectionBuilder()
         .withUrl(`${BackendLink}/chat`)
@@ -59,7 +59,7 @@ export  async function createHubConnection (setUser,updateChats,setNotification)
                     updatedChat.push({id:chat.chatId,isOnline:true,name:chat.chatName,msg:[]});
                     return Object.assign([],updatedChat);
                 });
-                setNotification({notificationHeader: 'New Chat',notificationBody: `${chat.chatName} created a chat with you!`})
+                PopupNotification(`New chat!\n${chat.chatName} created a chat with you!`,'info');
             }
         });
 

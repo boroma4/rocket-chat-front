@@ -11,18 +11,17 @@ import {createHubConnection} from "./Helper/HubConnection";
 import {Message} from "react-chat-ui";
 import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helper/ApiFetcher";
 import {ProcessChats} from "./Helper/ProcessData";
+import { useToasts,ToastProvider } from 'react-toast-notifications'
+
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
-export const NotificationContext = React.createContext({notificationBody:null,notificationHeader:null});
-
-
-
 
 function App() {
 
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
-    const[notification,setNotification] = useState({notificationBody:null,notificationHeader:null});
+    const { addToast } = useToasts();
+
 
     //CHATS STATE USED TO BE LIKE DIS
     // {id:100,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
@@ -49,6 +48,13 @@ function App() {
             alert('error loading chats')
         }
     }
+
+    const PopUpNotification = (content,appearance) =>{
+        addToast(content, {
+            appearance: appearance,
+            autoDismiss: true,
+        });
+    };
 
     const CreateNewChat = (chatId,chatName) => {
 
@@ -84,7 +90,7 @@ function App() {
     }
 
     const ConnectAndSetHubToState = async () =>{
-        let hub = await createHubConnection(setUser,setChats,setNotification);
+        let hub = await createHubConnection(setUser,setChats,PopUpNotification);
          setHubConnection(hub);
     };
 
@@ -112,37 +118,33 @@ function App() {
         setHubConnection(null);
     };
 
+    //when tab closes
     window.addEventListener("beforeunload", function (e) {
         SetUserOffline(user.userId);
     });
 
-
-
-
     return (
-        <Router className = {'rocket'}>
-            <Switch>
-                <Route path="/app">
-                    <UserChatsContext.Provider value={{user,chats}}>
-                        <NotificationContext.Provider value={notification}>
-                            <MainAppWindow setNotification={setNotification} setChats={setChats} SendMessage={SendMessage} logout={()=>logout()} createNewChat = {CreateNewChat}/>
-                        </NotificationContext.Provider>
-                    </UserChatsContext.Provider>
-                </Route>
-                <Route path="/register">
-                    <WelcomePage path={'/register'}  loginOrRegister={loginOrRegister}/>
-                </Route>
-                <Route path="/faq">
-                    <WelcomePage path={'/faq'}/>
-                </Route>
-                <Route path="/release">
-                    <WelcomePage path={'/release'}/>
-                </Route>
-                <Route>
-                    <WelcomePage path={'/login'}  loginOrRegister={loginOrRegister}/>
-                </Route>
-            </Switch>
-        </Router>
+            <Router className = {'rocket'}>
+                <Switch>
+                    <Route path="/app">
+                        <UserChatsContext.Provider value={{user,chats}}>
+                                <MainAppWindow setChats={setChats} SendMessage={SendMessage} logout={()=>logout()} createNewChat = {CreateNewChat}/>
+                        </UserChatsContext.Provider>
+                    </Route>
+                    <Route path="/register">
+                        <WelcomePage path={'/register'}  loginOrRegister={loginOrRegister}/>
+                    </Route>
+                    <Route path="/faq">
+                        <WelcomePage path={'/faq'}/>
+                    </Route>
+                    <Route path="/release">
+                        <WelcomePage path={'/release'}/>
+                    </Route>
+                    <Route>
+                        <WelcomePage path={'/login'}  loginOrRegister={loginOrRegister}/>
+                    </Route>
+                </Switch>
+            </Router>
         );
 }
 export default App;
