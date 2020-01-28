@@ -66,7 +66,11 @@ function App() {
         try {
             let result = await TryLoginOrRegister(loginData,endpoint);
             if (result) {
-                 endpoint === 'login'? setUser(result[0]): setUser(result);
+                const newUser = endpoint === 'login'? result[0] : result;
+                if(newUser.isOnline){
+                    return 'duplicate';
+                }
+                 setUser(newUser);
                 //might need to be outside of current try/catch to separate from login error
                 await GetChats(endpoint === 'login'?result[0].userId : result.userId);
                 await ConnectAndSetHubToState();

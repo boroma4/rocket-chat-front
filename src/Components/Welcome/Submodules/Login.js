@@ -27,8 +27,11 @@ export default function Login({loginOrRegister}) {
         setIsConnecting(true);
         setTimeout(()=>console.log(),1000);
         try {
-            await loginOrRegister({email, password}, 'login');
-            await (setSuccess(true));
+            let loginStatus = await loginOrRegister({email, password}, 'login');
+            if(loginStatus === 'duplicate'){
+                throw 'Please finish another session before starting a new one.'
+            }
+            setSuccess(true);
         }
         catch(error) {
             setTimeout(() => {
