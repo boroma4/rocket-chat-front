@@ -11,7 +11,7 @@ import {createHubConnection} from "./Helper/HubConnection";
 import {Message} from "react-chat-ui";
 import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helper/ApiFetcher";
 import {ProcessChats} from "./Helper/ProcessData";
-import { useToasts,ToastProvider } from 'react-toast-notifications'
+import {useToasts} from 'react-toast-notifications'
 
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
@@ -72,13 +72,13 @@ function App() {
         try {
             let result = await TryLoginOrRegister(loginData,endpoint);
             if (result) {
-                const newUser = endpoint === 'login'? result[0] : result;
+                const newUser = result;
                 if(newUser.isOnline){
                     return 'duplicate';
                 }
                  setUser(newUser);
                 //might need to be outside of current try/catch to separate from login error
-                await GetChats(endpoint === 'login'?result[0].userId : result.userId);
+                await GetChats(newUser.userId);
                 await ConnectAndSetHubToState();
             }
             return 'ok';
