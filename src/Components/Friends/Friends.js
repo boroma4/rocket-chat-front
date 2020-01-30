@@ -32,7 +32,7 @@ function Friends({clickOnChat,setChatIndex}) {
     };
     return (
         <ThemeProvider>
-            <ChatList>
+            <ChatList className = {'scrollable'}>
             {chats.map((chat,index) =>(
                 <div onClick={()=>handleClick(chat.id,index)} key = {chat.id} >
                     <ChatListItem style = {(index === chatIndex && !isMobile) ? selected :unSelected } >

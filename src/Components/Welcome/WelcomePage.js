@@ -10,7 +10,7 @@ import FAQorReleaseInfo from "./Submodules/FAQorReleaseInfo";
 function WelcomePage({loginOrRegister,path}) {
 
     return (
-        <div >
+        <div className={'welcome-page'} >
                 <Navbar bg="dark" variant={'dark'} expand="lg">
                     <Navbar.Brand >Rocket-Chat v0.2 BETA</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />

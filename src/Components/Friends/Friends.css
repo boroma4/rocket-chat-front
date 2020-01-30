@@ -2,3 +2,8 @@
     margin-bottom: 0;
     margin-left : 5px;
 }
+.scrollable{
+    overflow-y: auto;
+    height: 95vh;
+    max-width: 100vh;
+}

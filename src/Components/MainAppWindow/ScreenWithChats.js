@@ -9,7 +9,7 @@ export default function RightPart({LoadTenMessages,SendMessage,GoBack}) {
     const {chatIndex,isMobile} = useContext(MainChatWindowContext);
 
     return (
-        <div className={ isMobile ? 'left-side col-12' :'right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '}>
+        <div className={ isMobile ? 'right-side col-12' :'right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '}>
             <div>
                 <div className="container">
                     <div className="row">

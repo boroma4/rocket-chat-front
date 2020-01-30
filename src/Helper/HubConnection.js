@@ -126,12 +126,12 @@ async function Reconnect (time,hubConnect,setHub,PopupNotification) {
     let timeout = 3000;
     setTimeout(()=>{
         hubConnect.start()
-            .then(res=>{
+            .then(()=>{
                 setHub(hubConnect);
                 PopupNotification(<OnlineOrOffline online = {true}/>,'success',4000);
                 return true;
             })
-            .catch(err=>{
+            .catch(()=>{
                 if(time < 4) {
                     PopupNotification(<ReconnectionFailed nextTime={timeout * (time+1) / 1000} isLast={false}/>,'warning',timeout * (time+1));
                     Reconnect(time+1,hubConnect,setHub,PopupNotification);

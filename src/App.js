@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useEffect, useState} from 'react';
 import MainAppWindow from "./Components/MainAppWindow/MainAppWindow";
 import {
     HashRouter as Router,
@@ -10,6 +10,7 @@ import WelcomePage from "./Components/Welcome/WelcomePage";
 import {Message} from "react-chat-ui";
 import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helper/ApiFetcher";
 import {ProcessChats} from "./Helper/ProcessData";
+import {ToastProvider} from "react-toast-notifications";
 
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
@@ -38,8 +39,6 @@ function App() {
             alert('error loading chats')
         }
     }
-
-
 
     const CreateNewChat = (chatId,chatName) => {
 
@@ -107,6 +106,7 @@ function App() {
     });
 
     return (
+        <ToastProvider>
             <Router className = {'rocket'}>
                 <Switch>
                     <Route path="/app">
@@ -128,6 +128,7 @@ function App() {
                     </Route>
                 </Switch>
             </Router>
+        </ToastProvider>
         );
 }
 export default App;
