@@ -22,7 +22,7 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
             <div id = {'chat-side'}>
                 {
                     isMobile
-                        ?<div className="container">
+                        ?<div className="container" >
                             <div className="row" style={{maxHeight: '5vh'}}>
                                     <Button type="button" variant='secondary' className="col-2 arrow-back " onClick={()=>GoBack('left')}>
                                         <span className="btn-label">
@@ -33,11 +33,12 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
                                         </span>
                                         Back
                                     </Button>
-                                <div className={'white tc col-10'}>
-                                    <h4 className= 'hover-bg-white-40 pointer' onClick={LoadMoreMessages}>
-                                        Load more
-                                    </h4>
-                                    {chatData.name} is {chatData.isOnline ? ' online' : ' offline'}
+                                <div className='white tc col-10' style={{backgroundColor:'#6c757d'}}>
+                                    <strong className='black'>{chatData.name}</strong> is<span className={chatData.isOnline?'blue':'white'}> {chatData.isOnline ? ' online' : ' offline'}</span>
+
+                                    <h5 className= 'hover-bg-white-40 pointer' onClick={LoadMoreMessages}>
+                                        Load more messages
+                                    </h5>
                                 </div>
                             </div>
                         </div>

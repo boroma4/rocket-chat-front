@@ -20,7 +20,7 @@ function AddContactModal({show,handleClose,createNewChat}) {
         event.preventDefault();
         SendNewChatData(userId,email)
             .then(res=>{
-                if(res){
+                if(res && res.status === 200){
                     createNewChat(res.chatId,res.userName,res.email);
                     handleClose();
                 }
