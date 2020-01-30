@@ -10,6 +10,8 @@ import {AddTenMessagesToState} from "../../Helper/ProcessData";
 import useMobileDetect from 'use-mobile-detect-hook';
 import LeftPart from "./ScreenWithFriends";
 import RightPart from "./ScreenWithChats";
+import {createHubConnection} from "../../Helper/HubConnection";
+import {useToasts} from "react-toast-notifications";
 
 
 
@@ -17,10 +19,12 @@ export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:
 
 
 
-function MainAppWindow({setChats,SendMessage,logout,createNewChat}) {
+const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubConnection})=> {
 
     const {user,chats} = useContext(UserChatsContext);
     const detectMobile = useMobileDetect();
+    const {addToast,removeToast } = useToasts();
+
 
     const[chatId,setChatId] = useState(-1);
     const[chatIndex,setChatIndex] = useState(-1);
@@ -30,6 +34,22 @@ function MainAppWindow({setChats,SendMessage,logout,createNewChat}) {
     const[partToShow,setPartToShow] = useState('left');
 
 
+    useEffect( ()=>{
+            createHubConnection(setUser,setChats,setHubConnection,PopUpNotification,setChatIndex,setChatId)
+                .then(hub=>setHubConnection(hub));
+    },[]);
+
+    //Add toast with desired style and content, remove it after the timeout
+    const PopUpNotification = (content,appearance,removeTimer) =>{
+        addToast(content, {
+                appearance: appearance,
+                autoDismiss: false,
+            },(id)=> {
+                // if timer is more then a minute just keep it there forever, else destroy after timeout
+                if (removeTimer < 60000) setTimeout(() => removeToast(id), removeTimer);
+            }
+        );
+    };
     const setSongMP3 = (songname) =>{
         switch (songname) {
             case 'witcher':
@@ -52,10 +72,9 @@ function MainAppWindow({setChats,SendMessage,logout,createNewChat}) {
         let currentChat = currentChatsState[index];
 
         //if there are more than 10 messages in the chat already, don't load new on first click
-        if(!currentChat.lastMessagesAreFetched && currentChat.msg.length >= 10){
+        if(!currentChat.lastMessagesAreFetched && currentChat.msg.length > 10){
             currentChat.lastMessagesAreFetched = true;
         }
-
         //fetch only if it is first click on chat or when more messages are requested from chat + chat has more than 10 messages already
         if(!currentChat.lastMessagesAreFetched || (!shouldSetChatId && currentChat.msg.length > 10)) {
             AddTenMessagesToState(id,user,currentChat)
@@ -84,10 +103,16 @@ function MainAppWindow({setChats,SendMessage,logout,createNewChat}) {
         setPartToShow('right');
     };
 
+    const SendMessageAndSetIndex = (text) =>{
+      const SendMessageWithChatData = SendMessage(chatId,chatIndex);
+      SendMessageWithChatData(text);
+      setChatIndex(0);
+    };
+
     useEffect(()=>{
         if(!user){
             setRedirect(true);
-        };
+        }
     }, [detectMobile, user]);
 
     return (
@@ -105,10 +130,10 @@ function MainAppWindow({setChats,SendMessage,logout,createNewChat}) {
                             ?
                             partToShow === 'left'
                                 ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio}/>
-                                :<RightPart  LoadTenMessages={LoadTenMessages} SendMessage={SendMessage} GoBack = {setPartToShow} />
+                                :<RightPart  LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} GoBack = {setPartToShow} />
                             : <>
                                 <LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio}/>
-                                <RightPart LoadTenMessages={LoadTenMessages} SendMessage={SendMessage} />
+                                <RightPart LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} />
                             </>
                         }
                     </div>
@@ -116,5 +141,5 @@ function MainAppWindow({setChats,SendMessage,logout,createNewChat}) {
             </MainChatWindowContext.Provider>
         </>
     );
-}
+};
 export default MainAppWindow;

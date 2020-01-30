@@ -7,32 +7,22 @@ import {
 } from "react-router-dom";
 import './App.css';
 import WelcomePage from "./Components/Welcome/WelcomePage";
-import {createHubConnection} from "./Helper/HubConnection";
 import {Message} from "react-chat-ui";
 import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helper/ApiFetcher";
 import {ProcessChats} from "./Helper/ProcessData";
-import {useToasts} from 'react-toast-notifications'
 
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
 
+
 function App() {
 
     const[user,setUser] = useState(null);
-    const[hubConnection,setHubConnection] = useState(null);
-    const { addToast,removeToast } = useToasts();
-
-
-    //CHATS STATE USED TO BE LIKE DIS
-    // {id:100,name:'John',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'lol!',senderName:'John'})]},
-    //         {id:99,name:'Donn',msg:[new Message({id:0,message:'lol'}),new Message({id:1,message:'KEK!',senderName:'Donn'})]}
     const [chats,setChats] = useState([]);
+    const[hubConnection,setHubConnection] = useState(null);
 
-    //A delegate(eto function pls) to return the total number of chats user has.
-    // Chats are dispayed on the left, determine <Friend> elements.
+
     /**********IN DEVELOPMENT***********/
-
-    //TODO refactor this component to creased the amount of lines(maybe)
 
     // A function to load chats with last message, to be used on login
     //Determines what is going to be displayed on the left side of main chat window
@@ -49,17 +39,7 @@ function App() {
         }
     }
 
-    //Add toast with desired style and content, remove it after the timeout
-    const PopUpNotification = (content,appearance,removeTimer) =>{
-        addToast(content, {
-            appearance: appearance,
-            autoDismiss: false,
-        },(id)=> {
-            // if timer is more then a minute just keep it there forever, else destroy after timeout
-            if (removeTimer < 60000) setTimeout(() => removeToast(id), removeTimer);
-            }
-        );
-    };
+
 
     const CreateNewChat = (chatId,chatName) => {
 
@@ -84,7 +64,6 @@ function App() {
                  setUser(newUser);
                 //might need to be outside of current try/catch to separate from login error
                 await GetChats(newUser.userId);
-                await ConnectAndSetHubToState();
             }
             return 'ok';
         }
@@ -94,23 +73,22 @@ function App() {
         }
     }
 
-    const ConnectAndSetHubToState = async () =>{
-        let hub = await createHubConnection(setUser,setChats,setHubConnection,PopUpNotification);
-         setHubConnection(hub);
-    };
-
     //Function that uses a closure(google it)
     //after determining chat data, renders a new message + sends it to the server on the next invoke
     const SendMessage = (chatId,chatIndex) => {
         let l_chatIndex = chatIndex;
-        let l_chatId= chatId;
+        let l_chatId = chatId;
         //invoke 'sendMessage' with chatId most likely
         return function (msgText) {
             hubConnection.invoke('SendDirectMessage',user.userId,l_chatId,msgText).catch(err=>console.log(err));
             setChats(prevState => {
-                let updatedChat = Object.assign([],prevState[l_chatIndex]);
-                updatedChat.msg.push(new Message({id:0,message:msgText}));
-                return Object.assign([],prevState,updatedChat);
+                let updatedChats = Object.assign([],prevState);
+                const neededChat = updatedChats[l_chatIndex];
+                neededChat.msg.push(new Message({id:0,message:msgText}));
+
+                updatedChats.splice(l_chatIndex, 1);
+                updatedChats.unshift(neededChat);
+                return updatedChats;
             });
         };
     };
@@ -133,7 +111,7 @@ function App() {
                 <Switch>
                     <Route path="/app">
                         <UserChatsContext.Provider value={{user,chats}}>
-                                <MainAppWindow setChats={setChats} SendMessage={SendMessage} logout={()=>logout()} createNewChat = {CreateNewChat}/>
+                            <MainAppWindow setHubConnection={setHubConnection} setUser={setUser} setChats={setChats} SendMessage={SendMessage} logout={()=>logout()} createNewChat = {CreateNewChat}/>
                         </UserChatsContext.Provider>
                     </Route>
                     <Route path="/register">

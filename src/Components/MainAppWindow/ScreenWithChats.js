@@ -17,7 +17,7 @@ export default function RightPart({LoadTenMessages,SendMessage,GoBack}) {
                             ? <div className='tc center col align-self-center'
                                    id={'idle-msg'}>{'Click on a chat to start messaging!'}</div>
                             : <div className='col'>
-                                <ChatWindow loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage(chats[chatIndex].id,chatIndex)} GoBack = {GoBack}/>
+                                <ChatWindow loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage} GoBack = {GoBack}/>
                             </div>
                         }
                     </div>

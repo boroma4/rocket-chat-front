@@ -34,7 +34,7 @@ export const FindChatIndexByChatId = (chatId,chatData) =>{
 export const AddTenMessagesToState = async (id,user,currentChat)=>{
     try {
         let messages = await FetchLastMessagesByChatId(id, user, currentChat.msg.length);
-        currentChat.msg.forEach((msg, i) => {
+        currentChat.msg.forEach((msg) => {
             messages.push(msg);
         });
         currentChat.lastMessagesAreFetched = true;
