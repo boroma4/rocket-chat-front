@@ -20,7 +20,7 @@ function App() {
 
     const[user,setUser] = useState(null);
     const[hubConnection,setHubConnection] = useState(null);
-    const { addToast } = useToasts();
+    const { addToast,removeToast } = useToasts();
 
 
     //CHATS STATE USED TO BE LIKE DIS
@@ -49,11 +49,16 @@ function App() {
         }
     }
 
-    const PopUpNotification = (content,appearance) =>{
+    //Add toast with desired style and content, remove it after the timeout
+    const PopUpNotification = (content,appearance,removeTimer) =>{
         addToast(content, {
             appearance: appearance,
-            autoDismiss: true,
-        });
+            autoDismiss: false,
+        },(id)=> {
+            // if timer is more then a minute just keep it there forever, else destroy after timeout
+            if (removeTimer < 60000) setTimeout(() => removeToast(id), removeTimer);
+            }
+        );
     };
 
     const CreateNewChat = (chatId,chatName) => {
@@ -90,7 +95,7 @@ function App() {
     }
 
     const ConnectAndSetHubToState = async () =>{
-        let hub = await createHubConnection(setUser,setChats,PopUpNotification);
+        let hub = await createHubConnection(setUser,setChats,setHubConnection,PopUpNotification);
          setHubConnection(hub);
     };
 
