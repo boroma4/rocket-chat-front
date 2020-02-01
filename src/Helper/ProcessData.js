@@ -8,14 +8,15 @@ export function ProcessChats (chats,userId) {
         let msgDisplayId,chatToAdd;
         if(chat.lastMessage) {
             msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
-            chatToAdd = {id:chat.chatId,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
+            chatToAdd = {id:chat.chatId,image:chat.friendImageUrl,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
         }
         else{
             // lastMessagesAreFetched value doesn't matter in this case,as the chat is empty and must be updated live time anyway
-            chatToAdd = {id:chat.chatId,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[]};
+            chatToAdd = {id:chat.chatId,image:chat.friendImageUrl,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[]};
         }
         chatsToState.push(chatToAdd);
     });
+    console.log(chatsToState);
     return chatsToState;
 }
 

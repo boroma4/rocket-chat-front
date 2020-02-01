@@ -36,7 +36,11 @@ function Friends({clickOnChat,setChatIndex}) {
             {chats.map((chat,index) =>(
                 <div onClick={()=>handleClick(chat.id,index)} key = {chat.id} >
                     <ChatListItem style = {(index === chatIndex && !isMobile) ? selected :unSelected } >
-                        <Avatar letter= {chat.name.charAt(0)} style={{color: 'black !important'}}/>
+                        {
+                            chat.image
+                                ?<Avatar imgUrl={chat.image}/>
+                                :<Avatar letter= {chat.name.charAt(0)} style={{color: 'black !important'}}/>
+                        }
                         <Column>
                             <Row justify>
                                 <Title ellipsis>{chat.name}</Title>

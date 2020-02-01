@@ -107,7 +107,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
             if(loc_user.userId === userId){
                 setChats(prev=>{
                     let updatedChat = Object.assign([],prev);
-                    updatedChat.push({id:chat.chatId,isOnline:true,name:chat.chatName,msg:[]});
+                    updatedChat.push({id:chat.chatId,image:chat.image,isOnline:true,name:chat.chatName,msg:[]});
                     return Object.assign([],updatedChat);
                 });
                 PopupNotification(<NewChat name={chat.chatName}/>,'info',5000);

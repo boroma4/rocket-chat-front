@@ -40,15 +40,16 @@ function App() {
         }
     }
 
-    const CreateNewChat = (chatId,chatName) => {
-        hubConnection.invoke('ChatWithUserWasCreated',user.userId,chatId,{chatId,chatName:user.userName});
+    const CreateNewChat = (chatId,chatName,friendImageUrl) => {
+        console.log(friendImageUrl);
+        hubConnection.invoke('ChatWithUserWasCreated',user.userId,chatId,{chatId,chatName:user.userName,image:user.imageUrl});
         setChats(prevState => {
             let updatedChat = Object.assign([],prevState);
-            updatedChat.push({id:chatId,name:chatName,msg:[]});
-            console.log(updatedChat);
+            updatedChat.push({id:chatId,image:friendImageUrl,name:chatName,msg:[]});
             return updatedChat;
         })
     };
+
 
     //Function that tries to log in or register based on parameter
     //if successful, starts socket communication and invokes GetChats method defined above

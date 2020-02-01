@@ -21,7 +21,8 @@ function AddContactModal({show,handleClose,createNewChat}) {
         SendNewChatData(userId,email)
             .then(res=>{
                 if(res){
-                    createNewChat(res.chatId,res.userName,res.email);
+                    const {chatId,userName,friendImageUrl} = res;
+                    createNewChat(chatId,userName,friendImageUrl);
                     handleClose();
                 }
             })
