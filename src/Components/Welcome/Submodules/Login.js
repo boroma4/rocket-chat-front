@@ -94,7 +94,7 @@ export default function Login({loginOrRegister}) {
                                     clientId="424517305265-0jh85p18hl9f6l17tqbat3ts7bgauc8j.apps.googleusercontent.com"
                                     buttonText="I am real"
                                     onSuccess={responseGoogle}
-                                    onFailure={()=>setError('Failed to login through Google!')}
+                                    onFailure={()=>setError('Failed to login with Google!')}
                                     cookiePolicy={'single_host_origin'}
                                 />
                             </div>

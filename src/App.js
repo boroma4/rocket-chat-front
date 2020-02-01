@@ -11,6 +11,7 @@ import {Message} from "react-chat-ui";
 import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helper/ApiFetcher";
 import {ProcessChats} from "./Helper/ProcessData";
 import {ToastProvider} from "react-toast-notifications";
+import {gapi} from "gapi-script";
 
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
@@ -97,6 +98,7 @@ function App() {
         setUser(null);
         notifyAboutLogout();
         setHubConnection(null);
+        TryToDoGoogleLogout();
     };
 
     //when tab closes
@@ -111,6 +113,15 @@ function App() {
             .catch(err=>console.log(err));
     };
 
+    const TryToDoGoogleLogout= () => {
+        try{
+            const auth2 = gapi.auth2.getAuthInstance();
+            auth2.signOut().then(auth2.disconnect());
+        }
+        catch (e) {
+            console.log('Not a googler!');
+        }
+    };
 
     return (
         <ToastProvider>

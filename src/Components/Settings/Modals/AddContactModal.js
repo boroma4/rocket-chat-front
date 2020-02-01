@@ -3,8 +3,8 @@ import Modal from "react-bootstrap/Modal";
 import Form from "react-bootstrap/Form";
 import Button from "react-bootstrap/Button";
 import {FormGroup} from "react-bootstrap";
-import {UserChatsContext} from "../../App";
-import {SendNewChatData} from "../../Helper/ApiFetcher";
+import {UserChatsContext} from "../../../App";
+import {SendNewChatData} from "../../../Helper/ApiFetcher";
 
 
 

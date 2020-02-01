@@ -16,7 +16,6 @@ export function ProcessChats (chats,userId) {
         }
         chatsToState.push(chatToAdd);
     });
-    console.log(chatsToState);
     return chatsToState;
 }
 

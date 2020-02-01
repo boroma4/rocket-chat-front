@@ -1,12 +1,13 @@
 import React,{useState} from 'react';
 import Dropdown from "react-bootstrap/Dropdown";
-import AudioSettingsModal from "./AudioSettingsModal";
-import AddContactModal from "./AddContactModal";
+import AudioSettingsModal from "./Modals/AudioSettingsModal";
+import AddContactModal from "./Modals/AddContactModal";
 import {SettingsList} from "../../Constants/Const";
+import MyAccountModal from "./Modals/MyAccountModal";
 
 
 
-function Settings({updateAudio,logout,chooseSong,createNewChat}) {
+function Settings({updateAudio,logout,chooseSong,createNewChat,setUser}) {
     const [modal, setModal] = useState({type:'',seen:false});
 
     const handleClose = () => setModal({type:'',seen:false});
@@ -34,6 +35,7 @@ function Settings({updateAudio,logout,chooseSong,createNewChat}) {
                 {
                     'Add Contact': <AddContactModal show={modal.seen} handleClose={handleClose} createNewChat={createNewChat}/>,
                     'Audio': <AudioSettingsModal show = {modal.seen} handleClose = {handleClose} updateAudio={updateAudio} chooseSong={chooseSong} />,
+                    'My Account' : <MyAccountModal show={modal.seen} handleClose={handleClose} setUser={setUser}/>,
                     'Logout': <></>
                 }[modal.type]
             }

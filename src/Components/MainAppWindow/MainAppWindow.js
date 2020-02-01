@@ -129,10 +129,10 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
                         {isMobile
                             ?
                             partToShow === 'left'
-                                ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio}/>
+                                ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio} setUser={setUser}/>
                                 :<RightPart  LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} GoBack = {setPartToShow} />
                             : <>
-                                <LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio}/>
+                                <LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio} setUser={setUser}/>
                                 <RightPart LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} />
                             </>
                         }
