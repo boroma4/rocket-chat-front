@@ -30,7 +30,6 @@ export async function FetchLastMessagesByChatId(chatId,user,totalMessages) {
 
 export async function TryLoginOrRegister (loginData,endpoint) {
     try {
-        console.log(`${BackendLink}/api/${endpoint}`);
         let result = await fetch(`${BackendLink}/api/${endpoint}`, {
             method: 'post',
             headers: {'Content-type': 'application/json'},
