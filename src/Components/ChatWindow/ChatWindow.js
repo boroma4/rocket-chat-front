@@ -8,7 +8,6 @@ import Button from "react-bootstrap/Button";
 
 
 function ChatWindow({chatData,onSend,loadTen,GoBack}) {
-    const [emojiSeen,showEmoji] = useState(false);
 
     const {chatId,chatIndex,isMobile} = useContext(MainChatWindowContext);
 
@@ -52,12 +51,8 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
                     showSenderName
                     messages = {chatData.msg}
                 />
-                {/*emojiSeen
-                    ?<Picker/>
-                    : <></>
-                */}
                 <footer className={'footer'}>
-                    <Input onSendClick={onSend} showEmoji={showEmoji} emojiSeen={emojiSeen}/>
+                    <Input onSendClick={onSend}/>
                 </footer>
             </div>
     );

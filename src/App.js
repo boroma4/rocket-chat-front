@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import MainAppWindow from "./Components/MainAppWindow/MainAppWindow";
 import {
     HashRouter as Router,
@@ -95,16 +95,22 @@ function App() {
 
     const logout = () => {
         setUser(null);
-        hubConnection.invoke('UserWentOfflineOrOnline',false,user.userId)
-            .then(()=>hubConnection.stop())
-            .catch(err=>console.log(err));
+        notifyAboutLogout();
         setHubConnection(null);
     };
 
     //when tab closes
     window.addEventListener("beforeunload", function (e) {
         SetUserOffline(user.userId);
+        notifyAboutLogout();
     });
+
+    const notifyAboutLogout = () =>{
+        hubConnection.invoke('UserWentOfflineOrOnline',false,user.userId)
+            .then(()=>hubConnection.stop())
+            .catch(err=>console.log(err));
+    };
+
 
     return (
         <ToastProvider>

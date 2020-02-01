@@ -44,10 +44,18 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                 if (l_user) {
                     PopupNotification(<OnlineOrOffline online={false}/>, 'warning', 3000);
                     Reconnect(0,hubConnect,setHub,PopupNotification)
-                        .then(res=>{
-                            if(res) {
-                                //TODO load messages that were missed and add to state
-                            }
+                        .then(()=>{
+                                //TODO load messages that were missed and add to state instead of discarding all
+                                //discard all chats, load them on click
+                                setChatIndex(-1);
+                                setChats(oldChats=>{
+                                    let newChats = [...oldChats];
+                                    newChats.forEach(chat=>{
+                                        chat.msg = [];
+                                        chat.lastMessagesAreFetched = false;
+                                    });
+                                    return newChats;
+                                })
                             })
                         .catch(err=>console.log(err));
                 }}
@@ -61,6 +69,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                 if(neededChatIndex !== -1 && loc_user.userId !== userId){
                     let updatedChats = Object.assign([],prevState);
                     updatedChats[neededChatIndex].msg.push(new Message({id:1,message:messageText}));
+                    updatedChats[neededChatIndex].isOnline = true;
                     const neededChat = updatedChats[neededChatIndex];
                     updatedChats.splice(neededChatIndex, 1);
                     updatedChats.unshift(neededChat);
@@ -129,7 +138,7 @@ async function Reconnect (time,hubConnect,setHub,PopupNotification) {
             .then(()=>{
                 setHub(hubConnect);
                 PopupNotification(<OnlineOrOffline online = {true}/>,'success',4000);
-                return true;
+                return new Promise((resolve,reject) => resolve(true));
             })
             .catch(()=>{
                 if(time < 4) {

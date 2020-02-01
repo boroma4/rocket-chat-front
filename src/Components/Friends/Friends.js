@@ -52,7 +52,7 @@ function Friends({clickOnChat,setChatIndex}) {
                             <Subtitle ellipsis>{
                                 chat.msg.length > 0
                                     ? chat.msg[chat.msg.length-1].message
-                                    : 'Say something '
+                                    : 'Say something'
                                 }
                             </Subtitle>
                         </Column>

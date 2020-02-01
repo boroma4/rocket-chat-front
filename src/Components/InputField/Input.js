@@ -1,23 +1,19 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import {ThemeProvider,TextComposer,Row,IconButton,AddIcon,TextInput,EmojiIcon,SendButton}
     from '@livechat/ui-kit';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import Picker from 'emoji-picker-react';
-import {Modal} from "react-bootstrap";
 import {MainChatWindowContext} from "../MainAppWindow/MainAppWindow";
 
 
-function Input({onSendClick,showEmoji,emojiSeen}) {
-   // const[input,inputChange] = useState('');
-    //const [chosenEmoji, setChosenEmoji] = useState(null);
+function Input({onSendClick}) {
     const {isMobile} = useContext(MainChatWindowContext);
 
 
     const updField = (event) =>{
         if(event.type === 'change'){
             document.querySelector('.lc-1pj3shq').value+=event.type.value;
-           // inputChange(event.target.value);
         }
     };
 
