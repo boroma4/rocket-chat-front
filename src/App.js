@@ -8,8 +8,8 @@ import {
 import './App.css';
 import WelcomePage from "./Components/Welcome/WelcomePage";
 import {Message} from "react-chat-ui";
-import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helper/ApiFetcher";
-import {ProcessChats} from "./Helper/ProcessData";
+import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helpers/ApiFetcher";
+import {ProcessChats} from "./Helpers/ProcessData";
 import {ToastProvider} from "react-toast-notifications";
 import {gapi} from "gapi-script";
 

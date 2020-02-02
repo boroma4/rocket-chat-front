@@ -8,7 +8,7 @@ import {FAQDATA,RELEASEDATA} from "../../../Constants/Const";
 export default function FAQorReleaseInfo({isFAQ}) {
 
     return (
-        <>
+        <div>
             <Tab.Container id="left-tabs-example" defaultActiveKey={isFAQ ? FAQDATA[0].question : RELEASEDATA[0].version }>
                 <Row className = 'bg-black-90 align-content-start'>
                     <Col md={4} lg={4} xl={4} sm={12} xs={12} >
@@ -50,6 +50,6 @@ export default function FAQorReleaseInfo({isFAQ}) {
                     </Col>
                 </Row>
             </Tab.Container>
-        </>
+        </div>
     );
 }

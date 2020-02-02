@@ -1,4 +1,3 @@
-
 export const BackendLink = 'https://localhost:5001';
 
 export const SettingsList = ['Audio','Add Contact','My Account','Logout'];
@@ -15,6 +14,6 @@ export const FAQDATA = [{question:'Q: What do I do here?',answer:'A: You send me
     ];
 
 export const RELEASEDATA = [
-    {version: 'v0.2',changes: ['Chats are sorted based on last message','Automatic reconnection in case of disconnect','Online/Offline status of users with notifications','Account settings','Emoji for desktop users','Security updates','Bugfixes and other minor improvements']},
+    {version: 'v0.2',changes: ['Chats are sorted based on last message','Automatic reconnection in case of disconnect','Online/Offline status of users with notifications','Account settings with live update','Emoji for desktop users','Bugfixes and other minor improvements']},
     {version:'v0.1',changes:['Registration/Login','Live messages','Message history is saved and is reloaded on login','Can add others to contact list','Audio settings']},
     ];

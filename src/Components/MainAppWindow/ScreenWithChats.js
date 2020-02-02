@@ -10,7 +10,7 @@ export default function RightPart({LoadTenMessages,SendMessage,GoBack}) {
 
     return (
         <div className={ isMobile ? 'right-side col-12' :'right-side col-8 col-sm-8 col-md-8 col-lg-10 col-xl-10 '}>
-            <div>
+            <div className='overflow-hidden'>
                 <div className="container">
                     <div className="row">
                         {chatIndex === -1

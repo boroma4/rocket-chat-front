@@ -6,11 +6,11 @@ import SwitchToMobileModal from "./SwitchToMobileModal";
 import '../../App.css';
 import witcher from '../../lol.mp3';
 import drStone from '../../dr_stone_ending.mp3';
-import {AddTenMessagesToState} from "../../Helper/ProcessData";
+import {AddTenMessagesToState} from "../../Helpers/ProcessData";
 import useMobileDetect from 'use-mobile-detect-hook';
 import LeftPart from "./ScreenWithFriends";
 import RightPart from "./ScreenWithChats";
-import {createHubConnection} from "../../Helper/HubConnection";
+import {createHubConnection} from "../../Helpers/HubConnection";
 import {useToasts} from "react-toast-notifications";
 
 
