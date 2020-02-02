@@ -15,8 +15,6 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
         loadTen(chatId,chatIndex,false);
     };
 
-    useEffect(()=>console.log(chatData),[]);
-
     return (
             <div id = {'chat-side'}>
                 {
@@ -33,7 +31,7 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
                                         Back
                                     </Button>
                                 <div className='white tc col-10' style={{backgroundColor:'#6c757d'}}>
-                                    <strong className='black'>{chatData.name}</strong> is<span className={chatData.isOnline?'blue':'white'}> {chatData.isOnline ? ' online' : ' offline'}</span>
+                                    <strong className='black'>{chatData.name}</strong> is<span className={chatData.isOnline?'dark-blue':'white'}> {chatData.isOnline ? ' online' : ' offline'}</span>
 
                                     <h5 className= 'hover-bg-white-40 pointer' onClick={LoadMoreMessages}>
                                         Load more messages

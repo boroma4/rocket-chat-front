@@ -91,24 +91,24 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
         // if should set chat id => method was called when clicking on a chat on the left, else from a chat itself
         if(shouldSetChatId) setChatId(id);
 
-        let currentChatsState = Object.assign([],chats);
+        let currentChatsState = [...chats];
         // works as a pointer (e.g changing this object will change it in the array as well)
         let currentChat = currentChatsState[index];
 
         //if there are more than 10 messages in the chat already, don't load new on first click
-        if(!currentChat.lastMessagesAreFetched && currentChat.msg.length > 10){
-            currentChat.lastMessagesAreFetched = true;
-        }
+        if(!currentChat.lastMessagesAreFetched && currentChat.msg.length > 10) currentChat.lastMessagesAreFetched = true;
+
         //fetch only if it is first click on chat or when more messages are requested from chat + chat has more than 10 messages already
         if(!currentChat.lastMessagesAreFetched || (!shouldSetChatId && currentChat.msg.length > 10)) {
+            const numberOfMessages = currentChat.msg.length;
             AddTenMessagesToState(id,user,currentChat)
                 .then(newState => {
-                    currentChat = newState;
-                    setChats(currentChatsState);
-                })
-                .then( something=>{
-                    const chatWindow = document.getElementsByClassName("chat-history")[0];
-                    chatWindow.scrollTop = 0;
+                    // if anything has changed, update and scroll
+                    if(numberOfMessages !== newState.msg.length){
+                        setChats(currentChatsState);
+                        const chatWindow = document.getElementsByClassName("chat-history")[0];
+                        chatWindow.scrollTop = 0;
+                    }
                 })
                 .catch(err => {
                     console.log(err);
