@@ -5,7 +5,7 @@ import Col from "react-bootstrap/Col";
 import Alert from "react-bootstrap/Alert";
 import isImageUrl from 'is-image-url';
 
-function ProfileChangeForm({type,setUser}) {
+function ProfileChangeForm({type,UpdateUserData}) {
 
     const[input,setInput] = useState('');
     const[showAlert,setShowAlert] = useState({show:false,type:''});
@@ -13,27 +13,17 @@ function ProfileChangeForm({type,setUser}) {
 
     function handleSubmit(event) {
         event.preventDefault();
-        setUser(user=>{
-            let newUser = {...user};
-            switch (type) {
-                case 'image':
-                    if(isImageUrl(input)){
-                        newUser.imageUrl = input;
-                        setShowAlert({show:true,type:'success'});
-                    }
-                    else {
-                        setShowAlert({show:true,type:'danger'})
-                    }
-                    break;
-                case 'name':
-                    newUser.userName = input;
-                    break;
-                default:
-                    break;
-            }
-            console.log(newUser);
-            return newUser;
-        });
+        let updatedData = {type,value:input};
+
+        //if link to image is broken show error else update data
+        if(type === 'image' && !isImageUrl(input)) {
+            setShowAlert({show:true,type:'danger'})
+        }
+        else{
+            UpdateUserData(updatedData.type,updatedData.value);
+            setShowAlert({show:true,type:'success'});
+        }
+        setInput('');
     }
 
     function validateForm() {

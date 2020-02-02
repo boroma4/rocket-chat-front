@@ -47,3 +47,23 @@ export const AddTenMessagesToState = async (id,user,currentChat)=>{
         throw e;
     }
 };
+
+// O(n) function to find a match in 2 arrays
+export const CheckIfChatIdMatchIsPresent = (chatList,chatIdList) =>{
+    let cache = {};
+    let output = {found:false};
+    chatList.forEach(chat=>{
+            const id = chat.id;
+            //value doesnt matter here
+            cache[id] = 1;
+        }
+    );
+    for(let chatId of chatIdList){
+        if(chatId in cache){
+            output.found = true;
+            output.id = chatId;
+            break;
+        }
+    }
+    return output;
+};

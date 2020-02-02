@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext} from 'react';
 import Modal from "react-bootstrap/Modal";
 import {UserChatsContext} from "../../../App";
 import Figure from "react-bootstrap/Figure";
@@ -7,7 +7,7 @@ import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import ProfileChangeForm from "./Forms/ProfileChangeForm";
 
-function MyAccountModal({show,handleClose,setUser}) {
+function MyAccountModal({show,handleClose,UpdateUserData}) {
 
     const {user} = useContext(UserChatsContext);
     return (
@@ -30,15 +30,15 @@ function MyAccountModal({show,handleClose,setUser}) {
                                         <Figure.Caption>
                                             Your profile picture.
                                         </Figure.Caption>
-                                        <div><ProfileChangeForm setUser={setUser} type={'image'}/></div>
+                                        <div><ProfileChangeForm UpdateUserData={UpdateUserData} type={'image'}/></div>
                                     </Figure>
-                                    : <span className='ma2'> You have no pic<div><ProfileChangeForm setUser={setUser} type={'image'}/></div></span>
+                                    : <span className='ma2'> You have no pic<div><ProfileChangeForm UpdateUserData={UpdateUserData} type={'image'}/></div></span>
                             }
                         </Tab>
                         <Tab eventKey="Name" title="Name">
                             <div className='ma2 '>
-                                <h6>You current name is <strong>{user.userName}</strong></h6>
-                                <ProfileChangeForm setUser={setUser} type={'name'}/>
+                                <h6>Your current name is <strong>{user.userName}</strong></h6>
+                                <ProfileChangeForm UpdateUserData={UpdateUserData} type={'name'}/>
                             </div>
                         </Tab>
                     </Tabs>

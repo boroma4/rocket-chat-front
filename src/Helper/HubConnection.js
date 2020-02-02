@@ -1,6 +1,6 @@
 import {HubConnectionBuilder} from "@aspnet/signalr";
 import {Message} from "react-chat-ui";
-import { FindChatIndexByChatId} from "./ProcessData";
+import { FindChatIndexByChatId,CheckIfChatIdMatchIsPresent} from "./ProcessData";
 import {BackendLink} from "../Constants/Const";
 import {SetUserOffline} from "./ApiFetcher";
 import NewChat from "../Components/Notifications/NewChat";
@@ -92,25 +92,35 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
 
         //check if user who came online is not you -> update state
         hubConnect.on('UserWentOfflineOrOnline',(online,userId,chatIds)=> {
-            setChats(prev=>{
-                let updatedChat = Object.assign([],prev);
+            setChats(chats=>{
+                let updatedChats = Object.assign([],chats);
                 if(userId !== loc_user.userId){
-                    // nested loop to check if any chat id matches
-                    prev.forEach(chat=>{
-                        chatIds.forEach(chatid=>{
-                            if(chat.id === chatid){
-                                let index = FindChatIndexByChatId(chat.id,prev);
-                                //put user online/offline depending on that invoke parameter
-                                updatedChat[index].isOnline = online;
-                                return updatedChat;
-                            }
-                        })
-                        }
-                    )}
-                return updatedChat;
+                    const checkMatch = CheckIfChatIdMatchIsPresent(chats,chatIds);
+                    if(checkMatch.found){
+                        let index = FindChatIndexByChatId(checkMatch.id,chats);
+                        //put user online/offline depending on that invoke parameter
+                        updatedChats[index].isOnline = online;
+                    }
+                }
+                return updatedChats;
             })
         });
 
+        hubConnect.on('UserDataChanged',(userId,userChatIds,type,value)=>{
+            console.log(userId,userChatIds,type,value);
+           if(loc_user.userId !== userId){
+               setChats(chats=> {
+                   let updatedChats = [...chats];
+                   const checkMatch = CheckIfChatIdMatchIsPresent(chats, userChatIds);
+                   if (checkMatch.found) {
+                       let index = FindChatIndexByChatId(checkMatch.id, chats);
+                       const neededChat = updatedChats[index];
+                       neededChat[type] = value;
+                   }
+               return updatedChats;
+               });
+           }
+        });
         //when getCHat is received, if you are needed user, add an empty chat
         hubConnect.on('getChat', (userId,chat)=>{
             if(loc_user.userId === userId){
@@ -126,7 +136,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
     // if user logged in but didnt connect to webSocket after
     catch (err) {
         PopupNotification(<OnlineOrOffline online={false}/>, 'warning', 3000);
-        Reconnect(1,hubConnect,setHub,PopupNotification);
+        Reconnect(0,hubConnect,setHub,PopupNotification);
     }
     return hubConnect;
 }

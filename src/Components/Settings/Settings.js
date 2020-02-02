@@ -7,7 +7,7 @@ import MyAccountModal from "./Modals/MyAccountModal";
 
 
 
-function Settings({updateAudio,logout,chooseSong,createNewChat,setUser}) {
+function Settings({updateAudio,logout,chooseSong,createNewChat,UpdateUserData}) {
     const [modal, setModal] = useState({type:'',seen:false});
 
     const handleClose = () => setModal({type:'',seen:false});
@@ -35,7 +35,7 @@ function Settings({updateAudio,logout,chooseSong,createNewChat,setUser}) {
                 {
                     'Add Contact': <AddContactModal show={modal.seen} handleClose={handleClose} createNewChat={createNewChat}/>,
                     'Audio': <AudioSettingsModal show = {modal.seen} handleClose = {handleClose} updateAudio={updateAudio} chooseSong={chooseSong} />,
-                    'My Account' : <MyAccountModal show={modal.seen} handleClose={handleClose} setUser={setUser}/>,
+                    'My Account' : <MyAccountModal show={modal.seen} handleClose={handleClose} UpdateUserData={UpdateUserData}/>,
                     'Logout': <></>
                 }[modal.type]
             }

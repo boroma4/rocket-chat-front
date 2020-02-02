@@ -61,6 +61,30 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
         }
     };
 
+    const UpdateUserData = (type,value) =>{
+        //hack will be removed later, when Redux will be used
+        let l_hub;
+        setHubConnection(hub=>{
+          l_hub = hub;
+          return hub;
+         });
+
+      setUser(user=>{
+          let newUser = {...user};
+          switch (type) {
+              case 'image':
+                  newUser.imageUrl = value;
+                  break;
+              case 'name':
+                  newUser.userName = value;
+              default:
+                  break;
+          }
+          return newUser;
+      });
+      l_hub.invoke('UserDataChanged',user.userId,type,value);
+    };
+
     //Fetches the messages and updates the state of chats
     const LoadTenMessages = (id,index,shouldSetChatId) =>{
 
@@ -129,10 +153,10 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
                         {isMobile
                             ?
                             partToShow === 'left'
-                                ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio} setUser={setUser}/>
+                                ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio} UpdateUserData={UpdateUserData}/>
                                 :<RightPart  LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} GoBack = {setPartToShow} />
                             : <>
-                                <LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio} setUser={setUser}/>
+                                <LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio} UpdateUserData={UpdateUserData}/>
                                 <RightPart LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} />
                             </>
                         }
