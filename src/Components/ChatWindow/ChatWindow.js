@@ -20,7 +20,7 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
                 {
                     isMobile
                         ?<div className="container" >
-                            <div className="row" style={{maxHeight: '7vh'}}>
+                            <div className="row" style={{maxHeight: '5vh'}}>
                                     <Button type="button" variant='secondary' className="col-2 arrow-back " onClick={()=>GoBack('left')}>
                                         <span className="btn-label">
                                             <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24">
