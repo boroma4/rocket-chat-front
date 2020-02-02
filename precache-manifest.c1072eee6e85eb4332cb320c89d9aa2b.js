@@ -1,27 +1,27 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "12c552e9c18e5278fa9af6eb1016538e",
+    "revision": "aa01ed17f97e5a78d30ab979b6bc3e5a",
     "url": "/rocket-chat-front/index.html"
   },
   {
-    "revision": "3169f511d23a9964de27",
+    "revision": "afa7703031d933c6ce38",
     "url": "/rocket-chat-front/static/css/2.43e268d4.chunk.css"
   },
   {
-    "revision": "4c521a61b08cad3ee513",
+    "revision": "557f13fcf3ed3685004b",
     "url": "/rocket-chat-front/static/css/main.c832624d.chunk.css"
   },
   {
-    "revision": "3169f511d23a9964de27",
-    "url": "/rocket-chat-front/static/js/2.e684803a.chunk.js"
+    "revision": "afa7703031d933c6ce38",
+    "url": "/rocket-chat-front/static/js/2.544c8fc7.chunk.js"
   },
   {
     "revision": "909f81c15b741de83c053529dc6ca48d",
-    "url": "/rocket-chat-front/static/js/2.e684803a.chunk.js.LICENSE"
+    "url": "/rocket-chat-front/static/js/2.544c8fc7.chunk.js.LICENSE"
   },
   {
-    "revision": "4c521a61b08cad3ee513",
-    "url": "/rocket-chat-front/static/js/main.6f88f487.chunk.js"
+    "revision": "557f13fcf3ed3685004b",
+    "url": "/rocket-chat-front/static/js/main.843b7e8f.chunk.js"
   },
   {
     "revision": "3ede5d01a8307bc888bf",
