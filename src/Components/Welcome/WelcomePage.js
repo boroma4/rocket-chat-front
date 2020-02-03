@@ -10,9 +10,9 @@ import FAQorReleaseInfo from "./Submodules/FAQorReleaseInfo";
 function WelcomePage({loginOrRegister,path}) {
 
     return (
-        <div className={path === '/faq'|| path === '/release'? 'welcome-page overflow-hidden' : 'welcome-page overflow-auto'} >
+        <div className='welcome-page overflow-y-auto overflow-x-hidden' >
                 <Navbar bg="dark" variant={'dark'} expand="lg">
-                    <Navbar.Brand href = {'/rocket-chat-front/#/login'} >Rocket-Chat v0.2 BETA</Navbar.Brand>
+                    <Navbar.Brand href = {'/rocket-chat-front/#/login'} >Rocket-Chat v0.2.1 BETA</Navbar.Brand>
                     <Navbar.Toggle aria-controls="basic-navbar-nav" />
                     <Navbar.Collapse id="basic-navbar-nav">
                         <Nav className="mr-auto ">
@@ -39,8 +39,11 @@ function WelcomePage({loginOrRegister,path}) {
                     '/release':<FAQorReleaseInfo isFAQ={false}/>
                 }[path]
             }
-
-            <img src={'https://dramarocket.com/wp-content/uploads/2018/01/icon-redrocket-2.png'} alt={'logo'} className={'center'}/>
+            {path === '/login' || path === '/register'
+                ? <img src={'https://dramarocket.com/wp-content/uploads/2018/01/icon-redrocket-2.png'} alt={'logo'}
+                       className={'center'}/>
+                : <div/>
+            }
             </div>
     );
 }

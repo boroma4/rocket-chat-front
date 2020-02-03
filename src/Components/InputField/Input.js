@@ -35,7 +35,6 @@ function Input({onSendClick}) {
 
         <ThemeProvider>
             <TextComposer onSend={()=>{
-                console.log(document.querySelector('.lc-1pj3shq').value);
                 SendMessageToDatabaseAndScreen(document.querySelector('.lc-1pj3shq').value);
                 }
             }

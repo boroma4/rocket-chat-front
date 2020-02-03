@@ -60,7 +60,8 @@ function App() {
             if (result) {
                 const newUser = result;
                 if(newUser.isOnline){
-                    return 'duplicate';
+                    //TODO make proper two device logic
+                    //return 'duplicate';
                 }
                  setUser(newUser);
                 //might need to be outside of current try/catch to separate from login error
@@ -129,7 +130,7 @@ function App() {
                 <Switch>
                     <Route path="/app">
                         <UserChatsContext.Provider value={{user,chats}}>
-                            <MainAppWindow setHubConnection={setHubConnection} setUser={setUser} setChats={setChats} SendMessage={SendMessage} logout={()=>logout()} createNewChat = {CreateNewChat}/>
+                            <MainAppWindow setHubConnection={setHubConnection} setUser={setUser} setChats={setChats} SendMessage={SendMessage} logout={logout} createNewChat = {CreateNewChat}/>
                         </UserChatsContext.Provider>
                     </Route>
                     <Route path="/register">
