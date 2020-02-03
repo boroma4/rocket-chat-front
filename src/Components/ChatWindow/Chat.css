@@ -13,6 +13,9 @@
 .footer {
     height: 20vh;
 }
+.header{
+    max-height: 5vh;
+}
 .arrow-back{
     padding: 0;
 }
@@ -20,4 +23,9 @@ p{
     color: black !important;
 }
 
-
+@media only screen and (max-height: 400px) {
+    .header{
+        max-height: 10vh;
+        font-size: small;
+    }
+}
