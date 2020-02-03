@@ -58,6 +58,8 @@ function App() {
         try {
             let result = await TryLoginOrRegister(loginData,endpoint);
             if (result) {
+                // in case of registration
+                if(result.text) return result.text;
                 const newUser = result;
                 if(newUser.isOnline){
                     //TODO make proper two device logic
@@ -133,6 +135,7 @@ function App() {
                             <MainAppWindow setHubConnection={setHubConnection} setUser={setUser} setChats={setChats} SendMessage={SendMessage} logout={logout} createNewChat = {CreateNewChat}/>
                         </UserChatsContext.Provider>
                     </Route>
+                    {/*Need to put pathes to const and use .map here */}
                     <Route path="/register">
                         <WelcomePage path={'/register'}  loginOrRegister={loginOrRegister}/>
                     </Route>
@@ -141,6 +144,15 @@ function App() {
                     </Route>
                     <Route path="/release">
                         <WelcomePage path={'/release'}/>
+                    </Route>
+                    <Route path="/vsuccess">
+                        <WelcomePage path={'/vsuccess'}/>
+                    </Route>
+                    <Route path="/vfailed">
+                        <WelcomePage path={'/vfailed'}/>
+                    </Route>
+                    <Route path="/verify">
+                        <WelcomePage path={'/verify'}/>
                     </Route>
                     <Route>
                         <WelcomePage path={'/login'}  loginOrRegister={loginOrRegister}/>

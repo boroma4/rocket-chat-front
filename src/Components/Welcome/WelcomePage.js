@@ -6,6 +6,7 @@ import Login from "./Submodules/Login";
 import Register from "./Submodules/Register";
 import './welcome.css';
 import FAQorReleaseInfo from "./Submodules/FAQorReleaseInfo";
+import {AskToVerify, EmailedVerified} from "./Submodules/EmailVerification";
 
 function WelcomePage({loginOrRegister,path}) {
 
@@ -36,7 +37,10 @@ function WelcomePage({loginOrRegister,path}) {
                     '/login': <Login loginOrRegister={loginOrRegister}/>,
                     '/register': <Register loginOrRegister={loginOrRegister}/>,
                     '/faq':<FAQorReleaseInfo isFAQ={true}/>,
-                    '/release':<FAQorReleaseInfo isFAQ={false}/>
+                    '/release':<FAQorReleaseInfo isFAQ={false}/>,
+                    '/vsuccess':<EmailedVerified success={true}/>,
+                    '/vfailed':<EmailedVerified success={false}/>,
+                    '/verify': <AskToVerify/>
                 }[path]
             }
             {path === '/login' || path === '/register'
