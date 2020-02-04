@@ -25,5 +25,5 @@ jobs:
       with:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         REACT_APP_APILINK: ${{ secrets.REACT_APP_APILINK }}
-        BRANCH: gh-pages-test
+        BRANCH: gh-pages
         FOLDER: build
