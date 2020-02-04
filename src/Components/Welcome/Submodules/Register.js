@@ -58,7 +58,7 @@ export default function Register({loginOrRegister}) {
     return (
         <>
             {success
-                ? <Redirect to={'/verify'}/>
+                ? <Redirect to={'/app'}/>
                 : <Card className="Login">
                     <Card.Header> Register </Card.Header>
                     <Card.Body>
