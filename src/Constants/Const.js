@@ -1,4 +1,4 @@
-export const BackendLink = 'https://localhost:5001';
+export const BackendLink = process.env.REACT_APP_APILINK;
 
 export const SettingsList = ['Audio','Add Contact','My Account','Logout'];
 export const SongList = ['witcher','drStone'];
