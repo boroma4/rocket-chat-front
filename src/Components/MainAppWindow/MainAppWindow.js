@@ -8,8 +8,8 @@ import witcher from '../../lol.mp3';
 import drStone from '../../dr_stone_ending.mp3';
 import {AddTenMessagesToState} from "../../Helpers/ProcessData";
 import useMobileDetect from 'use-mobile-detect-hook';
-import LeftPart from "./ScreenWithFriends";
-import RightPart from "./ScreenWithChats";
+import LeftPart from "./SubWindows/ScreenWithFriends";
+import RightPart from "./SubWindows/ScreenWithChats";
 import {createHubConnection} from "../../Helpers/HubConnection";
 import {useToasts} from "react-toast-notifications";
 
@@ -77,6 +77,7 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
                   break;
               case 'name':
                   newUser.userName = value;
+                  break;
               default:
                   break;
           }

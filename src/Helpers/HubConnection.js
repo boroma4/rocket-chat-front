@@ -3,10 +3,8 @@ import {Message} from "react-chat-ui";
 import { FindChatIndexByChatId,CheckIfChatIdMatchIsPresent} from "./ProcessData";
 import {BackendLink} from "../Constants/Const";
 import {SetUserOffline} from "./ApiFetcher";
-import NewChat from "../Components/Notifications/NewChat";
-import OnlineOrOffline from "../Components/Notifications/OnlineOrOffline";
+import {ReconnectFail,OnlineOrOffline,NewChat} from "../Components/Notifications/Notifications";
 import React from "react";
-import ReconnectionFailed from "../Components/Notifications/ReconnectionFailed";
 
 //very very hacky
 export async function createHubConnection (setUser,setChats,setHub,PopupNotification,setChatIndex,setChatId) {
@@ -26,10 +24,18 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
     }
     try {
         await hubConnect.start();
-        console.log('Connection successful!');
+
+        let url = hubConnect.connection.transport.webSocket.url;
+        let webSocketId = '';
+        for(let i = 0; i< url.length; i ++){
+            if(url.charAt(i) === '='){
+                webSocketId = url.slice(i+1);
+                break;
+            }
+        }
 
         //show others u went online
-        await hubConnect.invoke('UserWentOfflineOrOnline',true,loc_user.userId);
+        await hubConnect.invoke('UserWentOfflineOrOnline',true,loc_user.userId,webSocketId);
         PopupNotification(<OnlineOrOffline online = {true}/>,'success',3000);
 
         //after socket dies, it sends a request to put user offline in the db
@@ -60,13 +66,13 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                         .catch(err=>console.log(err));
                 }}
                 );
-        hubConnect.on('sendToAll', (userId,chatId,messageText)=>{
+        hubConnect.on('sendDirectMessage', (userId,chatId,messageText)=>{
             //can't move the insides of to a different method -> it crashes
             setChats(prevState => {
                 // index where the chat is located for current client
                 const neededChatIndex = FindChatIndexByChatId(chatId,prevState);
-                // update state if the user has chat with this id and didnt send the message himself
-                if(neededChatIndex !== -1 && loc_user.userId !== userId){
+                // update state if the user has chat with this id
+                if(neededChatIndex !== -1){
                     let updatedChats = Object.assign([],prevState);
                     updatedChats[neededChatIndex].msg.push(new Message({id:1,message:messageText}));
                     updatedChats[neededChatIndex].isOnline = true;
@@ -107,7 +113,6 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
         });
 
         hubConnect.on('UserDataChanged',(userId,userChatIds,type,value)=>{
-            console.log(userId,userChatIds,type,value);
            if(loc_user.userId !== userId){
                setChats(chats=> {
                    let updatedChats = [...chats];
@@ -121,16 +126,14 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                });
            }
         });
-        //when getCHat is received, if you are needed user, add an empty chat
-        hubConnect.on('getChat', (userId,chat)=>{
-            if(loc_user.userId === userId){
+        //when getCHat is received add an empty chat
+        hubConnect.on('getChat', (chat)=>{
                 setChats(prev=>{
                     let updatedChat = Object.assign([],prev);
                     updatedChat.push({id:chat.chatId,image:chat.image,isOnline:true,name:chat.chatName,msg:[]});
                     return Object.assign([],updatedChat);
                 });
                 PopupNotification(<NewChat name={chat.chatName}/>,'info',5000);
-            }
         });
     }
     // if user logged in but didnt connect to webSocket after
@@ -152,11 +155,11 @@ async function Reconnect (time,hubConnect,setHub,PopupNotification) {
             })
             .catch(()=>{
                 if(time < 4) {
-                    PopupNotification(<ReconnectionFailed nextTime={timeout * (time+1) / 1000} isLast={false}/>,'warning',timeout * (time+1));
+                    PopupNotification(<ReconnectFail nextTime={timeout * (time+1) / 1000} isLast={false}/>,'warning',timeout * (time+1));
                     Reconnect(time+1,hubConnect,setHub,PopupNotification);
                 }
                 else {
-                    PopupNotification(<ReconnectionFailed isLast={true}/>,'error',70000);
+                    PopupNotification(<ReconnectFail isLast={true}/>,'error',70000);
                     return false;
                 }
             });

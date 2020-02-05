@@ -12,6 +12,7 @@ import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helpers
 import {ProcessChats} from "./Helpers/ProcessData";
 import {ToastProvider} from "react-toast-notifications";
 import {gapi} from "gapi-script";
+import {ROUTES} from "./Constants/Const";
 
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
@@ -66,7 +67,6 @@ function App() {
                     //return 'duplicate';
                 }
                  setUser(newUser);
-                //might need to be outside of current try/catch to separate from login error
                 await GetChats(newUser.userId);
             }
             return 'ok';
@@ -135,24 +135,15 @@ function App() {
                             <MainAppWindow setHubConnection={setHubConnection} setUser={setUser} setChats={setChats} SendMessage={SendMessage} logout={logout} createNewChat = {CreateNewChat}/>
                         </UserChatsContext.Provider>
                     </Route>
-                    {/*Need to put pathes to const and use .map here */}
-                    <Route path="/register">
+                    {
+                        ROUTES.map(route => (
+                            <Route path={route} key={route}>
+                                <WelcomePage path={route}/>
+                            </Route>
+                        ))
+                    }
+                    <Route path={'/register'}>
                         <WelcomePage path={'/register'}  loginOrRegister={loginOrRegister}/>
-                    </Route>
-                    <Route path="/faq">
-                        <WelcomePage path={'/faq'}/>
-                    </Route>
-                    <Route path="/release">
-                        <WelcomePage path={'/release'}/>
-                    </Route>
-                    <Route path="/vsuccess">
-                        <WelcomePage path={'/vsuccess'}/>
-                    </Route>
-                    <Route path="/vfailed">
-                        <WelcomePage path={'/vfailed'}/>
-                    </Route>
-                    <Route path="/verify">
-                        <WelcomePage path={'/verify'}/>
                     </Route>
                     <Route>
                         <WelcomePage path={'/login'}  loginOrRegister={loginOrRegister}/>

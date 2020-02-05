@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import ChatWindow from "../ChatWindow/ChatWindow";
-import {MainChatWindowContext} from "./MainAppWindow";
-import {UserChatsContext} from "../../App";
+import ChatWindow from "../../ChatWindow/ChatWindow";
+import {MainChatWindowContext} from "../MainAppWindow";
+import {UserChatsContext} from "../../../App";
 
 export default function RightPart({LoadTenMessages,SendMessage,GoBack}) {
 

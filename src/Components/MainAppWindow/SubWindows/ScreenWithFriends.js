@@ -1,7 +1,7 @@
 import React, {useContext} from 'react';
-import {MainChatWindowContext} from "./MainAppWindow";
-import Settings from "../Settings/Settings";
-import Friends from "../Friends/Friends";
+import {MainChatWindowContext} from "../MainAppWindow";
+import Settings from "../../Settings/Settings";
+import Friends from "../../Friends/Friends";
 
 export default function LeftPart({createNewChat,LoadTenMessages,updAudio,setSong,logout,setChatIndex,UpdateUserData}) {
 
