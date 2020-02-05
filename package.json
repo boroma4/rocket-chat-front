@@ -25,6 +25,7 @@
     "react-sound": "^1.2.0",
     "react-toast-notifications": "^2.4.0",
     "status-indicator": "^1.0.9",
+    "sweetalert": "^2.1.2",
     "tachyons": "^4.11.1",
     "use-mobile-detect-hook": "^1.0.2"
   },

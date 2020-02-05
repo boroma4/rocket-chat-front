@@ -111,7 +111,7 @@ function App() {
     });
 
     const notifyAboutLogout = () =>{
-        hubConnection.invoke('UserWentOfflineOrOnline',false,user.userId)
+        hubConnection.invoke('UserWentOfflineOrOnline',false,user.userId,null)
             .then(()=>hubConnection.stop())
             .catch(err=>console.log(err));
     };

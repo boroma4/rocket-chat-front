@@ -37,6 +37,7 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
     useEffect( ()=>{
             createHubConnection(setUser,setChats,setHubConnection,PopUpNotification,setChatIndex,setChatId)
                 .then(hub=>setHubConnection(hub));
+
     },[]);
 
     //Add toast with desired style and content, remove it after the timeout

@@ -2,9 +2,9 @@ export const BackendLink = 'https://localhost:5001';
 
 export const SettingsList = ['Audio','Add Contact','My Account','Logout'];
 export const SongList = ['witcher','drStone'];
-export const PasswordStrLevels = [{str:'weak',color:'red'},{str:'medium',color:'darkorange'},{str:'okay',color:'springgreen'},{str:'strong',color:'green'}];
+export const PasswordStrLevels = [{str:'weak',color:'red'},{str:'weakish',color:'darkorange'},{str:'medium',color:'#E1CB0C'},{str:'okay',color:'springgreen'},{str:'strong',color:'green'}];
 
-export const ROUTES = ['/faq','/release','/vsuccess','/vfailed','/verify'];
+export const ROUTES = ['/faq','/release','/vsuccess','/vfailed'];
 
 export const FAQDATA = [{question:'Q: What do I do here?',answer:'A: You send messages to other people, could you imagine!!!'},
     {question:'Q: How to get started?',answer:'A: Please register, then add other people and talk to them as much as you want. Please mind the warning above when you submit any data.'},

@@ -41,16 +41,3 @@ export  function EmailedVerified({success}) {
         </>
     );
 };
-
-export  function AskToVerify() {
-    return (
-        <>
-                <Card className="Login">
-                    <Card.Header>Email verification</Card.Header>
-                    <Card.Body>
-                     We got everything! Please verify your email and you can start using our app!
-                    </Card.Body>
-                </Card>
-        </>
-    );
-}
