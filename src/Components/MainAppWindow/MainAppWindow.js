@@ -4,8 +4,8 @@ import {UserChatsContext} from "../../App";
 import SwitchToMobileModal from "./SwitchToMobileModal";
 
 import '../../App.css';
-import witcher from '../../lol.mp3';
-import drStone from '../../dr_stone_ending.mp3';
+import witcher from '../sounds/lol.mp3';
+import drStone from '../sounds/dr_stone_ending.mp3';
 import {AddTenMessagesToState} from "../../Helpers/ProcessData";
 import useMobileDetect from 'use-mobile-detect-hook';
 import LeftPart from "./SubWindows/ScreenWithFriends";

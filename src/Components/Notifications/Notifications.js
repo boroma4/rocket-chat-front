@@ -1,4 +1,7 @@
 import React, {useEffect, useState} from "react";
+import notification from '../sounds/notification.mp3';
+import Sound from 'react-sound';
+
 
 export  function NewChat({name}) {
     return (
@@ -7,6 +10,7 @@ export  function NewChat({name}) {
             <div>
                 <strong>{name}</strong> created a chat with you!
             </div>
+            <Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
         </div>
     );
 }
@@ -27,6 +31,7 @@ export  function OnlineOrOffline({online}) {
                     :
                     <div/>
             }
+            <Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
         </div>
     );
 }
@@ -47,6 +52,8 @@ export  function ReconnectFail({isLast,nextTime}) {
             <div>
                 { isLast ? 'Failed to reconnect, please reload the page or try again later.':`We will try again in ${timer} seconds.` }
             </div>
+            <Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
+
         </div>
     );
 }
