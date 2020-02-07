@@ -4,8 +4,8 @@ import {UserChatsContext} from "../../App";
 import SwitchToMobileModal from "./SwitchToMobileModal";
 
 import '../../App.css';
-import witcher from '../sounds/lol.mp3';
-import drStone from '../sounds/dr_stone_ending.mp3';
+import witcher from '../../sounds/lol.mp3';
+import drStone from '../../sounds/dr_stone_ending.mp3';
 import {AddTenMessagesToState} from "../../Helpers/ProcessData";
 import useMobileDetect from 'use-mobile-detect-hook';
 import LeftPart from "./SubWindows/ScreenWithFriends";
@@ -69,7 +69,6 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
           l_hub = hub;
           return hub;
          });
-
       setUser(user=>{
           let newUser = {...user};
           switch (type) {
@@ -79,12 +78,17 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
               case 'name':
                   newUser.userName = value;
                   break;
+              case 'notifications':
+                  newUser.notificationSettings = value;
+                  break;
               default:
                   break;
           }
           return newUser;
       });
-      l_hub.invoke('UserDataChanged',user.userId,type,value);
+      if(type !== 'notifications'){
+          l_hub.invoke('UserDataChanged',user.userId,type,value);
+      }
     };
 
     //Fetches the messages and updates the state of chats

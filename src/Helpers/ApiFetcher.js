@@ -56,6 +56,17 @@ export async function SendNewChatData (userId,email) {
         throw e;
     }
 }
+export async function UpdateNotificationSettings (userId,sound,newchat,newmessage,connection) {
+    try {
+        let res = await fetch(`${BackendLink}/api/settingsapply?userId=${userId}&sound=${sound}&newchat=${newchat}&newmessage=${newmessage}&connection=${connection}`);
+        let status = res.status;
+        CheckForResponseCodeAndThrow(status,res.text);
+        return 'ok';
+
+    } catch (e) {
+        throw e;
+    }
+}
 
 export function SetUserOffline(userId) {
     fetch(`${BackendLink}/api/disconnect?userId=${userId}`)

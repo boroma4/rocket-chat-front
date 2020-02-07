@@ -1,21 +1,38 @@
 import React, {useEffect, useState} from "react";
-import notification from '../sounds/notification.mp3';
+import notification from '../../sounds/notification.mp3';
 import Sound from 'react-sound';
 
 
-export  function NewChat({name}) {
+export  function NewChat({name,sound}) {
     return (
         <div>
             <strong>New chat!</strong>
             <div>
                 <strong>{name}</strong> created a chat with you!
             </div>
-            <Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
+            {sound
+                ?<Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
+                :<div/>
+            }
+        </div>
+    );
+}
+export  function NewMessage({name,body,sound}) {
+    return (
+        <div>
+            <strong>{name}</strong>
+            <div>
+                {body}
+            </div>
+            {sound
+                ?<Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
+                :<div/>
+            }
         </div>
     );
 }
 
-export  function OnlineOrOffline({online}) {
+export  function OnlineOrOffline({online,sound}) {
 
     return (
         <div>
@@ -31,11 +48,14 @@ export  function OnlineOrOffline({online}) {
                     :
                     <div/>
             }
-            <Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
+            {sound
+                ?<Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
+                :<div/>
+            }
         </div>
     );
 }
-export  function ReconnectFail({isLast,nextTime}) {
+export  function ReconnectFail({isLast,nextTime,sound}) {
 
     const[timer,setTimer] = useState(nextTime);
 
@@ -52,7 +72,10 @@ export  function ReconnectFail({isLast,nextTime}) {
             <div>
                 { isLast ? 'Failed to reconnect, please reload the page or try again later.':`We will try again in ${timer} seconds.` }
             </div>
-            <Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
+            {sound
+                ? <Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
+                :<div/>
+            }
 
         </div>
     );
