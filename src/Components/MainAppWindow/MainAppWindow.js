@@ -2,7 +2,6 @@ import React,{useState,useEffect,useContext} from 'react';
 import {Redirect } from "react-router-dom";
 import {UserChatsContext} from "../../App";
 import SwitchToMobileModal from "./SwitchToMobileModal";
-
 import '../../App.css';
 import witcher from '../../sounds/lol.mp3';
 import drStone from '../../sounds/dr_stone_ending.mp3';
@@ -13,18 +12,13 @@ import RightPart from "./SubWindows/ScreenWithChats";
 import {createHubConnection} from "../../Helpers/HubConnection";
 import {useToasts} from "react-toast-notifications";
 
-
-
 export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:null,isMobile:false});
-
-
 
 const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubConnection})=> {
 
     const {user,chats} = useContext(UserChatsContext);
     const detectMobile = useMobileDetect();
     const {addToast,removeToast } = useToasts();
-
 
     const[chatId,setChatId] = useState(-1);
     const[chatIndex,setChatIndex] = useState(-1);
@@ -37,7 +31,6 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
     useEffect( ()=>{
             createHubConnection(setUser,setChats,setHubConnection,PopUpNotification,setChatIndex,setChatId)
                 .then(hub=>setHubConnection(hub));
-
     },[]);
 
     //Add toast with desired style and content, remove it after the timeout
@@ -148,7 +141,6 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
     return (
         <>
             <MainChatWindowContext.Provider value = {{chatId,chatIndex,isMobile}} >
-
                 {detectMobile.isMobile()
                     ?<SwitchToMobileModal setIsMobile={setIsMobile}/>
                     :<div/>}
