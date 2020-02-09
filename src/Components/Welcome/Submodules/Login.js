@@ -90,15 +90,15 @@ export default function Login({loginOrRegister}) {
                         <FormGroup className='tc'>
                             <a className='tc' href={'/rocket-chat-front/#/register'}>Not signed up yet?</a>
                             <div style={{marginTop:'15px'}}>
-                                {/*
+                                {
                                 <GoogleLogin
-                                    clientId="424517305265-0jh85p18hl9f6l17tqbat3ts7bgauc8j.apps.googleusercontent.com"
+                                    clientId={process.env.REACT_APP_GOOGLE_ID}
                                     buttonText="I am real"
                                     onSuccess={responseGoogle}
                                     onFailure={()=>setError('Failed to login with Google!')}
                                     cookiePolicy={'single_host_origin'}
                                 />
-                                */}
+                                }
                             </div>
                         </FormGroup>
                         <Button block variant={!validateForm() ? 'secondary' : "primary"}

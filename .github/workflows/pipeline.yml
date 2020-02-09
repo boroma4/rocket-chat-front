@@ -27,6 +27,7 @@ jobs:
         REACT_APP_APILINK: ${{ secrets.REACT_APP_APILINK }}
         REACT_APP_AESKEY: ${{ secrets.REACT_APP_AESKEY }}
         REACT_APP_AESIV: ${{ secrets.REACT_APP_AESIV }}
+        REACT_APP_GOOGLE_ID: ${{ secrets.REACT_APP_GOOGLE_ID }}
         REACT_APP_TOKEN_SIGNATURE: ${{ secrets.REACT_APP_TOKEN_SIGNATURE }}
         BRANCH: gh-pages
         FOLDER: build
