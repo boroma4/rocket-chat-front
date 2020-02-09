@@ -57,6 +57,7 @@ export async function TryLoginOrRegister (loginData,endpoint) {
 
 export async function SendNewChatData (userId,emailToAdd) {
     try {
+        console.log(BackendLink);
         let token = jwt.sign({userId,emailToAdd}, TokenSignature);
         let res = await fetch(`${BackendLink}/api/addchat`, {
             method: 'post',

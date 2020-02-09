@@ -37,8 +37,7 @@ function WelcomePage({loginOrRegister,path}) {
                         </Navbar.Collapse>
                     </Navbar>
                     <Alert  variant={'warning'} className={'tc ma0'}>
-                        During the beta, please don't use your real email and don't send important messages over the chat!<br/>
-                        <strong>If you had an account before, please create a new one,thanks!<br/>
+                        <strong>99.9% sure your account won't be deleted again!!<br/>
                             Make sure to check out our <a href={'/rocket-chat-front/#/release'}>release notes</a>!
                         </strong>
                     </Alert>
