@@ -71,6 +71,17 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                 );
         hubConnect.on('sendDirectMessage', (userId,chatId,messageText)=>{
             //can't move the insides of to a different method -> it crashes
+            console.log(messageText);
+            const CryptoJS = require("crypto-js");
+
+            let decrypted =  CryptoJS.AES.decrypt(messageText,
+                CryptoJS.enc.Base64.parse('3ICSVK1JfR+GBzw/iilv+/gttcRwxUYZI0XxJkqWdJA='),
+                {iv:CryptoJS.enc.Base64.parse("4hayN7sv3Jma/85LhnKSJQ==") });
+
+            //console.log(CryptoJS.enc.Utf8.stringify(decrypted));
+            messageText = CryptoJS.enc.Utf8.stringify(decrypted);
+
+            console.log(messageText);
             setChats(prevState => {
                 // index where the chat is located for current client
                 const neededChatIndex = FindChatIndexByChatId(chatId,prevState);
@@ -150,6 +161,8 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
     }
     return hubConnect;
 }
+
+
 // function that tries to connect to socket every x,2x,3x,4x seconds after which it stops
 async function Reconnect (time,hubConnect,setHub,PopupNotification,userNotificationSettings) {
     let timeout = 3000;
