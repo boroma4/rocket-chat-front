@@ -1,5 +1,7 @@
 export const BackendLink = 'https://localhost:5001';
 export const TokenSignature = 'this is my custom Secret key for authnetication';
+export const AESKEY = '3ICSVK1JfR+GBzw/iilv+/gttcRwxUYZI0XxJkqWdJA=';
+export const AESIV = "4hayN7sv3Jma/85LhnKSJQ==";
 
 export const SettingsList = ['Audio','Add Contact','My Account','Logout'];
 export const SongList = ['witcher','drStone'];

@@ -1,10 +1,11 @@
-import {HubConnectionBuilder,LogLevel} from "@aspnet/signalr";
+import {HubConnectionBuilder} from "@aspnet/signalr";
 import {Message} from "react-chat-ui";
 import { FindChatIndexByChatId,CheckIfChatIdMatchIsPresent} from "./ProcessData";
-import {BackendLink} from "../Constants/Const";
+import {AESKEY,AESIV, BackendLink} from "../Constants/Const";
 import {SetUserOffline} from "./ApiFetcher";
 import {ReconnectFail,OnlineOrOffline,NewChat,NewMessage} from "../Components/Notifications/Notifications";
 import React from "react";
+const CryptoJS = require("crypto-js");
 
 //very very hacky
 export async function createHubConnection (setUser,setChats,setHub,PopupNotification,setChatIndex,setChatId) {
@@ -72,6 +73,13 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                 );
         hubConnect.on('sendDirectMessage', (userId,chatId,messageText)=>{
             //can't move the insides of to a different method -> it crashes
+
+            let decrypted =  CryptoJS.AES.decrypt(messageText,
+                CryptoJS.enc.Base64.parse(AESKEY),
+                {iv:CryptoJS.enc.Base64.parse(AESIV) });
+
+            messageText = CryptoJS.enc.Utf8.stringify(decrypted);
+
             // need to use this hack again :((
             let l_user;
             setUser(prev=>{

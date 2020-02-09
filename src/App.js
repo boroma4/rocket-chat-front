@@ -8,9 +8,10 @@ import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helpers
 import {ProcessChats} from "./Helpers/ProcessData";
 import {ToastProvider} from "react-toast-notifications";
 import {gapi} from "gapi-script";
-import {ROUTES} from "./Constants/Const";
+import {AESKEY,AESIV, ROUTES} from "./Constants/Const";
 import {ValidateToken} from "./Helpers/TokenValidation";
-import {useCookies} from "react-cookie";
+import {useCookies} from "react-cookie"
+const CryptoJS = require("crypto-js");
 
 export const UserChatsContext = React.createContext({user:{},chats:[],isLoading:false});
 
@@ -100,20 +101,14 @@ function App() {
         let l_chatId = chatId;
         //invoke 'sendMessage' with chatId most likely
         return function (msgText) {
-            const CryptoJS = require("crypto-js");
             let ciphertext = CryptoJS.AES.encrypt(msgText,
-                CryptoJS.enc.Base64.parse('3ICSVK1JfR+GBzw/iilv+/gttcRwxUYZI0XxJkqWdJA='),
-                {iv:CryptoJS.enc.Base64.parse("4hayN7sv3Jma/85LhnKSJQ==") }).toString();
-            console.log(ciphertext);
-
-            let decrypted =  CryptoJS.AES.decrypt(ciphertext,
-                CryptoJS.enc.Base64.parse('3ICSVK1JfR+GBzw/iilv+/gttcRwxUYZI0XxJkqWdJA='),
-                {iv:CryptoJS.enc.Base64.parse("4hayN7sv3Jma/85LhnKSJQ==") });
-            console.log(CryptoJS.enc.Utf8.stringify(decrypted));
-
+                CryptoJS.enc.Base64.parse(AESKEY),
+                {iv:CryptoJS.enc.Base64.parse(AESIV) }).toString();
 
             hubConnection.invoke('SendDirectMessage',user.userId,l_chatId,ciphertext).catch(err=>console.log(err));
+
             setChats(prevState => {
+
                 let updatedChats = Object.assign([],prevState);
                 const neededChat = updatedChats[l_chatIndex];
                 neededChat.msg.push(new Message({id:0,message:msgText}));
