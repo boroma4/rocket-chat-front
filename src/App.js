@@ -100,7 +100,19 @@ function App() {
         let l_chatId = chatId;
         //invoke 'sendMessage' with chatId most likely
         return function (msgText) {
-            hubConnection.invoke('SendDirectMessage',user.userId,l_chatId,msgText).catch(err=>console.log(err));
+            const CryptoJS = require("crypto-js");
+            let ciphertext = CryptoJS.AES.encrypt(msgText,
+                CryptoJS.enc.Base64.parse('3ICSVK1JfR+GBzw/iilv+/gttcRwxUYZI0XxJkqWdJA='),
+                {iv:CryptoJS.enc.Base64.parse("4hayN7sv3Jma/85LhnKSJQ==") }).toString();
+            console.log(ciphertext);
+
+            let decrypted =  CryptoJS.AES.decrypt(ciphertext,
+                CryptoJS.enc.Base64.parse('3ICSVK1JfR+GBzw/iilv+/gttcRwxUYZI0XxJkqWdJA='),
+                {iv:CryptoJS.enc.Base64.parse("4hayN7sv3Jma/85LhnKSJQ==") });
+            console.log(CryptoJS.enc.Utf8.stringify(decrypted));
+
+
+            hubConnection.invoke('SendDirectMessage',user.userId,l_chatId,ciphertext).catch(err=>console.log(err));
             setChats(prevState => {
                 let updatedChats = Object.assign([],prevState);
                 const neededChat = updatedChats[l_chatIndex];
