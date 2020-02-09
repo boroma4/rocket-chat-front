@@ -8,7 +8,7 @@ import React from "react";
 
 //very very hacky
 export async function createHubConnection (setUser,setChats,setHub,PopupNotification,setChatIndex,setChatId) {
-    // Build new Hub Connection, url is currently hard coded.
+
     const hubConnect = new HubConnectionBuilder()
         .withUrl(`${BackendLink}/chat`)
         .build();
@@ -19,9 +19,9 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
         loc_user = prev;
         return prev;
     });
-    if(!loc_user){
-        return;
-    }
+
+    if(!loc_user) return;
+
     try {
         await hubConnect.start();
 
@@ -35,9 +35,9 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
         }
 
         //show others u went online
-        await hubConnect.invoke('UserWentOfflineOrOnline',true,loc_user.userId,webSocketId);
+        await hubConnect.invoke('UserWentOfflineOrOnline',true,loc_user.userId);
 
-        const {sound,connectionChanged,newMessageReceived} = loc_user.notificationSettings;
+        const {sound,connectionChanged} = loc_user.notificationSettings;
 
         if(connectionChanged) PopupNotification(<OnlineOrOffline online = {true} sound={sound}/>,'success',3000);
 
@@ -72,12 +72,17 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                 );
         hubConnect.on('sendDirectMessage', (userId,chatId,messageText)=>{
             //can't move the insides of to a different method -> it crashes
-            const {sound} = loc_user.notificationSettings;
+            // need to use this hack again :((
+            let l_user;
+            setUser(prev=>{
+                l_user = prev;
+                return prev;});
+            const {sound,newMessageReceived} = l_user.notificationSettings;
             setChats(prevState => {
                 // index where the chat is located for current client
                 const neededChatIndex = FindChatIndexByChatId(chatId,prevState);
                 // update state if the user has chat with this id
-                if(neededChatIndex !== -1){
+                if(neededChatIndex !== -1 && l_user.userId !== userId){
                     let updatedChats = Object.assign([],prevState);
                     updatedChats[neededChatIndex].msg.push(new Message({id:1,message:messageText}));
                     updatedChats[neededChatIndex].isOnline = true;
@@ -135,15 +140,21 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
            }
         });
         //when getCHat is received add an empty chat
-        hubConnect.on('getChat', (chat)=>{
+        hubConnect.on('getChat', (userId,chat)=>{
+            let l_user;
+            setUser(prev=>{
+                l_user = prev;
+                return prev;});
+
+            if(loc_user.userId === userId){
                 setChats(prev=>{
                     let updatedChat = Object.assign([],prev);
                     updatedChat.push({id:chat.chatId,image:chat.image,isOnline:true,name:chat.chatName,msg:[]});
                     return Object.assign([],updatedChat);
                 });
-            const {sound,newChatReceived} = loc_user.notificationSettings;
+            const {sound,newChatReceived} = l_user.notificationSettings;
             if(newChatReceived) PopupNotification(<NewChat name={chat.chatName} sound={sound}/>,'info',5000);
-        });
+        }});
     }
     // if user logged in but didnt connect to webSocket after
     catch (err) {

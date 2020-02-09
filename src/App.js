@@ -48,7 +48,10 @@ function App() {
     useEffect(()=>{
         const token = cookies.userToken;
         ValidateAndSetUser(token)
-            .then(()=> setLoggedIn(true))
+            .then((user)=> {
+                setUser(user);
+                setLoggedIn(true)
+            })
             .catch(()=>console.log('No cookie :('));
     },[]);
 
@@ -66,6 +69,8 @@ function App() {
             setIsLoading(true);
             await GetChats(user.userId);
             setIsLoading(false);
+
+            return user;
         }
         catch (e) {throw e;}
     }
@@ -123,7 +128,7 @@ function App() {
     });
 
     const notifyAboutLogout = () =>{
-        hubConnection.invoke('UserWentOfflineOrOnline',false,user.userId,null)
+        hubConnection.invoke('UserWentOfflineOrOnline',false,user.userId)
             .then(()=>hubConnection.stop())
             .catch(err=>console.log(err));
     };
