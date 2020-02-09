@@ -6,6 +6,7 @@ import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
 import {Redirect} from "react-router-dom";
 import {PasswordStrLevels} from "../../../Constants/Const";
+import swal from "sweetalert";
 
 export default function Register({loginOrRegister}) {
 
@@ -19,7 +20,7 @@ export default function Register({loginOrRegister}) {
 
 
     function validateForm() {
-        return email.length > 0 && passwordStrength > 1 && name.length;
+        return email.length > 0 && passwordStrength > 2 && name.length;
     }
 
     async function handleSubmit(event) {
@@ -29,7 +30,9 @@ export default function Register({loginOrRegister}) {
         setTimeout(()=>console.log(),1000);
         try {
             await loginOrRegister({username:name,email, password}, 'register');
-            await (setSuccess(true));
+            setIsConnecting(false);
+            await swal("Almost there", `We saved all your data, confirm your email to start using our app!`, "success");
+             (setSuccess(true));
         }
         catch(error) {
             setTimeout(() => {
@@ -46,10 +49,13 @@ export default function Register({loginOrRegister}) {
         let currentStr = 0;
         let input = event.target.value;
 
-        if(input.length > 3) currentStr++;
         if(input.length > 5) currentStr++;
+        if(input.length > 7) currentStr++;
         //if has a number
         if(input.match(/\d+/g)) currentStr++;
+        //if has an uppercase
+        const low = input.toLowerCase();
+        if(low !== input) currentStr ++;
 
         setPasswordStrength(currentStr);
         setPassword(input);
@@ -58,7 +64,7 @@ export default function Register({loginOrRegister}) {
     return (
         <>
             {success
-                ? <Redirect to={'/app'}/>
+                ? <Redirect to={'/login'}/>
                 : <Card className="Login">
                     <Card.Header> Register </Card.Header>
                     <Card.Body>

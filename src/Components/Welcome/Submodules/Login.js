@@ -33,11 +33,11 @@ export default function Login({loginOrRegister}) {
         await handleLogin('login');
     }
 
-    async function handleLogin (endpoint,googleToken){
+    async function handleLogin (endpoint,token){
         setIsConnecting(true);
         setTimeout(()=>console.log(),1000);
         try {
-            const param = endpoint === 'login' ? {email, password} : {googleToken};
+            const param = endpoint === 'login' ? {email, password} : {token};
             let loginStatus = await loginOrRegister(param,endpoint);
             if(loginStatus === 'duplicate'){
                 throw new Error('Please finish another session before starting a new one.');

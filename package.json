@@ -15,15 +15,21 @@
     "gapi-script": "^1.0.1",
     "gh-pages": "^2.2.0",
     "is-image-url": "^1.1.8",
+    "jsonwebtoken": "^8.5.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-chat-ui": "^0.3.2",
+    "react-cookie": "^4.0.3",
     "react-dom": "^16.12.0",
     "react-google-login": "^5.0.7",
+    "react-loading-overlay": "^1.0.1",
     "react-router-dom": "^5.1.2",
     "react-scripts": "3.3.0",
+    "react-sound": "^1.2.0",
+    "react-switch": "^5.0.1",
     "react-toast-notifications": "^2.4.0",
     "status-indicator": "^1.0.9",
+    "sweetalert": "^2.1.2",
     "tachyons": "^4.11.1",
     "use-mobile-detect-hook": "^1.0.2"
   },
@@ -52,6 +58,7 @@
   },
   "devDependencies": {
     "@babel/core": "^7.8.3",
-    "@babel/preset-env": "^7.8.3"
+    "@babel/preset-env": "^7.8.3",
+    "crypto-js": "^3.1.9-1"
   }
 }

@@ -6,13 +6,14 @@ import Button from "react-bootstrap/Button";
 import Tab from "react-bootstrap/Tab";
 import Tabs from "react-bootstrap/Tabs";
 import ProfileChangeForm from "./Forms/ProfileChangeForm";
+import NotificationsForm from "./Forms/NotificationsForm";
 
 function MyAccountModal({show,handleClose,UpdateUserData}) {
 
     const {user} = useContext(UserChatsContext);
     return (
         <>
-            <Modal show={show} onHide={handleClose} centered>
+            <Modal show={show} onHide={handleClose} centered >
                 <Modal.Body>
                     <h3>My Account</h3>
                     <Tabs defaultActiveKey="Picture" id="uncontrolled-tab-example">
@@ -41,8 +42,13 @@ function MyAccountModal({show,handleClose,UpdateUserData}) {
                                 <ProfileChangeForm UpdateUserData={UpdateUserData} type={'name'}/>
                             </div>
                         </Tab>
+                        <Tab eventKey="Notifications" title="Notifications">
+                            <div className='ma2 '>
+                                <NotificationsForm UpdateUserData={UpdateUserData}/>
+                            </div>
+                        </Tab>
                     </Tabs>
-                    <Button onClick = {()=>handleClose()}>Close</Button>
+                    <Button style = {{float:'right'}} onClick = {()=>handleClose()}>Close</Button>
                 </Modal.Body>
             </Modal>
         </>

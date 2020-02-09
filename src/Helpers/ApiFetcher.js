@@ -1,9 +1,15 @@
 import {Message} from "react-chat-ui";
-import {BackendLink} from "../Constants/Const";
+import {BackendLink, TokenSignature} from "../Constants/Const";
+import jwt from'jsonwebtoken';
 
 export async function GetAllChatsByUserId(userId) {
     try {
-        let chats = await fetch(`${BackendLink}/api/getallchats?userId=${userId}`);
+        let token = jwt.sign({userId}, TokenSignature);
+        let chats = await fetch(`${BackendLink}/api/getallchats`, {
+            method: 'post',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({token})
+        });
         chats = await chats.json();
         return chats;
     } catch (e) {
@@ -15,7 +21,12 @@ export async function GetAllChatsByUserId(userId) {
 export async function FetchLastMessagesByChatId(chatId,user,totalMessages) {
     let messagesToState = [];
     try {
-        let messages = await fetch(`${BackendLink}/api/getlastmessages?chatId=${chatId}&totalMessagesLoaded=${totalMessages}`);
+        let token = jwt.sign({chatId,totalMessages}, TokenSignature);
+        let messages = await fetch(`${BackendLink}/api/getlastmessages`, {
+            method: 'post',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({token})
+        });
         messages = await messages.json();
         await messages.forEach(message =>{
             let msgDisplayId = message.userId === user.userId ? 0 : 1;
@@ -44,9 +55,15 @@ export async function TryLoginOrRegister (loginData,endpoint) {
     }
 }
 
-export async function SendNewChatData (userId,email) {
+export async function SendNewChatData (userId,emailToAdd) {
     try {
-        let res = await fetch(`${BackendLink}/api/addchat?curUserId=${userId}&emailToAdd=${email}`);
+        let token = jwt.sign({userId,emailToAdd}, TokenSignature);
+        let res = await fetch(`${BackendLink}/api/addchat`, {
+            method: 'post',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({token})
+        });
+
         let status = res.status;
         res = await res.json();
         CheckForResponseCodeAndThrow(status,res.text);
@@ -56,14 +73,33 @@ export async function SendNewChatData (userId,email) {
         throw e;
     }
 }
-
-export function SetUserOffline(userId) {
-    fetch(`${BackendLink}/api/disconnect?userId=${userId}`)
-        .then(res=>{
-            if(res.status === 404){
-                console.log('Couldnt find a user');
-            }
+export async function UpdateNotificationSettings (userId,sound,newchat,newmessage,connection) {
+    try {
+        let token = jwt.sign({userId,sound,newchat,newmessage,connection}, TokenSignature);
+        let res = await fetch(`${BackendLink}/api/settingsapply`, {
+            method: 'post',
+            headers: {'Content-type': 'application/json'},
+            body: JSON.stringify({token})
         });
+        let status = res.status;
+        CheckForResponseCodeAndThrow(status,res.text);
+        return 'ok';
+
+    } catch (e) {
+        throw e;
+    }
+}
+
+export async function SetUserOffline(userId) {
+    let token = jwt.sign({userId}, TokenSignature);
+    let res = await fetch(`${BackendLink}/api/disconnect`, {
+        method: 'post',
+        headers: {'Content-type': 'application/json'},
+        body: JSON.stringify({token})
+    });
+    if(res.status === 404){
+        console.log('Couldnt find a user');
+    }
 }
 
 function CheckForResponseCodeAndThrow(code,error){

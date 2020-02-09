@@ -41,6 +41,9 @@ function Input({onSendClick}) {
              onChange={updField}>
                 <Row align="center">
                     <IconButton fit>
+                        <label htmlFor="file-upload" className="custom-file-upload">
+                            <input type="file" style={{display:"none"}}/>
+                        </label>
                         <AddIcon />
                     </IconButton>
                     <TextInput fill = 'true'  />

@@ -2,29 +2,23 @@ import React,{useState,useEffect,useContext} from 'react';
 import {Redirect } from "react-router-dom";
 import {UserChatsContext} from "../../App";
 import SwitchToMobileModal from "./SwitchToMobileModal";
-
 import '../../App.css';
-import witcher from '../../lol.mp3';
-import drStone from '../../dr_stone_ending.mp3';
+import witcher from '../../sounds/lol.mp3';
+import drStone from '../../sounds/dr_stone_ending.mp3';
 import {AddTenMessagesToState} from "../../Helpers/ProcessData";
 import useMobileDetect from 'use-mobile-detect-hook';
-import LeftPart from "./ScreenWithFriends";
-import RightPart from "./ScreenWithChats";
+import LeftPart from "./SubWindows/ScreenWithFriends";
+import RightPart from "./SubWindows/ScreenWithChats";
 import {createHubConnection} from "../../Helpers/HubConnection";
 import {useToasts} from "react-toast-notifications";
 
-
-
 export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:null,isMobile:false});
-
-
 
 const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubConnection})=> {
 
     const {user,chats} = useContext(UserChatsContext);
     const detectMobile = useMobileDetect();
     const {addToast,removeToast } = useToasts();
-
 
     const[chatId,setChatId] = useState(-1);
     const[chatIndex,setChatIndex] = useState(-1);
@@ -36,7 +30,9 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
 
     useEffect( ()=>{
             createHubConnection(setUser,setChats,setHubConnection,PopUpNotification,setChatIndex,setChatId)
-                .then(hub=>setHubConnection(hub));
+                .then(hub=>{
+                    setHubConnection(hub)
+                });
     },[]);
 
     //Add toast with desired style and content, remove it after the timeout
@@ -68,7 +64,6 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
           l_hub = hub;
           return hub;
          });
-
       setUser(user=>{
           let newUser = {...user};
           switch (type) {
@@ -77,12 +72,18 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
                   break;
               case 'name':
                   newUser.userName = value;
+                  break;
+              case 'notifications':
+                  newUser.notificationSettings = value;
+                  break;
               default:
                   break;
           }
           return newUser;
       });
-      l_hub.invoke('UserDataChanged',user.userId,type,value);
+      if(type !== 'notifications'){
+          l_hub.invoke('UserDataChanged',user.userId,type,value);
+      }
     };
 
     //Fetches the messages and updates the state of chats
@@ -142,7 +143,6 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
     return (
         <>
             <MainChatWindowContext.Provider value = {{chatId,chatIndex,isMobile}} >
-
                 {detectMobile.isMobile()
                     ?<SwitchToMobileModal setIsMobile={setIsMobile}/>
                     :<div/>}
