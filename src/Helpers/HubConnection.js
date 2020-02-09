@@ -1,4 +1,4 @@
-import {HubConnectionBuilder} from "@aspnet/signalr";
+import {HubConnectionBuilder,LogLevel} from "@aspnet/signalr";
 import {Message} from "react-chat-ui";
 import { FindChatIndexByChatId,CheckIfChatIdMatchIsPresent} from "./ProcessData";
 import {BackendLink} from "../Constants/Const";
@@ -36,6 +36,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
 
         //show others u went online
         await hubConnect.invoke('UserWentOfflineOrOnline',true,loc_user.userId,webSocketId);
+
         const {sound,connectionChanged,newMessageReceived} = loc_user.notificationSettings;
 
         if(connectionChanged) PopupNotification(<OnlineOrOffline online = {true} sound={sound}/>,'success',3000);
@@ -71,6 +72,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                 );
         hubConnect.on('sendDirectMessage', (userId,chatId,messageText)=>{
             //can't move the insides of to a different method -> it crashes
+            const {sound} = loc_user.notificationSettings;
             setChats(prevState => {
                 // index where the chat is located for current client
                 const neededChatIndex = FindChatIndexByChatId(chatId,prevState);
@@ -145,6 +147,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
     }
     // if user logged in but didnt connect to webSocket after
     catch (err) {
+        console.log(err);
         PopupNotification(<OnlineOrOffline online={false}/>, 'warning', 3000);
         Reconnect(0,hubConnect,setHub,PopupNotification,loc_user.notificationSettings);
     }

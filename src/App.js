@@ -13,6 +13,7 @@ import {ProcessChats} from "./Helpers/ProcessData";
 import {ToastProvider} from "react-toast-notifications";
 import {gapi} from "gapi-script";
 import {ROUTES} from "./Constants/Const";
+import {ValidateToken} from "./Helpers/TokenValidation";
 
 
 export const UserChatsContext = React.createContext({user:{},chats:[]});
@@ -43,7 +44,6 @@ function App() {
     }
 
     const CreateNewChat = (chatId,chatName,friendImageUrl) => {
-        console.log(friendImageUrl);
         hubConnection.invoke('ChatWithUserWasCreated',user.userId,chatId,{chatId,chatName:user.userName,image:user.imageUrl});
         setChats(prevState => {
             let updatedChat = Object.assign([],prevState);
@@ -53,6 +53,24 @@ function App() {
     };
 
 
+    async function ValidateAndSet(token){
+        try {
+            let user = ValidateToken(token);
+            user.notificationSettings = JSON.parse(user.notificationSettings);
+            user.isOnline = user.isOnline === 'true';
+            user.userId = parseInt(user.userId);
+            if(user.isOnline){
+                //TODO make proper two device logic
+                //return 'duplicate';
+            }
+            setUser(user);
+            await GetChats(user.userId);
+        }
+        catch (e) {
+            throw e;
+        }
+
+    }
     //Function that tries to log in or register based on parameter
     //if successful, starts socket communication and invokes GetChats method defined above
     async function loginOrRegister (loginData,endpoint){
@@ -61,13 +79,7 @@ function App() {
             if (result) {
                 // in case of registration
                 if(result.text) return result.text;
-                const newUser = result;
-                if(newUser.isOnline){
-                    //TODO make proper two device logic
-                    //return 'duplicate';
-                }
-                 setUser(newUser);
-                await GetChats(newUser.userId);
+                await ValidateAndSet(result.userToken);
             }
             return 'ok';
         }

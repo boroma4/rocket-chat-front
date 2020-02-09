@@ -15,6 +15,7 @@
     "gapi-script": "^1.0.1",
     "gh-pages": "^2.2.0",
     "is-image-url": "^1.1.8",
+    "jsonwebtoken": "^8.5.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-chat-ui": "^0.3.2",
