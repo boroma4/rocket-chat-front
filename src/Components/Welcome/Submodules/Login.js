@@ -104,8 +104,10 @@ export default function Login({loginOrRegister}) {
                                 }
                             </div>
                         </FormGroup>
-                        <Button block variant={!validateForm() ? 'secondary' : "primary"}
-                                disabled={!validateForm() || isConnecting} type="submit">
+                        {/*<Button block variant={!validateForm() ? 'secondary' : "primary"}
+                                disabled={!validateForm() || isConnecting} type="submit">*/}
+                        <Button block variant={'secondary'}
+                                disabled={true} type="submit">
                             {!isConnecting
                                 ? 'Login'
                                 : <Spinner
