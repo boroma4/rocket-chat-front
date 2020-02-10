@@ -91,6 +91,7 @@ export default function Login({loginOrRegister}) {
                             <a className='tc' href={'/rocket-chat-front/#/register'}>Not signed up yet?</a>
                             <div style={{marginTop:'15px'}}>
                                 {
+
                                 <GoogleLogin
                                     clientId={process.env.REACT_APP_GOOGLE_ID}
                                     buttonText="I am real"
