@@ -26,15 +26,6 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
     try {
         await hubConnect.start();
 
-        let url = hubConnect.connection.transport.webSocket.url;
-        let webSocketId = '';
-        for(let i = 0; i< url.length; i ++){
-            if(url.charAt(i) === '='){
-                webSocketId = url.slice(i+1);
-                break;
-            }
-        }
-
         //show others u went online
         await hubConnect.invoke('UserWentOfflineOrOnline',true,loc_user.userId);
 

@@ -1,3 +1,5 @@
+//For production use Key and IV have to be stored in Environmental variables
+//THESE KEYS AND IV ARE FOR TESTING USAGE ONLY
 export const BackendLink = 'https://localhost:5001';
 export const TokenSignature = 'this is my custom Secret key for authnetication';
 export const AESKEY = '3ICSVK1JfR+GBzw/iilv+/gttcRwxUYZI0XxJkqWdJA=';

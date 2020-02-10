@@ -6,6 +6,7 @@ export function ProcessChats (chats,userId) {
 
     chats.forEach(chat=>{
         let msgDisplayId,chatToAdd;
+        console.log(chat.isOnline);
         if(chat.lastMessage) {
             msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
             chatToAdd = {id:chat.chatId,image:chat.friendImageUrl,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
