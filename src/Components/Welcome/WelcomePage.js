@@ -38,7 +38,6 @@ function WelcomePage({loginOrRegister,path}) {
                     </Navbar>
                     <Alert  variant={'warning'} className={'tc ma0'}>
                         <strong>99.9% sure your account won't be deleted again!!<br/>
-                        Only login with Google is available at the moment, sorry! <br/>
                             Make sure to check out our <a href={'/rocket-chat-front/#/release'}>release notes</a>!
                         </strong>
                     </Alert>
