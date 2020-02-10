@@ -96,7 +96,10 @@ export default function Login({loginOrRegister}) {
                                     clientId={process.env.REACT_APP_GOOGLE_ID}
                                     buttonText="I am real"
                                     onSuccess={responseGoogle}
-                                    onFailure={()=>setError('Failed to login with Google!')}
+                                    onFailure={()=>{
+                                        console.log(error);
+                                        setError('Failed to login with Google!')
+                                    }}
                                     cookiePolicy={'single_host_origin'}
                                 />
                                 }
