@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/rocket-chat-front/precache-manifest.244b3c5091dceb80ab2c45528a436288.js"
+  "/rocket-chat-front/precache-manifest.d742bc9cdb5685b2d826e04bb8bc7af8.js"
 );
 
 self.addEventListener('message', (event) => {
