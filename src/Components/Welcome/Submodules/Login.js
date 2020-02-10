@@ -91,7 +91,7 @@ export default function Login({loginOrRegister}) {
                             <a className='tc' href={'/rocket-chat-front/#/register'}>Not signed up yet?</a>
                             <div style={{marginTop:'15px'}}>
                                 <GoogleLogin
-                                    clientId="424517305265-0jh85p18hl9f6l17tqbat3ts7bgauc8j.apps.googleusercontent.com"
+                                    clientId="314561805412-ae9v74k5jpckmj5elt1921shpdgkq59t.apps.googleusercontent.com"
                                     buttonText="I am real"
                                     onSuccess={responseGoogle}
                                     onFailure={()=>setError('Failed to login with Google!')}
