@@ -11,6 +11,7 @@ import LeftPart from "./SubWindows/ScreenWithFriends";
 import RightPart from "./SubWindows/ScreenWithChats";
 import {createHubConnection} from "../../Helpers/HubConnection";
 import {useToasts} from "react-toast-notifications";
+import {useCookies} from "react-cookie"
 
 export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:null,isMobile:false});
 
@@ -26,6 +27,7 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
     const[redirect,setRedirect] = useState(false);
     const[isMobile,setIsMobile] = useState(false);
     const[partToShow,setPartToShow] = useState('left');
+    const [cookies,setCookie,removeCookie] = useCookies(['userToken']);
 
 
     useEffect( ()=>{
@@ -84,6 +86,7 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
       if(type !== 'notifications'){
           l_hub.invoke('UserDataChanged',user.userId,type,value);
       }
+      removeCookie('userToken');
     };
 
     //Fetches the messages and updates the state of chats
