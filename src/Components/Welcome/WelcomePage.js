@@ -23,7 +23,7 @@ function WelcomePage({loginOrRegister,path}) {
             >
                 <div className='welcome-page overflow-y-auto overflow-x-hidden' >
                     <Navbar bg="dark" variant={'dark'} expand="lg">
-                        <Navbar.Brand href = {'/rocket-chat-front/#/login'} >Rocket-Chat v0.3 BETA</Navbar.Brand>
+                        <Navbar.Brand href = {'/rocket-chat-front/#/login'} >Rocket-Chat v0.3.1 BETA</Navbar.Brand>
                         <Navbar.Toggle aria-controls="basic-navbar-nav" />
                         <Navbar.Collapse id="basic-navbar-nav">
                             <Nav className="mr-auto ">
