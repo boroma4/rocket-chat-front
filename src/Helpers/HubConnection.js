@@ -176,7 +176,7 @@ async function Reconnect (time,hubConnect,setHub,PopupNotification,userNotificat
             .catch(()=>{
                 if(time < 4) {
                     if(connectionChanged) PopupNotification(<ReconnectFail sound={sound} nextTime={timeout * (time+1) / 1000} isLast={false}/>,'warning',timeout * (time+1));
-                    Reconnect(time+1,hubConnect,setHub,PopupNotification);
+                    Reconnect(time+1,hubConnect,setHub,PopupNotification,userNotificationSettings);
                 }
                 else {
                     PopupNotification(<ReconnectFail isLast={true}/>,'error',70000);
