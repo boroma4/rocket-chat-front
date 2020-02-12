@@ -30,7 +30,7 @@ export async function FetchLastMessagesByChatId(chatId,user,totalMessages) {
         messages = await messages.json();
         await messages.forEach(message =>{
             let msgDisplayId = message.userId === user.userId ? 0 : 1;
-            messagesToState.push(new MessageIF({id:msgDisplayId,message:message.messageText}));
+            messagesToState.push(new MessageIF({id:msgDisplayId,message:message.messageText,dateTime:message.createdDate}));
         });
         return messagesToState;
     }

@@ -111,7 +111,7 @@ function App() {
 
                 let updatedChats = Object.assign([],prevState);
                 const neededChat = updatedChats[l_chatIndex];
-                neededChat.msg.push(new MessageIF({id:0,message:msgText}));
+                neededChat.msg.push(new MessageIF({id:0,message:msgText,dateTime:new Date()}));
 
                 updatedChats.splice(l_chatIndex, 1);
                 updatedChats.unshift(neededChat);

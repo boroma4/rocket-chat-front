@@ -14,8 +14,16 @@ export default function RightPart({LoadTenMessages,SendMessage,GoBack}) {
                 <div className="container">
                     <div className="row">
                         {chatIndex === -1
-                            ? <div className='tc center col align-self-center'
-                                   id={'idle-msg'}>{'Click on a chat to start messaging!'}</div>
+                            ?
+                                chats.length !== 0
+                                    ?
+                                    <div className='tc center col align-self-center'
+                                       id={'idle-msg'}>{'Click on a chat to start messaging!'}
+                                    </div>
+                                    :
+                                    <div className='tc center col align-self-center'
+                                         id={'idle-msg'}>{'Click on a button in top left corner and add someone!'}
+                                    </div>
                             : <div className='col'>
                                 <ChatWindow loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage} GoBack = {GoBack}/>
                             </div>

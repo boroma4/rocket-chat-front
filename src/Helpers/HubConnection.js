@@ -45,7 +45,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                 if (l_user) {
                     const {sound,connectionChanged} = l_user.notificationSettings;
                     if(connectionChanged) PopupNotification(<OnlineOrOffline sound={sound} online={false}/>, 'warning', 3000);
-                    Reconnect(0,hubConnect,setHub,PopupNotification)
+                    Reconnect(0,hubConnect,setHub,PopupNotification,l_user.notificationSettings)
                         .then(()=>{
                                 //TODO load messages that were missed and add to state instead of discarding all
                                 //discard all chats, load them on click

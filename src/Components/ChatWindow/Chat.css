@@ -13,13 +13,10 @@
     overflow-y: auto;
     margin-top: 5vh;
     height: calc(100vh - 30vh);
-}
-ul{
     list-style: none;
-    margin: 0;
 }
 
-ul li{
+.chat-panel li{
     display:inline-block;
     clear: both;
     padding: 8px 14px;
