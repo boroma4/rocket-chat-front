@@ -1,5 +1,5 @@
-import {Message} from "react-chat-ui";
 import {FetchLastMessagesByChatId} from "./ApiFetcher";
+import {MessageIF} from "../Components/ChatWindow/Message/MessageIF";
 
 export function ProcessChats (chats,userId) {
     let chatsToState = [];
@@ -9,7 +9,7 @@ export function ProcessChats (chats,userId) {
         console.log(chat.isOnline);
         if(chat.lastMessage) {
             msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
-            chatToAdd = {id:chat.chatId,image:chat.friendImageUrl,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[new Message({id:msgDisplayId,message:chat.lastMessage.messageText})]};
+            chatToAdd = {id:chat.chatId,image:chat.friendImageUrl,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[new MessageIF({id:msgDisplayId,message:chat.lastMessage.messageText})]};
         }
         else{
             // lastMessagesAreFetched value doesn't matter in this case,as the chat is empty and must be updated live time anyway

@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useContext} from 'react';
 import {Redirect } from "react-router-dom";
 import {UserChatsContext} from "../../App";
-import SwitchToMobileModal from "./SwitchToMobileModal";
+import SwitchToMobileModal from "./Modals/SwitchToMobileModal";
 import '../../App.css';
 import witcher from '../../sounds/lol.mp3';
 import drStone from '../../sounds/dr_stone_ending.mp3';
@@ -109,7 +109,7 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
                     // if anything has changed, update and scroll
                     if(numberOfMessages !== newState.msg.length){
                         setChats(currentChatsState);
-                        const chatWindow = document.getElementsByClassName("chat-history")[0];
+                        const chatWindow = document.getElementsByClassName("chat-panel")[0];
                         chatWindow.scrollTop = 0;
                     }
                 })

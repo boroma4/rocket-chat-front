@@ -5,6 +5,7 @@ export const TokenSignature = 'this is my custom Secret key for authnetication';
 export const AESKEY = '3ICSVK1JfR+GBzw/iilv+/gttcRwxUYZI0XxJkqWdJA=';
 export const AESIV = "4hayN7sv3Jma/85LhnKSJQ==";
 
+
 export const SettingsList = ['Audio','Add Contact','My Account','Logout'];
 export const SongList = ['witcher','drStone'];
 export const PasswordStrLevels = [{str:'weak',color:'red'},{str:'weakish',color:'darkorange'},{str:'medium',color:'#E1CB0C'},{str:'okay',color:'springgreen'},{str:'strong',color:'green'}];

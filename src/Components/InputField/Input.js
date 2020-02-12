@@ -23,6 +23,11 @@ function Input({onSendClick}) {
 
     const SendMessageToDatabaseAndScreen = (input) => {
         onSendClick(input);
+        setTimeout(()=>{
+            const chatWindow = document.getElementsByClassName("chat-panel")[0];
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        },20);
+
     };
 
     const popover = (

@@ -3,7 +3,6 @@ import MainAppWindow from "./Components/MainAppWindow/MainAppWindow";
 import { HashRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import './App.css';
 import WelcomePage from "./Components/Welcome/WelcomePage";
-import {Message} from "react-chat-ui";
 import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helpers/ApiFetcher";
 import {ProcessChats} from "./Helpers/ProcessData";
 import {ToastProvider} from "react-toast-notifications";
@@ -11,6 +10,7 @@ import {gapi} from "gapi-script";
 import {AESKEY,AESIV, ROUTES} from "./Constants/Const";
 import {ValidateToken} from "./Helpers/TokenValidation";
 import {useCookies} from "react-cookie"
+import {MessageIF} from "./Components/ChatWindow/Message/MessageIF";
 const CryptoJS = require("crypto-js");
 
 export const UserChatsContext = React.createContext({user:{},chats:[],isLoading:false});
@@ -111,7 +111,7 @@ function App() {
 
                 let updatedChats = Object.assign([],prevState);
                 const neededChat = updatedChats[l_chatIndex];
-                neededChat.msg.push(new Message({id:0,message:msgText}));
+                neededChat.msg.push(new MessageIF({id:0,message:msgText}));
 
                 updatedChats.splice(l_chatIndex, 1);
                 updatedChats.unshift(neededChat);

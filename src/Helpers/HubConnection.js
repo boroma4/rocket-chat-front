@@ -1,10 +1,10 @@
 import {HubConnectionBuilder} from "@aspnet/signalr";
-import {Message} from "react-chat-ui";
 import { FindChatIndexByChatId,CheckIfChatIdMatchIsPresent} from "./ProcessData";
 import {AESKEY,AESIV, BackendLink} from "../Constants/Const";
 import {SetUserOffline} from "./ApiFetcher";
 import {ReconnectFail,OnlineOrOffline,NewChat,NewMessage} from "../Components/Notifications/Notifications";
 import React from "react";
+import {MessageIF} from "../Components/ChatWindow/Message/MessageIF";
 const CryptoJS = require("crypto-js");
 
 //very very hacky
@@ -83,7 +83,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                 // update state if the user has chat with this id
                 if(neededChatIndex !== -1 && l_user.userId !== userId){
                     let updatedChats = Object.assign([],prevState);
-                    updatedChats[neededChatIndex].msg.push(new Message({id:1,message:messageText}));
+                    updatedChats[neededChatIndex].msg.push(new MessageIF({id:1,message:messageText}));
                     updatedChats[neededChatIndex].isOnline = true;
 
                     if (newMessageReceived) PopupNotification(<NewMessage sound={sound} name={ updatedChats[neededChatIndex].name} body={messageText}/>,'info',5000);
@@ -177,7 +177,7 @@ async function Reconnect (time,hubConnect,setHub,PopupNotification,userNotificat
             .catch(()=>{
                 if(time < 4) {
                     if(connectionChanged) PopupNotification(<ReconnectFail sound={sound} nextTime={timeout * (time+1) / 1000} isLast={false}/>,'warning',timeout * (time+1));
-                    Reconnect(time+1,hubConnect,setHub,PopupNotification);
+                    Reconnect(time+1,hubConnect,setHub,PopupNotification,userNotificationSettings);
                 }
                 else {
                     PopupNotification(<ReconnectFail isLast={true}/>,'error',70000);
