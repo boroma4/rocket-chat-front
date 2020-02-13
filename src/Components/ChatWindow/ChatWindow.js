@@ -1,4 +1,4 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Input from "../InputField/Input";
 import './Chat.css';
 import {MainChatWindowContext} from "../MainAppWindow/MainAppWindow";
@@ -14,7 +14,6 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
     const LoadMoreMessages = (event) => {
         loadTen(chatId,chatIndex,false);
     };
-
     return (
             <div id = {'chat-side'}>
                 {
@@ -39,7 +38,7 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
                                 </div>
                             </div>
                         </div>
-                        : <h4 className='white tc hover-bg-white-40 pointer col-10' onClick={LoadMoreMessages}>
+                        : <h4 className='white tc hover-bg-white-40 pointer col-10 flex-none' onClick={LoadMoreMessages}>
                             Load more
                         </h4>
                 }

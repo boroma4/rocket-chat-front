@@ -1,5 +1,15 @@
+#chat-side{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
+}
+
 .footer {
-    height: 20vh;
+    height: fit-content;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 8px;
 }
 .header{
     max-height: 5vh;
@@ -7,13 +17,17 @@
 .arrow-back{
     padding: 0;
 }
+.MuiIconButton-root{
+    border-radius: 0;
+}
 
 .chat-panel{
     padding: 0;
     overflow-y: auto;
     margin-top: 5vh;
-    height: calc(100vh - 30vh);
+    height: auto;
     list-style: none;
+    flex: 1;
 }
 
 .chat-panel li{

@@ -4,7 +4,9 @@ function ChatPanel({messages}) {
 
     useEffect(()=>{
         const chatWindow = document.getElementsByClassName("chat-panel")[0];
-        chatWindow.scrollTop = chatWindow.scrollHeight;
+        setTimeout(()=>{
+            chatWindow.scrollTop = chatWindow.scrollHeight;
+        },20);
         },[]);
 
     return (
