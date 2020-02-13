@@ -11,6 +11,7 @@ import SentimentVeryDissatisfiedSharpIcon from '@material-ui/icons/SentimentVery
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import 'emoji-mart/css/emoji-mart.css'
 import {Picker} from "emoji-mart";
+import {ScrollChatToBottom} from "../../Helpers/Scroller";
 
 const useStyles = makeStyles(theme => ({
     root: {
@@ -36,7 +37,6 @@ export default function Input({onSendClick}) {
     const classes = useStyles();
     const[input,setInput] = useState('');
 
-    const chatWindow = document.getElementsByClassName("chat-panel")[0];
 
     const onEmojiClick = (emoji) => {
         const text = `${input}${emoji.native}`;
@@ -46,16 +46,16 @@ export default function Input({onSendClick}) {
         onSendClick(input);
         setInput('');
         setTimeout(()=>{
-            chatWindow.scrollTop = chatWindow.scrollHeight;
+            ScrollChatToBottom();
         },20);
 
     };
     const onTyping = (event)=>{
         setInput(event.target.value);
-        chatWindow.scrollTop = chatWindow.scrollHeight;
+        ScrollChatToBottom();
     };
     const submitIsValid = () => {
-        return input.length > 0;
+        return input.trim().length > 0;
     };
 
     return (
