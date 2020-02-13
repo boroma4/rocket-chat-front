@@ -1,12 +1,10 @@
 import React, {useEffect} from 'react';
+import {ScrollChatToBottom} from "../../../Helpers/Scroller";
 
 function ChatPanel({messages}) {
 
     useEffect(()=>{
-        const chatWindow = document.getElementsByClassName("chat-panel")[0];
-        setTimeout(()=>{
-            chatWindow.scrollTop = chatWindow.scrollHeight;
-        },20);
+        ScrollChatToBottom();
         },[]);
 
     return (

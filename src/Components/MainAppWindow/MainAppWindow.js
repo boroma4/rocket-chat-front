@@ -12,6 +12,8 @@ import RightPart from "./SubWindows/ScreenWithChats";
 import {createHubConnection} from "../../Helpers/HubConnection";
 import {useToasts} from "react-toast-notifications";
 import {useCookies} from 'react-cookie';
+import {ScrollChatToBottom} from "../../Helpers/Scroller";
+
 export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:null,isMobile:false});
 
 const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubConnection})=> {
@@ -112,6 +114,7 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
                     if(numberOfMessages !== newState.msg.length){
                         setChats(currentChatsState);
                         if(shouldScrollUp) chatWindow.scrollTop = 0;
+                        else ScrollChatToBottom();
                     }
                 })
                 .catch(err => {
