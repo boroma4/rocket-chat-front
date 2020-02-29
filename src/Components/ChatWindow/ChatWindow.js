@@ -1,9 +1,9 @@
-import React, {useContext} from 'react';
+import React, {useContext, useEffect} from 'react';
 import Input from "../InputField/Input";
 import './Chat.css';
-import { ChatFeed } from 'react-chat-ui'
 import {MainChatWindowContext} from "../MainAppWindow/MainAppWindow";
 import Button from "react-bootstrap/Button";
+import ChatPanel from "./Panel/ChatPanel";
 
 
 
@@ -14,7 +14,6 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
     const LoadMoreMessages = (event) => {
         loadTen(chatId,chatIndex,false);
     };
-
     return (
             <div id = {'chat-side'}>
                 {
@@ -39,16 +38,16 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
                                 </div>
                             </div>
                         </div>
-                        : <h4 className='white tc hover-bg-white-40 pointer col-10' onClick={LoadMoreMessages}>
+                        : <h4 className='white tc hover-bg-white-40 pointer col-10 flex-none' onClick={LoadMoreMessages}>
                             Load more
                         </h4>
                 }
 
-                <ChatFeed
-                    ClassName ={'feed'}
-                    showSenderName
-                    messages = {chatData.msg}
-                />
+                {
+                    <ChatPanel
+                        messages={chatData.msg}>
+                    </ChatPanel>
+                }
                 <footer className={'footer'}>
                     <Input onSendClick={onSend}/>
                 </footer>

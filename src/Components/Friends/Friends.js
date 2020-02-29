@@ -44,7 +44,7 @@ function Friends({clickOnChat,setChatIndex}) {
                         <Column>
                             <Row justify>
                                 <Title ellipsis>{chat.name}</Title>
-                                <Subtitle >{chat.isOnline
+                                <Subtitle style={{marginLeft:'5px'}} >{chat.isOnline
                                     ? <status-indicator active ></status-indicator>
                                     :<div/>}
                                 </Subtitle>

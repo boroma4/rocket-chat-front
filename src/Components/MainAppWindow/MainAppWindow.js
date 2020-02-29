@@ -1,7 +1,7 @@
 import React,{useState,useEffect,useContext} from 'react';
 import {Redirect } from "react-router-dom";
 import {UserChatsContext} from "../../App";
-import SwitchToMobileModal from "./SwitchToMobileModal";
+import SwitchToMobileModal from "./Modals/SwitchToMobileModal";
 import '../../App.css';
 import witcher from '../../sounds/lol.mp3';
 import drStone from '../../sounds/dr_stone_ending.mp3';
@@ -11,7 +11,8 @@ import LeftPart from "./SubWindows/ScreenWithFriends";
 import RightPart from "./SubWindows/ScreenWithChats";
 import {createHubConnection} from "../../Helpers/HubConnection";
 import {useToasts} from "react-toast-notifications";
-import {useCookies} from "react-cookie"
+import {useCookies} from 'react-cookie';
+import {ScrollChatToBottom} from "../../Helpers/Scroller";
 
 export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:null,isMobile:false});
 
@@ -105,13 +106,15 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
         //fetch only if it is first click on chat or when more messages are requested from chat + chat has more than 10 messages already
         if(!currentChat.lastMessagesAreFetched || (!shouldSetChatId && currentChat.msg.length > 10)) {
             const numberOfMessages = currentChat.msg.length;
+            const shouldScrollUp = currentChat.lastMessagesAreFetched;
+            const chatWindow = document.getElementsByClassName("chat-panel")[0];
             AddTenMessagesToState(id,user,currentChat)
                 .then(newState => {
                     // if anything has changed, update and scroll
                     if(numberOfMessages !== newState.msg.length){
                         setChats(currentChatsState);
-                        const chatWindow = document.getElementsByClassName("chat-history")[0];
-                        chatWindow.scrollTop = 0;
+                        if(shouldScrollUp) chatWindow.scrollTop = 0;
+                        else ScrollChatToBottom();
                     }
                 })
                 .catch(err => {

@@ -1,17 +1,15 @@
-#group{
-    height: 80vh;
+#chat-side{
+    display: flex;
+    flex-direction: column;
+    height: 100vh;
+    justify-content: space-between;
 }
-.lc-3ft2j8 {
-    background-color: cornflowerblue;
-    border-radius: 10px;
-}
-#chat-panel {
-    margin-top: 5vh;
-    height: calc(100vh - 30vh);
-    overflow-y: auto;
-}
+
 .footer {
-    height: 20vh;
+    height: fit-content;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 8px;
 }
 .header{
     max-height: 5vh;
@@ -19,8 +17,42 @@
 .arrow-back{
     padding: 0;
 }
-p{
-    color: black !important;
+.MuiIconButton-root{
+    border-radius: 0;
+}
+
+.chat-panel{
+    padding: 0;
+    overflow-y: auto;
+    margin-top: 5vh;
+    height: auto;
+    list-style: none;
+    flex: 1;
+}
+
+.chat-panel li{
+    display:inline-block;
+    clear: both;
+    padding: 8px 14px;
+    margin-bottom: 2px;
+    font-family: Helvetica, Arial, sans-serif;
+    max-width: 250px;
+    border-radius: 20px;
+    word-wrap: break-word;
+}
+.him{
+    background: lightskyblue;
+    float: left;
+}
+.me {
+    float: right;
+    background: lightgreen;
+}
+.message-text{
+    color: black;
+    font-size: 16px;
+    font-weight: 300;
+    margin: 0;
 }
 
 @media only screen and (max-height: 400px) {
