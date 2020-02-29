@@ -21,6 +21,7 @@ export const FAQDATA = [{question:'Q: What do I do here?',answer:'A: You send me
     ];
 
 export const RELEASEDATA = [
+    {version: 'v0.3.2',changes: ['Improved chat window UI and built-in emoji']},
     {version: 'v0.3.1',changes: ['Fix login and cookie related bugs']},
     {version: 'v0.3',changes: ['Security updates','Notification settings','More efficient live communication',
             'Email verification','Login with Google','Bugfixes and other minor improvements','Semi-advanced security for messages', 'Added cookies support']},
