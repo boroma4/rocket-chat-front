@@ -24,7 +24,8 @@ export default function Login({loginOrRegister}) {
         return email.length > 0 && password.length > 0;
     }
     const responseGoogle = async (response) => {
-        await handleLogin('google',response.id_token);
+        console.log(response);
+        await handleLogin('google',response.tokenId);
     };
 
 
