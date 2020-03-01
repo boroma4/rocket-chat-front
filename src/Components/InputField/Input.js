@@ -57,7 +57,6 @@ export default function Input({onSendClick}) {
     const submitIsValid = () => {
         return input.trim().length > 0;
     };
-
     return (
         <Paper component="form" className={classes.root} onSubmit={SendMessageToDatabaseAndScreen}>
             <OverlayTrigger trigger="click" placement="top" overlay={
@@ -77,6 +76,7 @@ export default function Input({onSendClick}) {
                 multiline={true}
                 className={classes.input}
                 placeholder="write smth"
+                onClick={()=>ScrollChatToBottom()}
                 inputProps={{ 'aria-label': 'search google maps' }}
             />
             <IconButton className={classes.iconButton} aria-label="upload">
