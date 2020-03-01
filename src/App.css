@@ -1,6 +1,8 @@
 body{
   overflow: hidden;
   background-color: azure;
+  position: fixed;
+  background-attachment: fixed;
 }
 .row{
   height: 100vh;
