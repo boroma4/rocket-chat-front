@@ -76,7 +76,7 @@ export default function Input({onSendClick}) {
                 multiline={true}
                 className={classes.input}
                 placeholder="write smth"
-                onClick={()=>ScrollChatToBottom()}
+                onClick={()=>setTimeout(()=>ScrollChatToBottom(),100)}
                 inputProps={{ 'aria-label': 'search google maps' }}
             />
             <IconButton className={classes.iconButton} aria-label="upload">
