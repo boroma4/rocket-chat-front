@@ -42,7 +42,8 @@ export default function Input({onSendClick}) {
         const text = `${input}${emoji.native}`;
         setInput(text);
     };
-    const SendMessageToDatabaseAndScreen = () => {
+    const SendMessageToDatabaseAndScreen = (event) => {
+        event.preventDefault();
         onSendClick(input);
         setInput('');
         setTimeout(()=>{
