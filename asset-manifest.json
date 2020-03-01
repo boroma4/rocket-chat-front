@@ -1,6 +1,6 @@
 {
   "files": {
-    "main.css": "/rocket-chat-front/static/css/main.c5a45fd9.chunk.css",
+    "main.css": "/rocket-chat-front/static/css/main.184bb7fc.chunk.css",
     "main.js": "/rocket-chat-front/static/js/main.67a42aa8.chunk.js",
     "main.js.map": "/rocket-chat-front/static/js/main.67a42aa8.chunk.js.map",
     "runtime-main.js": "/rocket-chat-front/static/js/runtime-main.a85319c3.js",
@@ -9,10 +9,10 @@
     "static/js/2.23539274.chunk.js": "/rocket-chat-front/static/js/2.23539274.chunk.js",
     "static/js/2.23539274.chunk.js.map": "/rocket-chat-front/static/js/2.23539274.chunk.js.map",
     "index.html": "/rocket-chat-front/index.html",
-    "precache-manifest.1a8f5e4681b92aa8bea9fe20246925d3.js": "/rocket-chat-front/precache-manifest.1a8f5e4681b92aa8bea9fe20246925d3.js",
+    "precache-manifest.99ce321e1dd112a43af415de9b37ac1f.js": "/rocket-chat-front/precache-manifest.99ce321e1dd112a43af415de9b37ac1f.js",
     "service-worker.js": "/rocket-chat-front/service-worker.js",
     "static/css/2.7b68b42b.chunk.css.map": "/rocket-chat-front/static/css/2.7b68b42b.chunk.css.map",
-    "static/css/main.c5a45fd9.chunk.css.map": "/rocket-chat-front/static/css/main.c5a45fd9.chunk.css.map",
+    "static/css/main.184bb7fc.chunk.css.map": "/rocket-chat-front/static/css/main.184bb7fc.chunk.css.map",
     "static/js/2.23539274.chunk.js.LICENSE": "/rocket-chat-front/static/js/2.23539274.chunk.js.LICENSE",
     "static/media/dr_stone_ending.mp3": "/rocket-chat-front/static/media/dr_stone_ending.470614e2.mp3",
     "static/media/lol.mp3": "/rocket-chat-front/static/media/lol.f8b7a2e4.mp3",
@@ -22,7 +22,7 @@
     "static/js/runtime-main.a85319c3.js",
     "static/css/2.7b68b42b.chunk.css",
     "static/js/2.23539274.chunk.js",
-    "static/css/main.c5a45fd9.chunk.css",
+    "static/css/main.184bb7fc.chunk.css",
     "static/js/main.67a42aa8.chunk.js"
   ]
 }
