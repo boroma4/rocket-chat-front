@@ -1,16 +1,17 @@
-import {HubConnectionBuilder} from "@aspnet/signalr";
 import { FindChatIndexByChatId,CheckIfChatIdMatchIsPresent} from "./ProcessData";
 import {AESKEY,AESIV, BackendLink} from "../Constants/Const";
-import {SetUserOffline} from "./ApiFetcher";
 import {ReconnectFail,OnlineOrOffline,NewChat,NewMessage} from "../Components/Notifications/Notifications";
 import React from "react";
 import {MessageIF} from "../Components/ChatWindow/Message/MessageIF";
+import * as signalR from "@microsoft/signalr";
+
 const CryptoJS = require("crypto-js");
+
 
 //very very hacky
 export async function createHubConnection (setUser,setChats,setHub,PopupNotification,setChatIndex,setChatId) {
 
-    const hubConnect = new HubConnectionBuilder()
+    const hubConnect = new signalR.HubConnectionBuilder()
         .withUrl(`${BackendLink}/chat`)
         .build();
 
@@ -27,7 +28,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
         await hubConnect.start();
 
         //show others u went online
-        await hubConnect.invoke('UserWentOfflineOrOnline',true,loc_user.userId);
+        await hubConnect.invoke('UserWentOfflineOrOnline',true,loc_user.userId,hubConnect.connectionId);
 
         const {sound,connectionChanged} = loc_user.notificationSettings;
 
@@ -35,7 +36,6 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
 
         //after socket dies, it sends a request to put user offline in the db
         hubConnect.onclose(() => {
-            SetUserOffline(loc_user.userId);
             // need to use this hack again :((
             let l_user;
             setUser(prev=>{
