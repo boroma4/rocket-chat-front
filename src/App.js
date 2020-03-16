@@ -3,7 +3,7 @@ import MainAppWindow from "./Components/MainAppWindow/MainAppWindow";
 import { HashRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import './App.css';
 import WelcomePage from "./Components/Welcome/WelcomePage";
-import {GetAllChatsByUserId, SetUserOffline, TryLoginOrRegister} from "./Helpers/ApiFetcher";
+import {GetAllChatsByUserId, TryLoginOrRegister} from "./Helpers/ApiFetcher";
 import {ProcessChats} from "./Helpers/ProcessData";
 import {ToastProvider} from "react-toast-notifications";
 import {gapi} from "gapi-script";
@@ -122,22 +122,10 @@ function App() {
 
     const logout = () => {
         setUser(null);
-        notifyAboutLogout();
+        hubConnection.stop();
         setHubConnection(null);
         TryToDoGoogleLogout();
         removeCookie('userToken');
-    };
-
-    //when tab closes
-    window.addEventListener("beforeunload", function (e) {
-        SetUserOffline(user.userId);
-        notifyAboutLogout();
-    });
-
-    const notifyAboutLogout = () =>{
-        hubConnection.invoke('UserWentOfflineOrOnline',false,user.userId)
-            .then(()=>hubConnection.stop())
-            .catch(err=>console.log(err));
     };
 
     const TryToDoGoogleLogout= () => {
@@ -145,7 +133,7 @@ function App() {
             const auth2 = gapi.auth2.getAuthInstance();
             auth2.signOut().then(auth2.disconnect());
         }
-        catch (e) {console.log('Not a googler!')};
+        catch (e) {console.log('Not a googler!')}
 
     };
 

@@ -6,7 +6,6 @@ export function ProcessChats (chats,userId) {
 
     chats.forEach(chat=>{
         let msgDisplayId,chatToAdd;
-        console.log(chat);
         if(chat.lastMessage) {
             msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
             const message = chat.lastMessage;

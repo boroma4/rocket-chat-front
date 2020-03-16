@@ -90,18 +90,6 @@ export async function UpdateNotificationSettings (userId,sound,newchat,newmessag
     }
 }
 
-export async function SetUserOffline(userId) {
-    let token = jwt.sign({userId}, TokenSignature);
-    let res = await fetch(`${BackendLink}/api/disconnect`, {
-        method: 'post',
-        headers: {'Content-type': 'application/json'},
-        body: JSON.stringify({token})
-    });
-    if(res.status === 404){
-        console.log('Couldnt find a user');
-    }
-}
-
 function CheckForResponseCodeAndThrow(code,error){
     switch (code) {
         case 400:
