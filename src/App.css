@@ -12,6 +12,7 @@ body{
   background-image: url("https://miro.medium.com/max/1280/1*9WeJrBj6pp-qnGjRGg2NUw.png");
   background-size: cover;
   background-repeat: no-repeat;
+  padding-right: 0px;
 }
 .left-content{
   height: 100vh;
