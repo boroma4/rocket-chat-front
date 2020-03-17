@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, {useState} from 'react';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { makeStyles } from '@material-ui/core/styles';
@@ -10,10 +10,12 @@ import SendIcon from '@material-ui/icons/Send';
 import SentimentVeryDissatisfiedSharpIcon from '@material-ui/icons/SentimentVeryDissatisfiedSharp';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
 import 'emoji-mart/css/emoji-mart.css'
+import '../ChatWindow/Chat.css'
+
 import {Picker} from "emoji-mart";
 import {ScrollChatToBottom} from "../../Helpers/Scroller";
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(() => ({
     root: {
         padding: '2px 4px',
         display: 'flex',
@@ -55,6 +57,16 @@ export default function Input({onSendClick}) {
         setInput(event.target.value);
         ScrollChatToBottom();
     };
+    const onKeyPress=(ev) => {
+        if (ev.key === 'Enter') {
+            ev.preventDefault();
+            onSendClick(input);
+            setInput('');
+            setTimeout(()=>{
+                ScrollChatToBottom();
+            },20);
+        }
+    };
     const submitIsValid = () => {
         return input.trim().length > 0;
     };
@@ -67,11 +79,12 @@ export default function Input({onSendClick}) {
                 </Popover>
             }>
                 <IconButton className={classes.iconButton} aria-label="emoji">
-                    <SentimentVeryDissatisfiedSharpIcon />
+                    <SentimentVeryDissatisfiedSharpIcon className={'ic'} />
                 </IconButton>
             </OverlayTrigger>
 
             <InputBase
+                onKeyPress={onKeyPress}
                 onChange={onTyping}
                 value={input}
                 rowsMax={8}
@@ -81,11 +94,11 @@ export default function Input({onSendClick}) {
                 inputProps={{ 'aria-label': 'search google maps' }}
             />
             <IconButton className={classes.iconButton} aria-label="upload">
-                <CloudUploadIcon />
+                <CloudUploadIcon className='ic' />
             </IconButton>
             <Divider className={classes.divider} orientation="vertical" />
             <IconButton type='submit' color={submitIsValid() ? 'primary' : 'secondary'} disabled={!submitIsValid()} className={classes.iconButton} aria-label="send">
-                <SendIcon />
+                <SendIcon className='ic' />
             </IconButton>
         </Paper>
     );

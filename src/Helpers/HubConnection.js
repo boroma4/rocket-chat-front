@@ -4,6 +4,7 @@ import {ReconnectFail,OnlineOrOffline,NewChat,NewMessage} from "../Components/No
 import React from "react";
 import {MessageIF} from "../Components/ChatWindow/Message/MessageIF";
 import * as signalR from "@microsoft/signalr";
+import {CalculateScrollDistance, ScrollChatToBottom} from "./Scroller";
 
 const CryptoJS = require("crypto-js");
 
@@ -96,6 +97,10 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                         id = prev;
                         return prev;
                     });
+                    if(id === chatId){
+                        const dist = CalculateScrollDistance();
+                        if(neededChat.msg.length < 15 || dist > 55) ScrollChatToBottom();
+                    }
                     setChatIndex(()=>{
                         const currentChatIndex = FindChatIndexByChatId(id,updatedChats);
                         return currentChatIndex;

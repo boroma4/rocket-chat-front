@@ -28,6 +28,7 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
     const[redirect,setRedirect] = useState(false);
     const[isMobile,setIsMobile] = useState(false);
     const[partToShow,setPartToShow] = useState('left');
+
     const [cookies,setCookie,removeCookie] = useCookies(['userToken']);
 
 
@@ -59,6 +60,8 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
                 return;
         }
     };
+
+
 
     const UpdateUserData = (type,value) =>{
         //hack will be removed later, when Redux will be used

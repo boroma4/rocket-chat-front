@@ -40,6 +40,26 @@
     border-radius: 20px;
     word-wrap: break-word;
 }
+.down-btn{
+    border-radius: 20px;
+    height: 40px;
+    width: 40px;
+    float: left;
+    margin-bottom: 10px;
+    background-color: lightpink;
+    cursor: pointer;
+    transition: transform .2s; /* Animation */
+
+}
+.down-btn:hover{
+    transform: scale(1.15);
+}
+.ic{
+    transition: transform .2s; /* Animation */
+}
+.ic:hover{
+    transform: scale(1.15);
+}
 .him{
     background: lightskyblue;
     float: left;
@@ -59,5 +79,11 @@
     .header{
         max-height: 10vh;
         font-size: small;
+    }
+    .down-btn:hover {
+        transform: none;
+    }
+    .ic:hover{
+        transform: none;
     }
 }
