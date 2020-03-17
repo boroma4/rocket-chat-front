@@ -37,11 +37,6 @@ function WelcomePage({loginOrRegister,path}) {
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>
-                    <Alert  variant={'warning'} className={'tc ma0'}>
-                        <strong>99.9% sure your account won't be deleted again!!<br/>
-                            Make sure to check out our <a href={'/rocket-chat-front/#/release'}>release notes</a>!
-                        </strong>
-                    </Alert>
                     {
                         {
                             '/login': <Login loginOrRegister={loginOrRegister}/>,
