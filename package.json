@@ -25,7 +25,7 @@
     "react-google-login": "^5.0.7",
     "react-loading-overlay": "^1.0.1",
     "react-router-dom": "^5.1.2",
-    "react-scripts": "3.3.0",
+    "react-scripts": "3.4.0",
     "react-sound": "^1.2.0",
     "react-switch": "^5.0.1",
     "react-toast-notifications": "^2.4.0",
