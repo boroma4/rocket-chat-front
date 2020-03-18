@@ -1,6 +1,6 @@
-import { FindChatIndexByChatId,CheckIfChatIdMatchIsPresent} from "./ProcessData";
-import {AESKEY,AESIV, BackendLink} from "../Constants/Const";
-import {ReconnectFail,OnlineOrOffline,NewChat,NewMessage} from "../Components/Notifications/Notifications";
+import {CheckForInvite, CheckIfChatIdMatchIsPresent, FindChatIndexByChatId} from "./ProcessData";
+import {AESIV, AESKEY, BackendLink} from "../Constants/Const";
+import {NewChat, NewMessage, OnlineOrOffline, ReconnectFail} from "../Components/Notifications/Notifications";
 import React from "react";
 import {MessageIF} from "../Components/ChatWindow/Message/MessageIF";
 import * as signalR from "@microsoft/signalr";
@@ -10,7 +10,7 @@ const CryptoJS = require("crypto-js");
 
 
 //very very hacky
-export async function createHubConnection (setUser,setChats,setHub,PopupNotification,setChatIndex,setChatId) {
+export async function CreateMainHubConnection (setUser, setChats, setHub, PopupNotification, setChatIndex, setChatId) {
 
     const hubConnect = new signalR.HubConnectionBuilder()
         .withUrl(`${BackendLink}/chat`)
@@ -48,8 +48,8 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                     if(connectionChanged) PopupNotification(<OnlineOrOffline sound={sound} online={false}/>, 'warning', 3000);
                     Reconnect(0,hubConnect,setHub,PopupNotification,l_user.notificationSettings)
                         .then(()=>{
-                                //TODO load messages that were missed and add to state instead of discarding all
-                                //discard all chats, load them on click
+                                //TODO load messages that were missed and add to state instead of discarding all && Check online statuses of friends
+                                //discard all chats, load them on next click
                                 setChatIndex(-1);
                                 setChats(oldChats=>{
                                     let newChats = [...oldChats];
@@ -76,7 +76,8 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
             let l_user;
             setUser(prev=>{
                 l_user = prev;
-                return prev;});
+                return prev;
+            });
             const {sound,newMessageReceived} = l_user.notificationSettings;
             setChats(prevState => {
                 // index where the chat is located for current client
@@ -87,7 +88,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                     updatedChats[neededChatIndex].msg.push(new MessageIF({id:1,message:messageText}));
                     updatedChats[neededChatIndex].isOnline = true;
 
-                    if (newMessageReceived) PopupNotification(<NewMessage sound={sound} name={ updatedChats[neededChatIndex].name} body={messageText}/>,'info',5000);
+                    if (newMessageReceived) PopupNotification(<NewMessage sound={sound} name={ updatedChats[neededChatIndex].name} body={CheckForInvite(messageText,true)}/>,'info',5000);
 
                     const neededChat = updatedChats[neededChatIndex];
                     updatedChats.splice(neededChatIndex, 1);
@@ -101,10 +102,7 @@ export async function createHubConnection (setUser,setChats,setHub,PopupNotifica
                         const dist = CalculateScrollDistance();
                         if(neededChat.msg.length < 15 || dist > 55) ScrollChatToBottom();
                     }
-                    setChatIndex(()=>{
-                        const currentChatIndex = FindChatIndexByChatId(id,updatedChats);
-                        return currentChatIndex;
-                    });
+                    setChatIndex(FindChatIndexByChatId(id, updatedChats));
                     return updatedChats;
                 }
                 else{

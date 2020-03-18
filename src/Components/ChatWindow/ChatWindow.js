@@ -1,18 +1,17 @@
 import React, {useContext, useEffect, useState} from 'react';
 import Input from "../InputField/Input";
 import './Chat.css';
-import {MainChatWindowContext} from "../MainAppWindow/MainAppWindow";
+import {MainChatWindowContext} from "../MainChatAppWindow/MainChatAppWindow";
 import {Button as BootstrapButton} from "react-bootstrap";
 import ChatPanel from "./Panel/ChatPanel";
 import {CalculateScrollDistance, ScrollChatToBottom} from "../../Helpers/Scroller";
 
 
 
-function ChatWindow({chatData,onSend,loadTen,GoBack}) {
+function ChatWindow({setChats,chatData,onSend,loadTen,GoBack}) {
 
     const {chatId,chatIndex,isMobile} = useContext(MainChatWindowContext);
     const[scrollPercentage,setScrollPercentage] = useState(100);
-
 
     useEffect(()=>{
         listenToScrollEvent();
@@ -59,13 +58,14 @@ function ChatWindow({chatData,onSend,loadTen,GoBack}) {
                             </div>
                         </div>
                         :
-                        <h4 className='white tc hover-bg-white-40 pointer col-10 flex-none' onClick={LoadMoreMessages}>
+                        <h4 className='white tc hover-bg-white-40 pointer col-10 flex-none align-self-center' onClick={LoadMoreMessages}>
                             Load more
                         </h4>
                 }
                 {
                     <ChatPanel
-                        messages={chatData.msg}>
+                        setChats={setChats}
+                        chatData={chatData}>
                     </ChatPanel>
                 }
                 {(scrollPercentage <= 55)

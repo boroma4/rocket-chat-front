@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import MainAppWindow from "./Components/MainAppWindow/MainAppWindow";
+import MainChatAppWindow from "./Components/MainChatAppWindow/MainChatAppWindow";
 import { HashRouter as Router, Switch, Route, Redirect} from "react-router-dom";
 import './App.css';
 import WelcomePage from "./Components/Welcome/WelcomePage";
@@ -11,6 +11,7 @@ import {AESKEY,AESIV, ROUTES} from "./Constants/Const";
 import {ValidateToken} from "./Helpers/TokenValidation";
 import {useCookies} from "react-cookie"
 import {MessageIF} from "./Components/ChatWindow/Message/MessageIF";
+import {ScrollChatToBottom} from "./Helpers/Scroller";
 const CryptoJS = require("crypto-js");
 
 export const UserChatsContext = React.createContext({user:{},chats:[],isLoading:false});
@@ -100,23 +101,28 @@ function App() {
         let l_chatIndex = chatIndex;
         let l_chatId = chatId;
         //invoke 'sendMessage' with chatId most likely
-        return function (msgText) {
+        return function (msgText,isInvite = false) {
             let ciphertext = CryptoJS.AES.encrypt(msgText,
                 CryptoJS.enc.Base64.parse(AESKEY),
                 {iv:CryptoJS.enc.Base64.parse(AESIV) }).toString();
 
-            hubConnection.invoke('SendDirectMessage',user.userId,l_chatId,ciphertext).catch(err=>console.log(err));
+            hubConnection.invoke('SendDirectMessage',user.userId,l_chatId,ciphertext,isInvite).catch(err=>console.log(err));
 
-            setChats(prevState => {
+            if(!isInvite) {
+                setChats(prevState => {
+                    let updatedChats = Object.assign([], prevState);
+                    const neededChat = updatedChats[l_chatIndex];
+                    neededChat.msg.push(new MessageIF({id: 0, message: msgText, dateTime: new Date()}));
 
-                let updatedChats = Object.assign([],prevState);
-                const neededChat = updatedChats[l_chatIndex];
-                neededChat.msg.push(new MessageIF({id:0,message:msgText,dateTime:new Date()}));
+                    updatedChats.splice(l_chatIndex, 1);
+                    updatedChats.unshift(neededChat);
+                    return updatedChats;
+                });
+                setTimeout(()=>{
+                    ScrollChatToBottom();
+                },20);
+            }
 
-                updatedChats.splice(l_chatIndex, 1);
-                updatedChats.unshift(neededChat);
-                return updatedChats;
-            });
         };
     };
 
@@ -143,7 +149,7 @@ function App() {
                 <Switch>
                         <Route path="/app">
                             <UserChatsContext.Provider value={{user,chats,isLoading}}>
-                                <MainAppWindow setHubConnection={setHubConnection} setUser={setUser} setChats={setChats} SendMessage={SendMessage} logout={logout} createNewChat = {CreateNewChat}/>
+                                <MainChatAppWindow setHubConnection={setHubConnection} setUser={setUser} setChats={setChats} SendMessage={SendMessage} logout={logout} createNewChat = {CreateNewChat}/>
                              </UserChatsContext.Provider>
                         </Route>
                         {

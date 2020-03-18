@@ -7,16 +7,17 @@ import witcher from '../../sounds/lol.mp3';
 import drStone from '../../sounds/dr_stone_ending.mp3';
 import {AddTenMessagesToState} from "../../Helpers/ProcessData";
 import useMobileDetect from 'use-mobile-detect-hook';
-import LeftPart from "./SubWindows/ScreenWithFriends";
-import RightPart from "./SubWindows/ScreenWithChats";
-import {createHubConnection} from "../../Helpers/HubConnection";
+import FriendsSide from "./SubWindows/ScreenWithFriends";
+import ChatSide from "./SubWindows/ScreenWithChats";
+import {CreateMainHubConnection} from "../../Helpers/HubConnection";
 import {useToasts} from "react-toast-notifications";
 import {useCookies} from 'react-cookie';
 import {ScrollChatToBottom} from "../../Helpers/Scroller";
+import {GameInviteSent} from "../Notifications/Notifications";
 
 export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:null,isMobile:false});
 
-const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubConnection})=> {
+const MainChatAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubConnection})=> {
 
     const {user,chats} = useContext(UserChatsContext);
     const detectMobile = useMobileDetect();
@@ -33,7 +34,7 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
 
 
     useEffect( ()=>{
-            createHubConnection(setUser,setChats,setHubConnection,PopUpNotification,setChatIndex,setChatId)
+            CreateMainHubConnection(setUser,setChats,setHubConnection,PopUpNotification,setChatIndex,setChatId)
                 .then(hub=>{
                     setHubConnection(hub)
                 });
@@ -137,24 +138,28 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
         setPartToShow('right');
     };
 
-    const SendMessageAndSetIndex = (text) =>{
+    const SendMessageAndSetIndex = (text,isInvite = false) =>{
       const SendMessageWithChatData = SendMessage(chatId,chatIndex);
-      SendMessageWithChatData(text);
-      setChatIndex(0);
+      const gameExists = Boolean(chats[chatIndex].game);
+      // if it is legal to send a message do it
+      if(!isInvite || (isInvite && !gameExists))SendMessageWithChatData(text,isInvite);
+      // if it is a game invite
+      if(isInvite) {
+          if(gameExists) PopUpNotification(<GameInviteSent failed ={true} sound={user.notificationSettings.sound}/>,'info',5000);
+          else PopUpNotification(<GameInviteSent failed ={false} sound={user.notificationSettings.sound}/>,'info',5000);
+      }else{
+          setChatIndex(0);
+      }
     };
 
     useEffect(()=>{
-        if(!user){
-            setRedirect(true);
-        }
+        if(!user) setRedirect(true);
     }, [detectMobile, user]);
 
     return (
         <>
             <MainChatWindowContext.Provider value = {{chatId,chatIndex,isMobile}} >
-                {detectMobile.isMobile()
-                    ?<SwitchToMobileModal setIsMobile={setIsMobile}/>
-                    :<div/>}
+                {detectMobile.isMobile() ?<SwitchToMobileModal setIsMobile={setIsMobile}/> :<div/>}
                 {redirect
                     ? <Redirect to ={'/'}/>
                     : <div className="row">
@@ -162,11 +167,11 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
                         {isMobile
                             ?
                             partToShow === 'left'
-                                ?<LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio} UpdateUserData={UpdateUserData}/>
-                                :<RightPart  LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} GoBack = {setPartToShow} />
+                                ?<FriendsSide LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatOnMobile} setSong={setSong} updAudio={updAudio} UpdateUserData={UpdateUserData}/>
+                                :<ChatSide setChats={setChats} LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} GoBack = {setPartToShow} />
                             : <>
-                                <LeftPart LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio} UpdateUserData={UpdateUserData}/>
-                                <RightPart LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} />
+                                <FriendsSide LoadTenMessages={LoadTenMessages} createNewChat={createNewChat} logout={logout} setChatIndex={setChatIndex} setSong={setSong} updAudio={updAudio} UpdateUserData={UpdateUserData}/>
+                                <ChatSide setChats={setChats} LoadTenMessages={LoadTenMessages} SendMessage={SendMessageAndSetIndex} />
                             </>
                         }
                     </div>
@@ -175,4 +180,4 @@ const MainAppWindow =({setChats,SendMessage,logout,createNewChat,setUser,setHubC
         </>
     );
 };
-export default MainAppWindow;
+export default MainChatAppWindow;

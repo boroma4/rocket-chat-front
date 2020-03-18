@@ -1,9 +1,9 @@
 import React, {useContext} from 'react';
-import {MainChatWindowContext} from "../MainAppWindow";
+import {MainChatWindowContext} from "../MainChatAppWindow";
 import Settings from "../../Settings/Settings";
 import Friends from "../../Friends/Friends";
 
-export default function LeftPart({createNewChat,LoadTenMessages,updAudio,setSong,logout,setChatIndex,UpdateUserData}) {
+export default function FriendsSide({createNewChat,LoadTenMessages,updAudio,setSong,logout,setChatIndex,UpdateUserData}) {
 
 
     const {isMobile} = useContext(MainChatWindowContext);

@@ -1,0 +1,9 @@
+.pick-header{
+    background-image: url("https://previews.123rf.com/images/vitaliyvill/vitaliyvill1705/vitaliyvill170500027/78544920-cartoon-game-background-seamless-background-for-games-mobile-applications-and-computers-vector-illus.jpg");
+    background-size: cover;
+    background-repeat: no-repeat;
+}
+.header-text{
+    font-family:'Press Start 2P',Roboto, Arial, monospace;
+    font-size: small;
+}

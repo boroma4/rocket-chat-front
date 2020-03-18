@@ -7,8 +7,9 @@ import InputBase from '@material-ui/core/InputBase';
 import Divider from '@material-ui/core/Divider';
 import IconButton from '@material-ui/core/IconButton';
 import SendIcon from '@material-ui/icons/Send';
-import SentimentVeryDissatisfiedSharpIcon from '@material-ui/icons/SentimentVeryDissatisfiedSharp';
+import SportsEsportsIcon from '@material-ui/icons/SportsEsports';import SentimentVeryDissatisfiedSharpIcon from '@material-ui/icons/SentimentVeryDissatisfiedSharp';
 import CloudUploadIcon from '@material-ui/icons/CloudUpload';
+import GamePicker from "../Games/GamePicker/GamePicker";
 import 'emoji-mart/css/emoji-mart.css'
 import '../ChatWindow/Chat.css'
 
@@ -48,10 +49,6 @@ export default function Input({onSendClick}) {
         event.preventDefault();
         onSendClick(input);
         setInput('');
-        setTimeout(()=>{
-            ScrollChatToBottom();
-        },20);
-
     };
     const onTyping = (event)=>{
         setInput(event.target.value);
@@ -73,7 +70,7 @@ export default function Input({onSendClick}) {
 
     return (
         <Paper component="form" className={classes.root} onSubmit={SendMessageToDatabaseAndScreen}>
-            <OverlayTrigger trigger="click" placement="top" overlay={
+            <OverlayTrigger trigger="click" placement="top"  overlay={
                 <Popover id="popover-basic">
                     <Picker title={'Emoji v2'} showPreview={false} set='emojione' onSelect={onEmojiClick} />
                 </Popover>
@@ -93,6 +90,16 @@ export default function Input({onSendClick}) {
                 placeholder="write smth"
                 inputProps={{ 'aria-label': 'search google maps' }}
             />
+            <OverlayTrigger trigger="click" hi placement="top" overlay={
+                <Popover id="popover-basic">
+                    <GamePicker sendMessage={onSendClick}/>
+                </Popover>
+            }>
+                <IconButton className={classes.iconButton} aria-label="games">
+                    <SportsEsportsIcon className={'ic'} />
+                </IconButton>
+            </OverlayTrigger>
+
             <IconButton className={classes.iconButton} aria-label="upload">
                 <CloudUploadIcon className='ic' />
             </IconButton>
