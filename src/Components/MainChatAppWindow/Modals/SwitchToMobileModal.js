@@ -15,7 +15,7 @@ export default function SwitchToMobile({setIsMobile}) {
         <>
             <Modal show={visible} onHide={()=>setVisible(false)} centered >
                 <Modal.Body closebutton = {'true'} className={'tc'} >
-                    <h3>Swtich to mobile version</h3>
+                    <h3>Switch to mobile version</h3>
                     <div >
                         <Button variant="primary" onClick = {()=>handleClick(true)}>Yes</Button>
                         <Button style = {{marginLeft:'10%'}} variant="secondary"  onClick = {()=>handleClick(false)}>No</Button>

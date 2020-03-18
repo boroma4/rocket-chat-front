@@ -1,0 +1,18 @@
+.board {
+    display: grid;
+    margin: auto;
+    margin-top: 20px;
+}
+.status {
+    text-align: center;
+    font-weight: bold;
+    font-size: 28px;
+    margin-bottom: 10px;
+}
+.rows-holder {
+    margin: auto;
+}
+.board-row {
+    float: left;
+    width: auto;
+}
