@@ -213,6 +213,7 @@ const MainChatAppWindow =({setChats,setUser})=> {
             //surrender
             case GAMEACTIONS[1]:
                 if(data.surrender)PopUpNotification(`YOU LOST your game against  ${chats[chatIndex].name}! `,'error',5000);
+                else if(data.draw)PopUpNotification(`DRAW against  ${chats[chatIndex].name}! `,'info',5000);
                 else PopUpNotification(`YOU WON your game against ${chats[chatIndex].name}!`,'success',5000);
                 break;
             //start

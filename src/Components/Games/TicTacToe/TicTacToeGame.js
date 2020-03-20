@@ -23,7 +23,7 @@ export default function TicTacToeBoard({setChats,inGameAction}){
         });
         const game  = chats[chatIndex].game;
         inGameAction(GAMEACTIONS[2],game);
-        if(game.winner) inGameAction(GAMEACTIONS[1],{});
+        if(game.winner) inGameAction(GAMEACTIONS[1],{draw: game.winner === '-1'});
     };
 
     const createBoard = () => {
@@ -46,8 +46,13 @@ export default function TicTacToeBoard({setChats,inGameAction}){
         const game = chats[chatIndex].game;
         let text = '';
         if(game.winner){
-            text += 'The winner: ';
-            text += game.currentPlayer === game.myMark ? user.userName : chats[chatIndex].name;
+            if(game.winner != '-1'){
+                text += 'The winner: ';
+                text += game.currentPlayer === game.myMark ? user.userName : chats[chatIndex].name;
+            }
+            else{
+                text = 'DRAW'
+            }
         }else{
             text += 'Current player: ';
             text += game.currentPlayer !== game.myMark ? user.userName : chats[chatIndex].name;
