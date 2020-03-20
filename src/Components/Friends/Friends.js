@@ -5,7 +5,8 @@ import {ThemeProvider,Avatar,Row,ChatList,ChatListItem,Column,Title,Subtitle}
 import 'status-indicator/styles.css'
 
 import {UserChatsContext} from "../../App";
-import {MainChatWindowContext} from "../MainAppWindow/MainAppWindow";
+import {MainChatWindowContext} from "../MainChatAppWindow/MainChatAppWindow";
+import {CheckForInvite} from "../../Helpers/ProcessData";
 
 function Friends({clickOnChat,setChatIndex}) {
 
@@ -51,7 +52,7 @@ function Friends({clickOnChat,setChatIndex}) {
                             </Row>
                             <Subtitle ellipsis>{
                                 chat.msg.length > 0
-                                    ? chat.msg[chat.msg.length-1].message
+                                    ? CheckForInvite(chat.msg[chat.msg.length-1].message,true)
                                     : 'Say something'
                                 }
                             </Subtitle>

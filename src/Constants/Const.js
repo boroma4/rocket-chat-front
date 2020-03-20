@@ -2,6 +2,7 @@ export const BackendLink = process.env.REACT_APP_APILINK;
 export const TokenSignature = process.env.REACT_APP_TOKEN_SIGNATURE;
 export const AESKEY = process.env.REACT_APP_AESKEY;
 export const AESIV = process.env.REACT_APP_AESIV;
+export const GAMECODE = '#GAME#';
 
 export const SettingsList = ['Audio','Add Contact','My Account','Logout'];
 export const SongList = ['witcher','drStone'];
