@@ -1,10 +1,8 @@
-import React, {useContext} from "react";
+import React from "react";
 import Figure from "react-bootstrap/Figure";
 import './GamePicker.css';
 import {GAMES} from '../GamesList';
 import {GAMECODE} from "../../../Constants/Const";
-import {UserChatsContext} from "../../../App";
-import {MainChatWindowContext} from "../../MainChatAppWindow/MainChatAppWindow";
 
 export  default function GamePicker({sendMessage}) {
 

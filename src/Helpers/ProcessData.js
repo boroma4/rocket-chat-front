@@ -16,6 +16,7 @@ export function ProcessChats (chats,userId) {
             // lastMessagesAreFetched value doesn't matter in this case,as the chat is empty and must be updated live time anyway
             chatToAdd = {id:chat.chatId,image:chat.friendImageUrl,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[]};
         }
+        chatToAdd.game = {};
         chatsToState.push(chatToAdd);
     });
     return chatsToState;
@@ -48,7 +49,7 @@ export const AddTenMessagesToState = async (id,user,currentChat)=>{
     }
 };
 
-// O(n) function to find a match in 2 arrays
+// O(n + m) function to find a match in 2 arrays
 export const CheckIfChatIdMatchIsPresent = (chatList,chatIdList) =>{
     let cache = {};
     let output = {found:false};

@@ -3,7 +3,7 @@ import ChatWindow from "../../ChatWindow/ChatWindow";
 import {MainChatWindowContext} from "../MainChatAppWindow";
 import {UserChatsContext} from "../../../App";
 
-export default function ChatSide({setChats,LoadTenMessages,SendMessage,GoBack}) {
+export default function ChatSide({InGameAction,setChats,LoadTenMessages,SendMessage,GoBack}) {
 
     const {chats} = useContext(UserChatsContext);
     const {chatIndex,isMobile} = useContext(MainChatWindowContext);
@@ -25,7 +25,7 @@ export default function ChatSide({setChats,LoadTenMessages,SendMessage,GoBack}) 
                                          id={'idle-msg'}>{'Click on a button in top left corner and add someone!'}
                                     </div>
                             : <div className='col'>
-                                <ChatWindow setChats={setChats} loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage} GoBack = {GoBack}/>
+                                <ChatWindow InGameAction={InGameAction} setChats={setChats} loadTen={LoadTenMessages} chatData={chats[chatIndex]} onSend={SendMessage} GoBack = {GoBack}/>
                             </div>
                         }
                     </div>

@@ -5,6 +5,7 @@ import React from "react";
 import {MessageIF} from "../Components/ChatWindow/Message/MessageIF";
 import * as signalR from "@microsoft/signalr";
 import {CalculateScrollDistance, ScrollChatToBottom} from "./Scroller";
+import {GAMEACTIONS} from "../Components/Games/GamesList";
 
 const CryptoJS = require("crypto-js");
 
@@ -17,11 +18,7 @@ export async function CreateMainHubConnection (setUser, setChats, setHub, PopupN
         .build();
 
     // my fav hack
-    let loc_user;
-    setUser(prev=>{
-        loc_user = prev;
-        return prev;
-    });
+    let loc_user = hackUser(setUser);
 
     if(!loc_user) return;
 
@@ -38,10 +35,7 @@ export async function CreateMainHubConnection (setUser, setChats, setHub, PopupN
         //after socket dies, it sends a request to put user offline in the db
         hubConnect.onclose(() => {
             // need to use this hack again :((
-            let l_user;
-            setUser(prev=>{
-                l_user = prev;
-                return prev;});
+            let l_user = hackUser(setUser);
             // if user still exists -> show notification that he is offline else he logged out and try to reconnect
                 if (l_user) {
                     const {sound,connectionChanged} = l_user.notificationSettings;
@@ -73,11 +67,7 @@ export async function CreateMainHubConnection (setUser, setChats, setHub, PopupN
             messageText = CryptoJS.enc.Utf8.stringify(decrypted);
 
             // need to use this hack again :((
-            let l_user;
-            setUser(prev=>{
-                l_user = prev;
-                return prev;
-            });
+            let l_user = hackUser(setUser);
             const {sound,newMessageReceived} = l_user.notificationSettings;
             setChats(prevState => {
                 // index where the chat is located for current client
@@ -121,6 +111,10 @@ export async function CreateMainHubConnection (setUser, setChats, setHub, PopupN
                         let index = FindChatIndexByChatId(checkMatch.id,chats);
                         //put user online/offline depending on that invoke parameter
                         updatedChats[index].isOnline = online;
+                        if(!online && updatedChats[index].game){
+                            PopupNotification(`${updatedChats[index].name} went offline! \n YOU WON your game! `,'success',5000);
+                            updatedChats[index].game = {};
+                        }
                     }
                 }
                 return updatedChats;
@@ -143,20 +137,67 @@ export async function CreateMainHubConnection (setUser, setChats, setHub, PopupN
         });
         //when getCHat is received add an empty chat
         hubConnect.on('getChat', (userId,chat)=>{
-            let l_user;
-            setUser(prev=>{
-                l_user = prev;
-                return prev;});
-
+            let l_user = hackUser(setUser);
             if(loc_user.userId === userId){
                 setChats(prev=>{
                     let updatedChat = Object.assign([],prev);
-                    updatedChat.push({id:chat.chatId,image:chat.image,isOnline:true,name:chat.chatName,msg:[]});
+                    updatedChat.push({id:chat.chatId,image:chat.image,isOnline:true,name:chat.chatName,msg:[],game:{}});
                     return Object.assign([],updatedChat);
                 });
             const {sound,newChatReceived} = l_user.notificationSettings;
             if(newChatReceived) PopupNotification(<NewChat name={chat.chatName} sound={sound}/>,'info',5000);
         }});
+
+        hubConnect.on(GAMEACTIONS[0],(userId,chatId,data)=>{
+            let l_user = hackUser(setUser);
+            setChats(prevState => {
+                // index where the chat is located for current client
+                const neededChatIndex = FindChatIndexByChatId(chatId,prevState);
+                // update state if the user has chat with this id
+                if(neededChatIndex !== -1 && l_user.userId !== userId) {
+                    let updatedChats = Object.assign([],prevState);
+                    // here switch action based on game name
+                    data.myMark = 'X';
+                    updatedChats[neededChatIndex].game = data;
+                    return updatedChats;
+                }
+                return prevState;
+            });
+            ScrollChatToBottom();
+        });
+        hubConnect.on(GAMEACTIONS[1],(userId,chatId,data)=>{
+            let l_user = hackUser(setUser);
+            setChats(prevState => {
+                // index where the chat is located for current client
+                const neededChatIndex = FindChatIndexByChatId(chatId,prevState);
+                // update state if the user has chat with this id
+                if(neededChatIndex !== -1 && l_user.userId !== userId) {
+                    let updatedChats = Object.assign([],prevState);
+                    if(data.surrender)PopupNotification(`YOU WON your game against ${updatedChats[neededChatIndex].name}! `,'success',5000);
+                    else PopupNotification(`YOU LOST your game against ${updatedChats[neededChatIndex].name}! `,'error',5000);
+                    return updatedChats;
+                }
+                return prevState;
+            });
+        });
+        hubConnect.on(GAMEACTIONS[2],(userId,chatId,data)=>{
+            let l_user = hackUser(setUser);
+            setChats(prevState => {
+                // index where the chat is located for current client
+                const neededChatIndex = FindChatIndexByChatId(chatId,prevState);
+                // update state if the user has chat with this id
+                if(neededChatIndex !== -1 && l_user.userId !== userId) {
+                    let updatedChats = Object.assign([],prevState);
+                    let game = updatedChats[neededChatIndex].game;
+                    // here switch action based on game name
+                    game.board = data.board;
+                    game.winner = data.winner;
+                    game.currentPlayer = data.currentPlayer;
+                    return updatedChats;
+                }
+                return prevState;
+            });
+        })
     }
     // if user logged in but didnt connect to webSocket after
     catch (err) {
@@ -190,6 +231,13 @@ async function Reconnect (time,hubConnect,setHub,PopupNotification,userNotificat
     },timeout * time);
 }
 
-
+function hackUser(setUser){
+    let l_user;
+    setUser(prev=>{
+        l_user = prev;
+        return prev;
+    });
+    return l_user;
+}
 
 
