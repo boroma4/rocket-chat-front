@@ -18,7 +18,9 @@ jobs:
     - name: Build
       run: |
         npm config set @bit:registry https://node.bit.dev
+        npm install npm-force-resolutions --save-dev
         rm -rf node_modules && npm install
+        npx npm-force-resolutions
         npm run-script build
       env:
         REACT_APP_APILINK: ${{ secrets.REACT_APP_APILINK }}
