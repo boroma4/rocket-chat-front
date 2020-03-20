@@ -174,6 +174,7 @@ export async function CreateMainHubConnection (setUser, setChats, setHub, PopupN
                 if(neededChatIndex !== -1 && l_user.userId !== userId) {
                     let updatedChats = Object.assign([],prevState);
                     if(data.surrender)PopupNotification(`YOU WON your game against ${updatedChats[neededChatIndex].name}! `,'success',5000);
+                    else if (data.draw)PopupNotification(`DRAW against ${updatedChats[neededChatIndex].name}! `,'info',5000);
                     else PopupNotification(`YOU LOST your game against ${updatedChats[neededChatIndex].name}! `,'error',5000);
                     return updatedChats;
                 }
