@@ -8,7 +8,7 @@ import {CalculateScrollDistance, ScrollChatToBottom} from "../../Helpers/Scrolle
 
 
 
-function ChatWindow({setChats,chatData,onSend,loadTen,GoBack}) {
+function ChatWindow({InGameAction,setChats,chatData,onSend,loadTen,GoBack}) {
 
     const {chatId,chatIndex,isMobile} = useContext(MainChatWindowContext);
     const[scrollPercentage,setScrollPercentage] = useState(100);
@@ -64,6 +64,7 @@ function ChatWindow({setChats,chatData,onSend,loadTen,GoBack}) {
                 }
                 {
                     <ChatPanel
+                        InGameAction = {InGameAction}
                         setChats={setChats}
                         chatData={chatData}>
                     </ChatPanel>
