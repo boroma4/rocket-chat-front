@@ -4,6 +4,8 @@
   "private": true,
   "homepage": "https://boroma4.github.io/rocket-chat-front/",
   "dependencies": {
+    "@bit/joshk.tic-tac-toe-game.square": "^1.0.0",
+    "@bit/joshk.tic-tac-toe-game.utils.winner-calc": "^1.0.1",
     "@livechat/ui-kit": "^0.4.0-10",
     "@material-ui/core": "^4.9.2",
     "@material-ui/icons": "^4.9.1",
@@ -18,6 +20,7 @@
     "gh-pages": "^2.2.0",
     "is-image-url": "^1.1.8",
     "jsonwebtoken": "^8.5.1",
+    "node-sass": "^4.13.1",
     "react": "^16.12.0",
     "react-bootstrap": "^1.0.0-beta.16",
     "react-cookie": "^4.0.3",

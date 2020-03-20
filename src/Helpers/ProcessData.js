@@ -1,5 +1,6 @@
 import {FetchLastMessagesByChatId} from "./ApiFetcher";
 import {MessageIF} from "../Components/ChatWindow/Message/MessageIF";
+import {GAMECODE} from "../Constants/Const";
 
 export function ProcessChats (chats,userId) {
     let chatsToState = [];
@@ -9,7 +10,7 @@ export function ProcessChats (chats,userId) {
         if(chat.lastMessage) {
             msgDisplayId = chat.lastMessage.userId === userId ? 0 : 1;
             const message = chat.lastMessage;
-            chatToAdd = {id:chat.chatId,image:chat.friendImageUrl,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[new MessageIF({id:msgDisplayId,message:message.messageText,dateTime:message.createdDate})]};
+            chatToAdd = {id:chat.chatId,image:chat.friendImageUrl,isOnline:chat.isOnline,lastMessagesAreFetched:false, name: chat.friendUserName,msg:[new MessageIF({id:msgDisplayId,message:CheckForInvite(message.messageText,true),dateTime:message.createdDate})]};
         }
         else{
             // lastMessagesAreFetched value doesn't matter in this case,as the chat is empty and must be updated live time anyway
@@ -24,9 +25,7 @@ export function ProcessChats (chats,userId) {
 export const FindChatIndexByChatId = (chatId,chatData) =>{
     let i = 0;
     for(let chat of chatData){
-        if(chat.id === chatId) {
-            return i;
-        }
+        if(chat.id === chatId) return i;
         i++;
     }
     return -1;
@@ -67,4 +66,16 @@ export const CheckIfChatIdMatchIsPresent = (chatList,chatIdList) =>{
         }
     }
     return output;
+};
+
+export const CheckForInvite = (message, preview = false) => {
+    const indx = message.indexOf(GAMECODE);
+    let text = message;
+    let gameName = '';
+    if( indx !== -1){
+        text = message.slice(0,indx-1);
+        gameName = message.slice(indx + GAMECODE.length);
+    }
+    //for chat game name has to be returned separately to highlight game name
+    return preview ?(text + gameName) :{text,gameName};
 };

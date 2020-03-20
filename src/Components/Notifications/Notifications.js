@@ -31,6 +31,29 @@ export  function NewMessage({name,body,sound}) {
         </div>
     );
 }
+export  function GameInviteSent({failed,sound}) {
+    return (
+        <div>
+            <strong>Game BOT</strong>
+            <div>
+                {failed
+                    ?<div> Your invitation was <strong>NOT</strong> sent!<br/>
+                        <strong>Please finish current game first!!1!</strong></div>
+                    :<div>
+                        Your invitation was sent!<br/>
+                        <strong>If your friend is offline he won't get it!</strong>
+                    </div>
+                }
+
+            </div>
+            {sound
+                ?<Sound url= {notification} autoLoad={true} playStatus={Sound.status.PLAYING}/>
+                :<div/>
+            }
+        </div>
+    );
+}
+
 
 export  function OnlineOrOffline({online,sound}) {
 
