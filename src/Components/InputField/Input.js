@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import React, {useContext, useState} from 'react';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { makeStyles } from '@material-ui/core/styles';
@@ -15,6 +15,7 @@ import '../ChatWindow/Chat.css'
 
 import {Picker} from "emoji-mart";
 import {ScrollChatToBottom} from "../../Helpers/Scroller";
+import {MainChatWindowContext} from "../MainChatAppWindow/MainChatAppWindow";
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -39,6 +40,7 @@ const useStyles = makeStyles(() => ({
 export default function Input({onSendClick}) {
     const classes = useStyles();
     const[input,setInput] = useState('');
+    const {isIOS} = useContext(MainChatWindowContext);
 
 
     const onEmojiClick = (emoji) => {
@@ -90,15 +92,19 @@ export default function Input({onSendClick}) {
                 placeholder="write smth"
                 inputProps={{ 'aria-label': 'search google maps' }}
             />
-            <OverlayTrigger trigger="click" hi placement="top" overlay={
-                <Popover id="popover-basic">
-                    <GamePicker sendMessage={onSendClick}/>
-                </Popover>
-            }>
-                <IconButton className={classes.iconButton} aria-label="games">
-                    <SportsEsportsIcon className={'ic'} />
-                </IconButton>
-            </OverlayTrigger>
+            {!isIOS
+                ?
+                <OverlayTrigger trigger="click" hi placement="top" overlay={
+                    <Popover id="popover-basic">
+                        <GamePicker sendMessage={onSendClick}/>
+                    </Popover>
+                }>
+                    <IconButton className={classes.iconButton} aria-label="games">
+                        <SportsEsportsIcon className={'ic'} />
+                    </IconButton>
+                </OverlayTrigger>
+            :<div/>
+            }
 
             <IconButton className={classes.iconButton} aria-label="upload">
                 <CloudUploadIcon className='ic' />
