@@ -21,13 +21,13 @@ import {GAMEACTIONS} from "../Games/GamesList";
 
 const CryptoJS = require("crypto-js");
 
-export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:null,isMobile:false});
+export const MainChatWindowContext = React.createContext({chatId:null,chatIndex:null,isMobile:false,isIOS:false});
 
 const MainChatAppWindow =({setChats,setUser})=> {
 
     const {user,chats} = useContext(UserChatsContext);
     const detectMobile = useMobileDetect();
-    const {addToast,removeToast } = useToasts();
+    const {addToast,removeToast} = useToasts();
 
     const[hubConnection,setHubConnection] = useState(null);
     const[chatId,setChatId] = useState(-1);
@@ -35,14 +35,15 @@ const MainChatAppWindow =({setChats,setUser})=> {
     const[song,setSong] = useState(null);
     const[redirect,setRedirect] = useState(false);
     const[isMobile,setIsMobile] = useState(false);
+    const[isIOS,setIsIOS] = useState(false);
     const[partToShow,setPartToShow] = useState('left');
-
     const [cookies,setCookie,removeCookie] = useCookies(['userToken']);
 
 
     useEffect( ()=>{
-            CreateMainHubConnection(setUser,setChats,setHubConnection,PopUpNotification,setChatIndex,setChatId)
+        CreateMainHubConnection(setUser,setChats,setHubConnection,PopUpNotification,setChatIndex,setChatId)
                 .then(hub=> setHubConnection(hub));
+        setIsIOS(detectMobile.isIos());
     },[]);
 
 
@@ -228,7 +229,7 @@ const MainChatAppWindow =({setChats,setUser})=> {
 
     return (
         <>
-            <MainChatWindowContext.Provider value = {{chatId,chatIndex,isMobile}} >
+            <MainChatWindowContext.Provider value = {{chatId,chatIndex,isMobile,isIOS}} >
                 {detectMobile.isMobile() ?<SwitchToMobileModal setIsMobile={setIsMobile}/> :<div/>}
                 {redirect
                     ? <Redirect to ={'/'}/>

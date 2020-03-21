@@ -10,7 +10,7 @@ import {CalculateScrollDistance, ScrollChatToBottom} from "../../Helpers/Scrolle
 
 function ChatWindow({InGameAction,setChats,chatData,onSend,loadTen,GoBack}) {
 
-    const {chatId,chatIndex,isMobile} = useContext(MainChatWindowContext);
+    const {chatId,chatIndex,isMobile,isIOS} = useContext(MainChatWindowContext);
     const[scrollPercentage,setScrollPercentage] = useState(100);
 
     useEffect(()=>{
@@ -78,12 +78,10 @@ function ChatWindow({InGameAction,setChats,chatData,onSend,loadTen,GoBack}) {
                     </div>
                     :<div/>
                 }
-                <footer className={'footer'}>
+                <footer className={isIOS ? 'footer-i':'footer-d' }>
                     <Input onSendClick={onSend}/>
                 </footer>
             </div>
     );
-
-
 }
 export default ChatWindow;
