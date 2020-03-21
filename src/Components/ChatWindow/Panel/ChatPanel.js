@@ -14,13 +14,17 @@ import {useToasts} from "react-toast-notifications";
 
 function ChatPanel({InGameAction,chatData,setChats}) {
 
-    const {chatIndex} = useContext(MainChatWindowContext);
+    const {chatIndex,isIOS} = useContext(MainChatWindowContext);
     const { width, height } = useWindowSize();
     const[showConfetti,setShowConfetti] = useState(false);
     const {addToast } = useToasts();
 
 
     const acceptGame = (message,indexToRemove)=> {
+        if(isIOS) {
+            addToast('Games are currently not supported on iOS, sorry!', {appearance: 'warning', autoDismiss: true});
+            return;
+        }
         const gameName = CheckForInvite(message.message).gameName.trim();
         //delete invitation message
         if(!chatData.game.name){
