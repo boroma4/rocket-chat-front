@@ -5,11 +5,17 @@
     justify-content: space-between;
 }
 
-.footer {
+.footer-d {
     height: fit-content;
     display: flex;
     flex-direction: column-reverse;
     margin-bottom: 8px;
+}
+.footer-i{
+    height: fit-content;
+    display: flex;
+    flex-direction: column-reverse;
+    margin-bottom: 50px;
 }
 .header{
     max-height: 5vh;
