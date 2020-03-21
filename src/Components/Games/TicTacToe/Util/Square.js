@@ -27,6 +27,6 @@ export default function Square({disable,row,col,setValue,value}) {
         }
     };
         return (
-            <div className={`square ${value}`} onClick={handleClick}><span>{value}</span></div>
+            <div className={`square ${value} `} onClick={handleClick}><span>{value}</span></div>
         )
 }

@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import Square from "./Util/Square";
-import winnerCalc from "@bit/joshk.tic-tac-toe-game.utils.winner-calc";
+import {winnerCalc} from "./Util/WinnerCalc";
 import {MainChatWindowContext} from "../../MainChatAppWindow/MainChatAppWindow";
 import {UserChatsContext} from "../../../App";
 import {GAMEACTIONS} from "../GamesList";
@@ -17,7 +17,7 @@ export default function TicTacToeBoard({setChats,inGameAction}){
             let newChats = [...chats];
             let game = newChats[chatIndex].game;
             game.board[lastRow][lastCol] = game.currentPlayer;
-            game.winner = winnerCalc(game.board, 3, 3, 3, lastRow, lastCol);
+            game.winner = winnerCalc(game.board);
             game.currentPlayer = game.currentPlayer === 'X'?'O':'X';
             return newChats;
         });
@@ -29,13 +29,13 @@ export default function TicTacToeBoard({setChats,inGameAction}){
     const createBoard = () => {
         let matrix = [...chats[chatIndex].game.board];
         let board = [];
-
+        const game =chats[chatIndex].game;
         for (let r = 0; r < 3; r++) {
             let row = [];
             for (let c = 0; c < 3; c++) {
                 row.push(<Square row={r} col={c} key={r + c} setValue={handleSetValue} value={matrix[r][c]}
-                                 disable={ chats[chatIndex].game.currentPlayer === chats[chatIndex].game.myMark
-                                 || Boolean(chats[chatIndex].game.winner)
+                                 disable={game.currentPlayer === game.myMark
+                                 || Boolean(game.winner)
                                  || Boolean(matrix[r][c])}/>);
             }
             board.push(<div className="board-row" key={"row" + r}>{row}</div>);
@@ -46,7 +46,7 @@ export default function TicTacToeBoard({setChats,inGameAction}){
         const game = chats[chatIndex].game;
         let text = '';
         if(game.winner){
-            if(game.winner != '-1'){
+            if(game.winner !== '-1'){
                 text += 'The winner: ';
                 text += game.currentPlayer === game.myMark ? user.userName : chats[chatIndex].name;
             }
