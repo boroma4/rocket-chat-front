@@ -59,7 +59,7 @@ function ChatPanel({InGameAction,chatData,setChats}) {
     
     useEffect(()=>{
         // different condition will be applied based on chatData.game
-        if(chatData.game.winner){
+        if(chatData.game.winner && chatData.game.winner !== '-1'){
             if(chatData.game.currentPlayer === chatData.game.myMark) {
                 setShowConfetti(true);
                 setTimeout(() => setShowConfetti(false), 5000);
@@ -70,7 +70,7 @@ function ChatPanel({InGameAction,chatData,setChats}) {
     return (
         <div className='overflow-hidden flex flex-column'>
             {chatData.game.name ?
-                <Paper className={'game-window pa2 shadow-5 '} >
+                <Paper className={'game-window pa2 shadow-5 animated  fadeIn slow '} >
                     <h3>{chatData.game.name}</h3>
                     {showConfetti ?<Confetti width={width} height={height}/> :<div/>}
                     <div >

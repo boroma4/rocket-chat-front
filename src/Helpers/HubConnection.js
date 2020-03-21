@@ -111,7 +111,7 @@ export async function CreateMainHubConnection (setUser, setChats, setHub, PopupN
                         let index = FindChatIndexByChatId(checkMatch.id,chats);
                         //put user online/offline depending on that invoke parameter
                         updatedChats[index].isOnline = online;
-                        if(!online && updatedChats[index].game){
+                        if(!online && updatedChats[index].game.name && !updatedChats[index].game.winner){
                             PopupNotification(`${updatedChats[index].name} went offline! \n YOU WON your game! `,'success',5000);
                             updatedChats[index].game = {};
                         }
@@ -173,7 +173,10 @@ export async function CreateMainHubConnection (setUser, setChats, setHub, PopupN
                 // update state if the user has chat with this id
                 if(neededChatIndex !== -1 && l_user.userId !== userId) {
                     let updatedChats = Object.assign([],prevState);
-                    if(data.surrender)PopupNotification(`YOU WON your game against ${updatedChats[neededChatIndex].name}! `,'success',5000);
+                    if(data.surrender){
+                        PopupNotification(`YOU WON your game against ${updatedChats[neededChatIndex].name}! `,'success',5000);
+                        updatedChats[neededChatIndex].game = {};
+                    }
                     else if (data.draw)PopupNotification(`DRAW against ${updatedChats[neededChatIndex].name}! `,'info',5000);
                     else PopupNotification(`YOU LOST your game against ${updatedChats[neededChatIndex].name}! `,'error',5000);
                     return updatedChats;
