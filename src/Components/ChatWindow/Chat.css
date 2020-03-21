@@ -15,7 +15,7 @@
     height: fit-content;
     display: flex;
     flex-direction: column-reverse;
-    margin-bottom: 50px;
+    margin-bottom: 40px;
 }
 .header{
     max-height: 5vh;

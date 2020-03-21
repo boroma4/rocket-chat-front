@@ -78,7 +78,7 @@ function ChatWindow({InGameAction,setChats,chatData,onSend,loadTen,GoBack}) {
                     </div>
                     :<div/>
                 }
-                <footer className={isIOS ? 'footer-i':'footer-d' }>
+                <footer className={isIOS && !chatData.game.name ? 'footer-i':'footer-d' }>
                     <Input onSendClick={onSend}/>
                 </footer>
             </div>
