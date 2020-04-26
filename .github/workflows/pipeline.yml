@@ -28,6 +28,8 @@ jobs:
         REACT_APP_AESKEY: ${{ secrets.REACT_APP_AESKEY }}
         REACT_APP_AESIV: ${{ secrets.REACT_APP_AESIV }}
         REACT_APP_GOOGLE_ID: ${{ secrets.REACT_APP_GOOGLE_ID }}
+        REACT_APP_FB_ID: ${{ secrets.REACT_APP_FB_ID }}
+        REACT_APP_MICROSOFT_ID: ${{ secrets.REACT_APP_MICROSOFT_ID }}
         REACT_APP_TOKEN_SIGNATURE: ${{ secrets.REACT_APP_TOKEN_SIGNATURE }}
 
     - name: Deploy

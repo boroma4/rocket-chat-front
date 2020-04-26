@@ -4,7 +4,6 @@ import '../Login.css';
 import FormLabel from "react-bootstrap/FormLabel";
 import Card from "react-bootstrap/Card";
 import Spinner from "react-bootstrap/Spinner";
-import GoogleLogin from 'react-google-login';
 
 
 import {
