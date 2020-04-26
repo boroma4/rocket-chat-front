@@ -22,6 +22,7 @@ export const FAQDATA = [{question:'Q: What do I do here?',answer:'A: You send me
     ];
 
 export const RELEASEDATA = [
+    {version: 'v0.4.0',changes: ['More login options','Minor fixes and improvements','Security updates']},
     {version: 'v0.3.6',changes: ['Game platform fixes','Safari chat window UI fix','Google login security update']},
     {version: 'v0.3.5',changes: ['Introduced new in-chat gaming platform and added tic-tac-toe']},
     {version: 'v0.3.4',changes: ['Further improved chat window UI']},
