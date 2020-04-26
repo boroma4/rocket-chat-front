@@ -19,10 +19,10 @@ jobs:
       run: |
         npm config set @bit:registry https://node.bit.dev
         npm install npm-force-resolutions --save-dev
-        rm -rf node_modules && npm install
+        rm -rf node_modules &&  npm install
         npx npm-force-resolutions
         npm install
-        npm run-script build
+        CI=false npm run-script build
       env:
         REACT_APP_APILINK: ${{ secrets.REACT_APP_APILINK }}
         REACT_APP_AESKEY: ${{ secrets.REACT_APP_AESKEY }}
