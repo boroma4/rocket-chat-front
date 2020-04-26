@@ -41,6 +41,7 @@ const MainChatAppWindow =({setChats,setUser})=> {
 
 
     useEffect( ()=>{
+        setIsMobile(detectMobile.isMobile());
         CreateMainHubConnection(setUser,setChats,setHubConnection,PopUpNotification,setChatIndex,setChatId)
                 .then(hub=> setHubConnection(hub));
         setIsIOS(detectMobile.isIos());
@@ -230,7 +231,6 @@ const MainChatAppWindow =({setChats,setUser})=> {
     return (
         <>
             <MainChatWindowContext.Provider value = {{chatId,chatIndex,isMobile,isIOS}} >
-                {detectMobile.isMobile() ?<SwitchToMobileModal setIsMobile={setIsMobile}/> :<div/>}
                 {redirect
                     ? <Redirect to ={'/'}/>
                     : <div className="row">

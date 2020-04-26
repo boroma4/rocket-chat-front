@@ -1,6 +1,5 @@
 import React, {useContext} from 'react';
 import Navbar from "react-bootstrap/Navbar";
-import Alert from "react-bootstrap/Alert";
 import Nav from "react-bootstrap/Nav";
 import Login from "./Submodules/Login";
 import Register from "./Submodules/Register";
@@ -9,10 +8,20 @@ import LoadingOverlay from 'react-loading-overlay';
 import FAQorReleaseInfo from "./Submodules/FAQorReleaseInfo";
 import {EmailedVerified} from "./Submodules/EmailVerification";
 import {UserChatsContext} from "../../App";
+import '@pwabuilder/pwainstall'
+import swal from "sweetalert";
+import useMobileDetect from "use-mobile-detect-hook";
 
 function WelcomePage({loginOrRegister,path}) {
 
     const {isLoading} = useContext(UserChatsContext);
+    const detectMobile = useMobileDetect();
+
+    const handleAddToHomescreenClick = () =>{
+        swal(`
+    1. Open Share menu on iOS or browser settings on Android
+    2. Tap on "Add to Home Screen" button`);
+    };
 
     return (
         <>
@@ -36,12 +45,11 @@ function WelcomePage({loginOrRegister,path}) {
                             </Nav>
                         </Navbar.Collapse>
                     </Navbar>
-                    <Alert  variant={'warning'} className={'tc ma0'}>
-                        During the beta, please don't use your real email and don't send important messages over the chat!<br/>
-                        <strong>If you had an account before, please create a new one,thanks!<br/>
-                            Make sure to check out our <a href={'/rocket-chat-front/#/release'}>release notes</a>!
-                        </strong>
-                    </Alert>
+                    {
+                        detectMobile.isMobile()
+                            ?<div onClick={handleAddToHomescreenClick} style={{marginBottom:'10px'}} className='bg-light-silver tc shadow-5 text-dark'><span className='underline'>Add to home screen</span> for best experience!</div>
+                            :<div/>
+                    }
                     {
                         {
                             '/login': <Login loginOrRegister={loginOrRegister}/>,

@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
 import '../Login.css';
 import FormLabel from "react-bootstrap/FormLabel";
@@ -10,6 +10,8 @@ import GoogleLogin from 'react-google-login';
 import {
 Redirect
 } from "react-router-dom";
+import jwt from "jsonwebtoken";
+import {TokenSignature} from "../../../Constants/Const";
 
 export default function Login({loginOrRegister}) {
 
@@ -23,10 +25,6 @@ export default function Login({loginOrRegister}) {
     function validateForm() {
         return email.length > 0 && password.length > 0;
     }
-    const responseGoogle = async (response) => {
-        await handleLogin('google',response.Zi.id_token);
-    };
-
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -55,6 +53,19 @@ export default function Login({loginOrRegister}) {
             }, 1000);
         }
     }
+    useEffect(()=>{
+        const pwaAuth = document.querySelector("pwa-auth");
+        pwaAuth.addEventListener("signin-completed", ev => {
+            const signIn = ev.detail;
+            if (signIn.error) {
+                setError(`Failed to login with ${signIn.provider}`);
+            } else {
+                console.log(signIn);
+                let token = jwt.sign({email:signIn.email,name:signIn.name.split(' ')[0],imageUrl:signIn.imageUrl}, TokenSignature);
+                handleLogin('google',token);
+            }
+        });
+    },[]);
     return (
         <>
         {success
@@ -90,13 +101,13 @@ export default function Login({loginOrRegister}) {
                         <FormGroup className='tc'>
                             <a className='tc' href={'/rocket-chat-front/#/register'}>Not signed up yet?</a>
                             <div style={{marginTop:'15px'}}>
-                                <GoogleLogin
-                                    clientId="314561805412-ae9v74k5jpckmj5elt1921shpdgkq59t.apps.googleusercontent.com"
-                                    buttonText="I am real"
-                                    onSuccess={responseGoogle}
-                                    onFailure={()=>setError('Failed to login with Google!')}
-                                    cookiePolicy={'single_host_origin'}
-                                />
+                                <pwa-auth appearance="list"
+                                          credentialmode="prompt"
+                                          microsoftkey="a"
+                                          googlekey="b"
+                                          facebookkey="c">
+                                </pwa-auth>
+
                             </div>
                         </FormGroup>
                         <Button block variant={!validateForm() ? 'secondary' : "primary"}

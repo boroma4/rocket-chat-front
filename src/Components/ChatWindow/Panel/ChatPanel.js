@@ -21,10 +21,6 @@ function ChatPanel({InGameAction,chatData,setChats}) {
 
 
     const acceptGame = (message,indexToRemove)=> {
-        if(isIOS) {
-            addToast('Games are currently not supported on iOS, sorry!', {appearance: 'warning', autoDismiss: true});
-            return;
-        }
         const gameName = CheckForInvite(message.message).gameName.trim();
         //delete invitation message
         if(!chatData.game.name){

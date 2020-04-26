@@ -1,4 +1,4 @@
-import React, {useContext, useState} from 'react';
+import React, {useContext, useState,useRef} from 'react';
 import OverlayTrigger from "react-bootstrap/OverlayTrigger";
 import Popover from "react-bootstrap/Popover";
 import { makeStyles } from '@material-ui/core/styles';
@@ -16,6 +16,7 @@ import '../ChatWindow/Chat.css'
 import {Picker} from "emoji-mart";
 import {ScrollChatToBottom} from "../../Helpers/Scroller";
 import {MainChatWindowContext} from "../MainChatAppWindow/MainChatAppWindow";
+const fileDownload = require('js-file-download');
 
 const useStyles = makeStyles(() => ({
     root: {
@@ -40,7 +41,8 @@ const useStyles = makeStyles(() => ({
 export default function Input({onSendClick}) {
     const classes = useStyles();
     const[input,setInput] = useState('');
-    const {isIOS} = useContext(MainChatWindowContext);
+    const inputFile = useRef(null);
+    const[file,setFile] = useState();
 
 
     const onEmojiClick = (emoji) => {
@@ -66,12 +68,26 @@ export default function Input({onSendClick}) {
             },20);
         }
     };
+    const handleFileClick = () =>{
+        inputFile.current.click();
+    };
+    const onFileChange = (event) =>{
+        event.stopPropagation();
+        event.preventDefault();
+        setFile(event.target.files[0]);
+    };
+    const downloadFile =() => {
+        fileDownload(file, file.name);
+    };
     const submitIsValid = () => {
         return input.trim().length > 0;
     };
 
     return (
         <Paper component="form" className={classes.root} onSubmit={SendMessageToDatabaseAndScreen}>
+            <div onClick={downloadFile}>
+                { file ? file.name : ''}
+            </div>
             <OverlayTrigger trigger="click" placement="top"  overlay={
                 <Popover id="popover-basic">
                     <Picker title={'Emoji v2'} showPreview={false} set='emojione' onSelect={onEmojiClick} />
@@ -81,7 +97,7 @@ export default function Input({onSendClick}) {
                     <SentimentVeryDissatisfiedSharpIcon className={'ic'} />
                 </IconButton>
             </OverlayTrigger>
-
+            <input type='file' id='file' ref={inputFile} style={{display: 'none'}} onChange={onFileChange}/>
             <InputBase
                 onKeyPress={onKeyPress}
                 onChange={onTyping}
@@ -92,8 +108,6 @@ export default function Input({onSendClick}) {
                 placeholder="write smth"
                 inputProps={{ 'aria-label': 'search google maps' }}
             />
-            {!isIOS
-                ?
                 <OverlayTrigger trigger="click" hi placement="top" overlay={
                     <Popover id="popover-basic">
                         <GamePicker sendMessage={onSendClick}/>
@@ -103,12 +117,14 @@ export default function Input({onSendClick}) {
                         <SportsEsportsIcon className={'ic'} />
                     </IconButton>
                 </OverlayTrigger>
-            :<div/>
-            }
 
-            <IconButton className={classes.iconButton} aria-label="upload">
-                <CloudUploadIcon className='ic' />
-            </IconButton>
+            {
+                /*
+                <IconButton className={classes.iconButton} aria-label="upload" onClick={handleFileClick}>
+                    <CloudUploadIcon className='ic'/>
+                </IconButton>
+                 */
+            }
             <Divider className={classes.divider} orientation="vertical" />
             <IconButton type='submit' color={submitIsValid() ? 'primary' : 'secondary'} disabled={!submitIsValid()} className={classes.iconButton} aria-label="send">
                 <SendIcon className='ic' />
