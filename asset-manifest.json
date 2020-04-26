@@ -1,28 +1,28 @@
 {
   "files": {
-    "main.css": "/rocket-chat-front/static/css/main.7a079b7a.chunk.css",
-    "main.js": "/rocket-chat-front/static/js/main.df04cccd.chunk.js",
-    "main.js.map": "/rocket-chat-front/static/js/main.df04cccd.chunk.js.map",
-    "runtime-main.js": "/rocket-chat-front/static/js/runtime-main.da357763.js",
-    "runtime-main.js.map": "/rocket-chat-front/static/js/runtime-main.da357763.js.map",
-    "static/css/2.f82c6ae3.chunk.css": "/rocket-chat-front/static/css/2.f82c6ae3.chunk.css",
-    "static/js/2.30751228.chunk.js": "/rocket-chat-front/static/js/2.30751228.chunk.js",
-    "static/js/2.30751228.chunk.js.map": "/rocket-chat-front/static/js/2.30751228.chunk.js.map",
+    "main.css": "/rocket-chat-front/static/css/main.5bf69bc8.chunk.css",
+    "main.js": "/rocket-chat-front/static/js/main.30932640.chunk.js",
+    "main.js.map": "/rocket-chat-front/static/js/main.30932640.chunk.js.map",
+    "runtime-main.js": "/rocket-chat-front/static/js/runtime-main.9aafe23a.js",
+    "runtime-main.js.map": "/rocket-chat-front/static/js/runtime-main.9aafe23a.js.map",
+    "static/css/2.374d8324.chunk.css": "/rocket-chat-front/static/css/2.374d8324.chunk.css",
+    "static/js/2.14d31fda.chunk.js": "/rocket-chat-front/static/js/2.14d31fda.chunk.js",
+    "static/js/2.14d31fda.chunk.js.map": "/rocket-chat-front/static/js/2.14d31fda.chunk.js.map",
     "index.html": "/rocket-chat-front/index.html",
-    "precache-manifest.8527e1f4de30d4d3f5060c13f5d541c3.js": "/rocket-chat-front/precache-manifest.8527e1f4de30d4d3f5060c13f5d541c3.js",
+    "precache-manifest.b54049f4e1e4d82a42adc2b53e415332.js": "/rocket-chat-front/precache-manifest.b54049f4e1e4d82a42adc2b53e415332.js",
     "service-worker.js": "/rocket-chat-front/service-worker.js",
-    "static/css/2.f82c6ae3.chunk.css.map": "/rocket-chat-front/static/css/2.f82c6ae3.chunk.css.map",
-    "static/css/main.7a079b7a.chunk.css.map": "/rocket-chat-front/static/css/main.7a079b7a.chunk.css.map",
-    "static/js/2.30751228.chunk.js.LICENSE.txt": "/rocket-chat-front/static/js/2.30751228.chunk.js.LICENSE.txt",
+    "static/css/2.374d8324.chunk.css.map": "/rocket-chat-front/static/css/2.374d8324.chunk.css.map",
+    "static/css/main.5bf69bc8.chunk.css.map": "/rocket-chat-front/static/css/main.5bf69bc8.chunk.css.map",
+    "static/js/2.14d31fda.chunk.js.LICENSE.txt": "/rocket-chat-front/static/js/2.14d31fda.chunk.js.LICENSE.txt",
     "static/media/dr_stone_ending.mp3": "/rocket-chat-front/static/media/dr_stone_ending.470614e2.mp3",
     "static/media/lol.mp3": "/rocket-chat-front/static/media/lol.f8b7a2e4.mp3",
     "static/media/notification.mp3": "/rocket-chat-front/static/media/notification.56a9110c.mp3"
   },
   "entrypoints": [
-    "static/js/runtime-main.da357763.js",
-    "static/css/2.f82c6ae3.chunk.css",
-    "static/js/2.30751228.chunk.js",
-    "static/css/main.7a079b7a.chunk.css",
-    "static/js/main.df04cccd.chunk.js"
+    "static/js/runtime-main.9aafe23a.js",
+    "static/css/2.374d8324.chunk.css",
+    "static/js/2.14d31fda.chunk.js",
+    "static/css/main.5bf69bc8.chunk.css",
+    "static/js/main.30932640.chunk.js"
   ]
 }
