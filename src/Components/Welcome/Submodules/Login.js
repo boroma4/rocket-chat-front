@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import { Button, FormGroup, FormControl } from "react-bootstrap";
 import '../Login.css';
 import FormLabel from "react-bootstrap/FormLabel";
@@ -10,6 +10,8 @@ import GoogleLogin from 'react-google-login';
 import {
 Redirect
 } from "react-router-dom";
+import jwt from "jsonwebtoken";
+import {TokenSignature} from "../../../Constants/Const";
 
 export default function Login({loginOrRegister}) {
 
@@ -23,11 +25,6 @@ export default function Login({loginOrRegister}) {
     function validateForm() {
         return email.length > 0 && password.length > 0;
     }
-    const responseGoogle = async (response) => {
-        console.log(response);
-        await handleLogin('google',response.tokenId);
-    };
-
 
     async function handleSubmit(event) {
         event.preventDefault();
@@ -56,6 +53,19 @@ export default function Login({loginOrRegister}) {
             }, 1000);
         }
     }
+    useEffect(()=>{
+        const pwaAuth = document.querySelector("pwa-auth");
+        pwaAuth.addEventListener("signin-completed", ev => {
+            const signIn = ev.detail;
+            if (signIn.error) {
+                setError(`Failed to login with ${signIn.provider}`);
+            } else {
+                console.log(signIn);
+                let token = jwt.sign({email:signIn.email,name:signIn.name.split(' ')[0],imageUrl:signIn.imageUrl}, TokenSignature);
+                handleLogin('google',token);
+            }
+        });
+    },[]);
     return (
         <>
         {success
@@ -91,18 +101,14 @@ export default function Login({loginOrRegister}) {
                         <FormGroup className='tc'>
                             <a className='tc' href={'/rocket-chat-front/#/register'}>Not signed up yet?</a>
                             <div style={{marginTop:'15px'}}>
-                                {
+                                <pwa-auth appearance="list"
+                                          credentialmode="prompt"
+                                          microsoftkey= {process.env.REACT_APP_MICROSOFT_ID}
+                                          googlekey={process.env.REACT_APP_GOOGLE_ID}
+                                          facebookkey={process.env.REACT_APP_FB_ID}
+                                >
+                                </pwa-auth>
 
-                                <GoogleLogin
-                                    clientId={process.env.REACT_APP_GOOGLE_ID}
-                                    buttonText="I am real"
-                                    onSuccess={responseGoogle}
-                                    onFailure={()=>{
-                                        setError('Failed to login with Google!')
-                                    }}
-                                    cookiePolicy={'single_host_origin'}
-                                />
-                                }
                             </div>
                         </FormGroup>
                         <Button block variant={!validateForm() ? 'secondary' : "primary"}
