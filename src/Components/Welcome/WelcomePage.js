@@ -8,7 +8,6 @@ import LoadingOverlay from 'react-loading-overlay';
 import FAQorReleaseInfo from "./Submodules/FAQorReleaseInfo";
 import {EmailedVerified} from "./Submodules/EmailVerification";
 import {UserChatsContext} from "../../App";
-import '@pwabuilder/pwainstall'
 import swal from "sweetalert";
 import useMobileDetect from "use-mobile-detect-hook";
 import {RELEASEDATA} from "../../Constants/Const";
